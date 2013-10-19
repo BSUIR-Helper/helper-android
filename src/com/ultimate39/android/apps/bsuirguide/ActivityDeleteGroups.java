@@ -36,13 +36,7 @@ public class ActivityDeleteGroups extends ActionBarActivity {
         if (vaGroups.getCount() != 0) {
             mListView.setAdapter(vaGroups);
         }
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                vaGroups.getItem(i).toggleChecked();
-                Log.d(MainActivity.LOG_TAG, "DELETED");
-            }
-        });
+
     }
 
     @Override
@@ -70,7 +64,7 @@ public class ActivityDeleteGroups extends ActionBarActivity {
         GroupsViewAdapter adapter = (GroupsViewAdapter) listView.getAdapter();
         for (int position = 0; position < listView.getCount(); position++) {
             CheckBox checkBox = (CheckBox) listView.getChildAt(position).findViewById(R.id.checkbox_fordelete);
-            Log.d(MainActivity.LOG_TAG, checkBox.isChecked() + "");
+
             if (checkBox.isChecked()) {
                 mScheduleManager.deleteSchedule(adapter.getItem(position).groupId);
                 //Delete from settings default group
