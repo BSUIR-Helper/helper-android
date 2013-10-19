@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                android:id="@+id/fragment_schedule"
+                android:divider="?android:attr/listDivider"
+        >
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="11 октября 2013"
+            android:gravity="center"
+            android:id="@+id/date"
+            android:background="#ff222224"
+            android:padding="4dp"
+            android:layout_gravity="center_horizontal|top" android:textSize="15dp" android:textColor="#faffff"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"/>
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView" android:layout_gravity="center" android:layout_below="@+id/date"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Занятий нет"
+            android:id="@+id/textView" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+            android:visibility="invisible" android:textSize="34dp"/>
+</RelativeLayout>
