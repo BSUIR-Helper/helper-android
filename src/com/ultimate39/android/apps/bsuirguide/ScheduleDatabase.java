@@ -103,10 +103,9 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
             ContentValues contentValues = new ContentValues();
             lesson = list.get(i);
             contentValues.put("id", i);
-            //Add time when loaded schedule
-            DateTime dateTime = new DateTime();
+            //Time - when loaded schedule
             DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm d.M.Y");
-            contentValues.put("updatedTime", dateTime.toString(dtf));
+            contentValues.put("updatedTime", DateTime.now().toString(dtf));
             for (String columnName : columns.keySet()) {
                 contentValues.put(columnName, lesson.fields.get(columnName));
             }
