@@ -12,11 +12,6 @@ public class StudentGroup {
     public boolean isChecked = false;
     String[] facultyNames = new String[]{"ФКП", "ФИТиУ", "Военный", "ФРиЭ", "ФКСиС", "ФТ", "ИЭФ"};
 
-    public StudentGroup() {
-        groupId = "313801 (ФКП)";
-        updatedTime = "Обновлено:11.09.2013";
-    }
-
     public StudentGroup(String groupId, String updatedTime) {
         this.groupId = groupId;
         this.updatedTime = updatedTime;
@@ -25,12 +20,7 @@ public class StudentGroup {
 
     }
 
-    public void toggleChecked() {
-        isChecked = !isChecked;
-    }
-
     private String getFacultyName(int code) {
-        Log.d(MainActivity.LOG_TAG, "CODE:" + code);
         if (code >= facultyNames.length) {
             return null;
         }
