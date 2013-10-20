@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:bsuirguide="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_addgroup"
+        android:icon="@drawable/ic_addgroup"
+        android:title="Добавить группу"
+        bsuirguide:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_startdeletegroups"
+        android:icon="@drawable/ic_deletegroups"
+        android:title="Удалить группы"
+        bsuirguide:showAsAction="ifRoom"/>
+</menu>
