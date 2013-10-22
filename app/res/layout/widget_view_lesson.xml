@@ -34,13 +34,14 @@
 
     <TextView
         android:id="@+id/widget_lesson_teacher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text=""
         android:singleLine="true"
         android:textSize="12sp"
         android:layout_below="@+id/widget_lesson_time"
-        android:layout_alignLeft="@+id/widget_lesson_name"/>
+        android:layout_alignLeft="@+id/widget_lesson_name"
+        android:layout_alignRight="@+id/widget_lesson_name"/>
 
 
     <TextView

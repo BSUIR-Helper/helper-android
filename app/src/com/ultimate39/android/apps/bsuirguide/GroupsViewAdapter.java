@@ -11,10 +11,10 @@ import android.widget.TextView;
 /**
  * Created by Влад on 12.10.13.
  */
-public class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
-    private StudentGroup[] mValues;
-    private Context mContext;
-    private int mViewId;
+class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
+    private final StudentGroup[] mValues;
+    private final Context mContext;
+    private final int mViewId;
 
     public GroupsViewAdapter(Context context, StudentGroup[] values, int viewId) {
         super(context, R.layout.view_group, values);

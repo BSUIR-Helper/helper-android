@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -19,15 +17,14 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity implements DownloaderTaskFragment.TaskCallbacks {
     public static final String LOG_TAG = "BSUIR_DEBUG";
     public static final String EDIT_PREFS = "settings.txt";
-    ViewPager mPager;
-    DrawerLayout mDrawerLayout;
-    ActionBarDrawerToggle mDrawerToggle;
-    ActionBar mActionBar;
-    String mGroupId;
-    StudentCalendar mStudentCalendar;
-    ScheduleManager mScheduleManager;
-    ApplicationSettings mSettings;
-    DownloaderTaskFragment mDownloaderTaskFragment;
+    private ViewPager mPager;
+    private ActionBar mActionBar;
+    private String mGroupId;
+    private StudentCalendar mStudentCalendar;
+    private ScheduleManager mScheduleManager;
+    private ApplicationSettings mSettings;
+    private DownloaderTaskFragment mDownloaderTaskFragment;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,9 +56,8 @@ public class MainActivity extends ActionBarActivity implements DownloaderTaskFra
                 startActivity(new Intent(this, ActivityManagerGroups.class));
                 finish();
             }
-        } else {
-            mSettings.putString("defaultgroup", mGroupId);
         }
+
 
         int subgroup = mSettings.getInt(mGroupId, 1);
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup);
@@ -82,8 +78,8 @@ public class MainActivity extends ActionBarActivity implements DownloaderTaskFra
     }
 
 
-    MenuItem mSubgroup1;
-    MenuItem mSubgroup2;
+    private MenuItem mSubgroup1;
+    private MenuItem mSubgroup2;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,7 +142,7 @@ public class MainActivity extends ActionBarActivity implements DownloaderTaskFra
         }
     }
 
-    public void refreshSchedule(int subgroup) {
+    void refreshSchedule(int subgroup) {
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, 1);
         int position = mPager.getCurrentItem();
         mPager.setAdapter(new SchedulePagerAdapter(getSupportFragmentManager(), "313801", subgroup));

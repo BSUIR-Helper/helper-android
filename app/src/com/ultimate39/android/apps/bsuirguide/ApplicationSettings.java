@@ -8,12 +8,10 @@ import android.content.SharedPreferences;
  */
 public class ApplicationSettings {
     private static ApplicationSettings instance;
-    private static Context sContext;
     private static SharedPreferences settings;
     private static final String PREFS_NAME = "settings.txt";
 
     private ApplicationSettings(Context context) {
-        Context sContext = context;
         settings = context.getSharedPreferences(PREFS_NAME, 1);
     }
 

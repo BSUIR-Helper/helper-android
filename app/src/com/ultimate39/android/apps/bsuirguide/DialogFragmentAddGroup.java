@@ -15,9 +15,9 @@ import android.widget.EditText;
 /**
  * Created by Влад on 13.10.13.
  */
-public class DialogFragmentAddGroup extends DialogFragment {
-    ScheduleManager mScheduleManager;
-    DownloaderTaskFragment mDownloaderTaskFragment;
+class DialogFragmentAddGroup extends DialogFragment {
+    private final ScheduleManager mScheduleManager;
+    private final DownloaderTaskFragment mDownloaderTaskFragment;
 
     public DialogFragmentAddGroup(ScheduleManager scheduleManager, DownloaderTaskFragment downloaderTaskFragment) {
         mScheduleManager = scheduleManager;
@@ -25,8 +25,16 @@ public class DialogFragmentAddGroup extends DialogFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        if (getDialog() != null && getRetainInstance())
+            getDialog().setOnDismissListener(null);
+        super.onDestroyView();
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
+        setRetainInstance(true);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View contentView = inflater.inflate(R.layout.dialog_addgroup, null);

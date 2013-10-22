@@ -15,9 +15,9 @@ import java.util.ArrayList;
  * Created by Влад on 13.10.13.
  */
 public class ActivityDeleteGroups extends ActionBarActivity {
-    ListView mListView;
-    ApplicationSettings mSettings;
-    ScheduleManager mScheduleManager;
+    private ListView mListView;
+    private ApplicationSettings mSettings;
+    private ScheduleManager mScheduleManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

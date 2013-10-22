@@ -16,10 +16,10 @@ import java.util.Map;
 /**
  * Created by Влад on 14.09.13.
  */
-public class ScheduleDatabase extends SQLiteOpenHelper {
+class ScheduleDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Schedule";
     private static final int VERSION = 1;
-    public SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     public ScheduleDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -148,7 +148,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         return studentGroups;
     }
 
-    public void open() {
+    void open() {
         db = this.getWritableDatabase();
     }
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import org.joda.time.DateTime;
@@ -15,14 +16,14 @@ import org.joda.time.DateTime;
  * Created by Влад on 15.10.13.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
-    ScheduleManager mScheduleManager;
-    Lesson[] mLessonsOfToday;
-    Context mContext;
-    Intent mIntent;
-    int mWidgetId;
-    int mLessonCount;
-    SharedPreferences mSettings;
+class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
+    private final ScheduleManager mScheduleManager;
+    private Lesson[] mLessonsOfToday;
+    private final Context mContext;
+    private final Intent mIntent;
+    private final int mWidgetId;
+    private int mLessonCount;
+    private final SharedPreferences mSettings;
 
     public ScheduleFactoryViews(Context context, Intent intent) {
         mScheduleManager = new ScheduleManager(context);
@@ -36,12 +37,12 @@ public class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFacto
     public void onCreate() {
         mLessonsOfToday = mScheduleManager.getLessonsOfDay(mSettings.getString("defaultgroup", null), DateTime.now(), 1);
         mLessonCount = mLessonsOfToday.length;
-
     }
 
     @Override
     public void onDataSetChanged() {
-
+        mLessonsOfToday = mScheduleManager.getLessonsOfDay(mSettings.getString("defaultgroup", null), DateTime.now(), 1);
+        mLessonCount = mLessonsOfToday.length;
     }
 
     @Override
@@ -56,6 +57,7 @@ public class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFacto
 
     @Override
     public RemoteViews getViewAt(int position) {
+        Log.d(MainActivity.LOG_TAG, "UPDATE WIDGET:" + position);
         RemoteViews rView = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_view_lesson);
         Lesson lesson = mLessonsOfToday[position];

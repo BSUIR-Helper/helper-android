@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Влад on 10.10.13.
  */
-public class ScheduleParser {
+class ScheduleParser {
 
     public static ArrayList<Lesson> parseXmlSchedule(File xmlFile) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -39,7 +39,6 @@ public class ScheduleParser {
                 }
                 lesson.fields.put(attribute.getNodeName(), attribute.getNodeValue());
             }
-            //lesson.consolePrint();
             lessons.add(lesson);
         }
         return lessons;

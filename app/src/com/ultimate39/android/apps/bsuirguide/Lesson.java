@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Created by Влад on 14.09.13.
  */
 public class Lesson {
-    public HashMap<String, String> fields = new HashMap<String, String>();
+    public final HashMap<String, String> fields = new HashMap<String, String>();
 
     public Lesson() {
         fields.put("faculty", "");

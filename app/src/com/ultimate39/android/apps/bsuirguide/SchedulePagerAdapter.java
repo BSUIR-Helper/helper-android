@@ -9,10 +9,10 @@ import org.joda.time.DateTime;
 /**
  * Created by Влад on 10.10.13.
  */
-public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
-    private StudentCalendar mStudentCalendar;
-    private String mGroupId;
-    private int mSubgroup;
+class SchedulePagerAdapter extends FragmentStatePagerAdapter {
+    private final StudentCalendar mStudentCalendar;
+    private final String mGroupId;
+    private final int mSubgroup;
 
     public SchedulePagerAdapter(FragmentManager fm, String groupId, int subgroup) {
         super(fm);

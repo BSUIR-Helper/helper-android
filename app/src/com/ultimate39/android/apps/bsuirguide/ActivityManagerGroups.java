@@ -1,9 +1,6 @@
 package com.ultimate39.android.apps.bsuirguide;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -15,23 +12,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
  * Created by Влад on 12.10.13.
  */
 public class ActivityManagerGroups extends ActionBarActivity implements DownloaderTaskFragment.TaskCallbacks {
-    ScheduleManager mScheduleManager;
-    ListView mListGroups;
-    TextView mTextViewNotification;
-    DownloaderTaskFragment mDownloaderTaskFragment;
-    final String PREFS_NAME = "preference";
+    private ScheduleManager mScheduleManager;
+    private ListView mListGroups;
+    private TextView mTextViewNotification;
+    private DownloaderTaskFragment mDownloaderTaskFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +42,8 @@ public class ActivityManagerGroups extends ActionBarActivity implements Download
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 StudentGroup group = (StudentGroup) mListGroups.getAdapter().getItem(position);
+                ApplicationSettings.getInstance(view.getContext()).putString("defaultgroup", group.groupId);
+                updateAppWidget();
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
                 intent.putExtra("groupId", group.groupId);
                 startActivity(intent);
@@ -84,7 +76,7 @@ public class ActivityManagerGroups extends ActionBarActivity implements Download
         }
     }
 
-    public void refreshListGroup() {
+    void refreshListGroup() {
         ArrayList<StudentGroup> alGroups = mScheduleManager.getGroups();
         StudentGroup[] groups = new StudentGroup[alGroups.size()];
         groups = alGroups.toArray(groups);
@@ -97,6 +89,11 @@ public class ActivityManagerGroups extends ActionBarActivity implements Download
         }
     }
 
+    private void updateAppWidget() {
+        Intent i = new Intent(this, ScheduleWidgetProvider.class);
+        i.setAction(ScheduleWidgetProvider.UPDATE_ACTION);
+        sendBroadcast(i);
+    }
 
     /* **********************************
      * Downloader Task callback methods
@@ -126,4 +123,5 @@ public class ActivityManagerGroups extends ActionBarActivity implements Download
             refreshListGroup();
         }
     }
+
 }

@@ -3,53 +3,60 @@
           package="com.ultimate39.android.apps.bsuirguide"
           android:versionCode="1"
           android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="10"
-              android:targetSdkVersion="14"/>
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="14"/>
 
 
-    <application android:label="Bsuir Guide"
-                 android:icon="@drawable/ic_launcher"
-                 android:debuggable="true"
-                 android:theme="@style/Theme.AppCompat"
-            >
+    <application
+        android:label="Bsuir Helper"
+        android:icon="@drawable/ic_launcher2"
+        android:debuggable="true"
+        android:theme="@style/Theme.AppCompat"
+        >
 
-        <activity android:name=".ActivityManagerGroups"
-                  android:label="Расписание БГУИР "/>
+        <activity
+            android:name=".ActivityManagerGroups"
+            android:label="Группы "/>
 
-        <activity android:name=".MainActivity"
-                  android:label="Расписание БГУИР">
-        <intent-filter>
+        <activity
+            android:name=".MainActivity"
+            android:label="Bsuir Helper">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".ActivityDeleteGroups"
-                  android:label="Удаление групп"
-                >
+        <activity
+            android:name=".ActivityDeleteGroups"
+            android:label="Удаление групп"
+            >
         </activity>
         <!-- WIDGET !-->
         <service
-                android:name=".ScheduleWidgetService"
-                android:permission="android.permission.BIND_REMOTEVIEWS">
+            android:name=".ScheduleWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
         <receiver
-                android:enabled="@bool/honeycombOrAbove"
-                android:name=".ScheduleWidgetProvider"
-                android:icon="@android:drawable/star_big_on"
-                android:label="Test">
+            android:enabled="@bool/honeycombOrAbove"
+            android:name=".ScheduleWidgetProvider"
+            android:icon="@drawable/ic_launcher"
+            android:label="Расписание на день">
             <intent-filter>
                 <action
-                        android:name="android.appwidget.action.APPWIDGET_UPDATE">
+                    android:name="android.appwidget.action.APPWIDGET_UPDATE">
                 </action>
             </intent-filter>
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/widget_schedule_info">
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule_info">
             </meta-data>
         </receiver>
         <!-- WIDGET !-->
     </application>
+
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>

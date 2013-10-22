@@ -19,10 +19,10 @@ import java.util.ArrayList;
 /**
  * Created by Влад on 20.10.13.
  */
-public class DownloaderTaskFragment extends Fragment {
-    private String mProgressDialogMessage;
+class DownloaderTaskFragment extends Fragment {
+    private final String mProgressDialogMessage;
     private ProgressDialog mPogressDialog;
-    public boolean mRunning = false;
+    private boolean mRunning = false;
     private TaskCallbacks mCallbacks;
     private DownloadScheduleTask mTask;
 
@@ -94,7 +94,7 @@ public class DownloaderTaskFragment extends Fragment {
     }
 
     private class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
-        ScheduleManager mScheduleManager = new ScheduleManager(getActivity());
+        final ScheduleManager mScheduleManager = new ScheduleManager(getActivity());
 
         private File downloadScheduleFromInternet(String groupId) {
             final String LIST_URL = "http://www.bsuir.by/psched/rest/";

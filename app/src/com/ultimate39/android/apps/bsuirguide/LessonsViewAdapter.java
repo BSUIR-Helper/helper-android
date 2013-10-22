@@ -11,7 +11,7 @@ import android.widget.TextView;
 /**
  * Created by Влад on 21.09.13.
  */
-public class LessonsViewAdapter extends ArrayAdapter<Lesson> {
+class LessonsViewAdapter extends ArrayAdapter<Lesson> {
     private final Context context;
     private final Lesson[] values;
 

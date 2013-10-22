@@ -13,9 +13,9 @@ import org.joda.time.DateTime;
 /**
  * Created by Влад on 10.10.13.
  */
-public class FragmentSchedule extends Fragment {
+class FragmentSchedule extends Fragment {
 
-    StudentCalendar mStudentCalendar = new StudentCalendar();
+    private final StudentCalendar mStudentCalendar = new StudentCalendar();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,13 +17,12 @@ import org.joda.time.DateTime;
  * Created by Влад on 14.10.13.
  */
 public class ScheduleWidgetProvider extends AppWidgetProvider {
-    final String LOG_TAG = MainActivity.LOG_TAG;
+    static final String UPDATE_ACTION = "UDATE_ACTION";
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
-
         for (int i = 0; i < appWidgetIds.length; i++) {
             Intent intent = new Intent(context, ScheduleWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
@@ -46,7 +46,6 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                 }
             }
 
-
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -58,5 +57,17 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
         rv.setOnClickPendingIntent(R.id.widget_schedule, pendingIntent);
     }
 
-
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (action != null && action.equals(UPDATE_ACTION)) {
+            final AppWidgetManager manager = AppWidgetManager.getInstance(context);
+            int appWidgetIds[] = manager.getAppWidgetIds(
+                    new ComponentName(context, ScheduleWidgetProvider.class));
+            manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
+        } else {
+            super.onReceive(context, intent);
+        }
+    }
 }
