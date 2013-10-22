@@ -1,12 +1,12 @@
-package com.ultimate39.android.apps.bsuirguide;
+package ru.bsuirhelper.android.bsuirhelper;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.ultimate39.android.apps.bsuirguide.R;
 
 /**
  * Created by Влад on 12.10.13.
@@ -37,7 +37,6 @@ class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
         if (faculty != null) {
             faculty = "(" + faculty + ")";
         } else {
-            Log.d(MainActivity.LOG_TAG, "Faculty is not correct!");
             faculty = "";
         }
         tvGroupId.setText(groupId + " " + faculty);

@@ -1,4 +1,4 @@
-package com.ultimate39.android.apps.bsuirguide;
+package ru.bsuirhelper.android.bsuirhelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -10,7 +10,7 @@ import org.joda.time.PeriodType;
 class StudentCalendar {
     private final DateTime mCurrentDateTime;
     private static int mDaysOfYear = 0;
-    private static final int mSemester;
+    private static int mSemester;
 
     public StudentCalendar() {
         mCurrentDateTime = new DateTime();

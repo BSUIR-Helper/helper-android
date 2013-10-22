@@ -1,4 +1,4 @@
-package com.ultimate39.android.apps.bsuirguide;
+package ru.bsuirhelper.android.bsuirhelper;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ru.bsuirhelper.android.bsuirhelper.appwidget.ScheduleWidgetProvider;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.ultimate39.android.apps.bsuirguide;
+package ru.bsuirhelper.android.bsuirhelper;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -1,4 +1,4 @@
-package com.ultimate39.android.apps.bsuirguide;
+package ru.bsuirhelper.android.bsuirhelper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +48,6 @@ class DownloaderTaskFragment extends Fragment {
             mPogressDialog.setMessage(mProgressDialogMessage);
             mPogressDialog.show();
         }
-        Log.d(MainActivity.LOG_TAG, "OnAttach:" + activity);
     }
 
     public void start(String groupId) {
@@ -83,8 +81,6 @@ class DownloaderTaskFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
-
     }
 
     @Override

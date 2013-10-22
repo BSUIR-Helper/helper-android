@@ -1,4 +1,4 @@
-package com.ultimate39.android.apps.bsuirguide;
+package ru.bsuirhelper.android.bsuirhelper;
 
 import android.database.Cursor;
 import android.util.Log;
@@ -31,7 +31,7 @@ public class Lesson {
         fields.put("timePeriodEnd", "");
 
     }
-
+    /*
     public void consolePrint() {
         Log.d(MainActivity.LOG_TAG, "---------------------------------------");
         for (String key : fields.keySet()) {
@@ -39,7 +39,7 @@ public class Lesson {
         }
         Log.d(MainActivity.LOG_TAG, "---------------------------------------");
     }
-
+    */
     public void setDataFromCursor(Cursor cursor) {
         for (String key : this.fields.keySet()) {
             this.fields.put(key, cursor.getString(cursor.getColumnIndex(key)));

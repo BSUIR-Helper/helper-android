@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ultimate39.android.apps.bsuirguide"
+          package="ru.bsuirhelper.android.bsuirhelper"
           android:versionCode="1"
-          android:versionName="1.0">
+          android:versionName="0.1">
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="14"/>
+        android:targetSdkVersion="17"/>
 
 
     <application
         android:label="Bsuir Helper"
-        android:icon="@drawable/ic_launcher2"
+        android:icon="@drawable/ic_launcher"
         android:debuggable="true"
         android:theme="@style/Theme.AppCompat"
         >
@@ -36,12 +36,11 @@
         </activity>
         <!-- WIDGET !-->
         <service
-            android:name=".ScheduleWidgetService"
+            android:name=".appwidget.ScheduleWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
         <receiver
-            android:enabled="@bool/honeycombOrAbove"
-            android:name=".ScheduleWidgetProvider"
+            android:name=".appwidget.ScheduleWidgetProvider"
             android:icon="@drawable/ic_launcher"
             android:label="Расписание на день">
             <intent-filter>
@@ -56,10 +55,8 @@
         </receiver>
         <!-- WIDGET !-->
     </application>
-
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
 </manifest>

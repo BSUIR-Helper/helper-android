@@ -1,4 +1,4 @@
-package com.ultimate39.android.apps.bsuirguide;
+package ru.bsuirhelper.android.bsuirhelper;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -34,7 +34,7 @@ public class MainActivity extends ActionBarActivity implements DownloaderTaskFra
         mDownloaderTaskFragment = (DownloaderTaskFragment) fragmentManager.findFragmentByTag("downloader");
 
         if (mDownloaderTaskFragment == null) {
-            mDownloaderTaskFragment = new DownloaderTaskFragment("Загрузка расписания");
+            mDownloaderTaskFragment = new DownloaderTaskFragment("Обновление расписания");
             fragmentManager.beginTransaction().add(mDownloaderTaskFragment, "downloader").commit();
         }
 
@@ -172,6 +172,7 @@ public class MainActivity extends ActionBarActivity implements DownloaderTaskFra
     @Override
     public void onPostExecute(String result) {
         if (result.equals("Error")) {
+
             Toast.makeText(this, "Произошла ошибка", Toast.LENGTH_LONG).show();
         } else {
             refreshSchedule(mSettings.getInt(mGroupId, 1));

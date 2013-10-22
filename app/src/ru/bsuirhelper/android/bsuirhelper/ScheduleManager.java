@@ -1,4 +1,4 @@
-package com.ultimate39.android.apps.bsuirguide;
+package ru.bsuirhelper.android.bsuirhelper;
 
 import android.content.Context;
 import org.joda.time.DateTime;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Влад on 12.09.13.
  */
-class ScheduleManager {
+public class ScheduleManager {
     private final ScheduleDatabase mScheduleDatabase;
     private StudentCalendar mStudentCalendar = new StudentCalendar();
 
