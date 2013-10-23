@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Влад on 10.10.13.
  */
-class ScheduleParser {
+public class ScheduleParser {
 
     public static ArrayList<Lesson> parseXmlSchedule(File xmlFile) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

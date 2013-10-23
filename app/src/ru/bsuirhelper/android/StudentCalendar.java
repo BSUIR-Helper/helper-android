@@ -7,7 +7,7 @@ import org.joda.time.PeriodType;
 /**
  * Created by Влад on 11.10.13.
  */
-class StudentCalendar {
+public class StudentCalendar {
     private final DateTime mCurrentDateTime;
     private static int mDaysOfYear = 0;
     private static int mSemester;

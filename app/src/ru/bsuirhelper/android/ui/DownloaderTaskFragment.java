@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,6 +6,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import ru.bsuirhelper.android.Lesson;
+import ru.bsuirhelper.android.ScheduleManager;
+import ru.bsuirhelper.android.ScheduleParser;
 
 import java.io.File;
 import java.io.IOException;

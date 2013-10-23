@@ -11,7 +11,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.Lesson;
-import ru.bsuirhelper.android.MainActivity;
+import ru.bsuirhelper.android.ui.MainActivity;
 import ru.bsuirhelper.android.bsuirhelper.R;
 import ru.bsuirhelper.android.ScheduleManager;
 

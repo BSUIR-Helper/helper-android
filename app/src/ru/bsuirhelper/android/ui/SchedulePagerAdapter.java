@@ -1,15 +1,17 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.StudentCalendar;
+import ru.bsuirhelper.android.ui.FragmentSchedule;
 
 /**
  * Created by Влад on 10.10.13.
  */
-class SchedulePagerAdapter extends FragmentStatePagerAdapter {
+ class SchedulePagerAdapter extends FragmentStatePagerAdapter {
     private final StudentCalendar mStudentCalendar;
     private final String mGroupId;
     private final int mSubgroup;

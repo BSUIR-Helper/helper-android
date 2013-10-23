@@ -1,13 +1,21 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import org.joda.time.DateTime;
+import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.ScheduleManager;
+import ru.bsuirhelper.android.StudentCalendar;
+import ru.bsuirhelper.android.StudentGroup;
 import ru.bsuirhelper.android.bsuirhelper.R;
 
 import java.util.ArrayList;
@@ -76,4 +84,6 @@ public class ActivityDeleteGroups extends ActionBarActivity {
             }
         }
     }
+
+
 }

@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.ScheduleManager;
+import ru.bsuirhelper.android.StudentGroup;
 import ru.bsuirhelper.android.bsuirhelper.R;
 import ru.bsuirhelper.android.appwidget.ScheduleWidgetProvider;
 

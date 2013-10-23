@@ -17,11 +17,11 @@
         >
 
         <activity
-            android:name="ru.bsuirhelper.android.ActivityManagerGroups"
+            android:name="ru.bsuirhelper.android.ui.ActivityManagerGroups"
             android:label="Группы "/>
 
         <activity
-            android:name="ru.bsuirhelper.android.MainActivity"
+            android:name="ru.bsuirhelper.android.ui.MainActivity"
             android:label="Bsuir Helper">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name="ru.bsuirhelper.android.ActivityDeleteGroups"
+            android:name="ru.bsuirhelper.android.ui.ActivityDeleteGroups"
             android:label="Удаление групп"
             >
         </activity>

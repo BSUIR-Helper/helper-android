@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.ScheduleManager;
+import ru.bsuirhelper.android.StudentCalendar;
 import ru.bsuirhelper.android.bsuirhelper.R;
 
 /**

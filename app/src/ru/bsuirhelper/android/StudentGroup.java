@@ -3,7 +3,7 @@ package ru.bsuirhelper.android;
 /**
  * Created by Влад on 12.10.13.
  */
-class StudentGroup {
+public class StudentGroup {
     public final String groupId;
     public final String faculty;
     public final String updatedTime;
