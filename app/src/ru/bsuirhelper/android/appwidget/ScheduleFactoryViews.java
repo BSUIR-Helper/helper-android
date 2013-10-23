@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.bsuirhelper.appwidget;
+package ru.bsuirhelper.android.appwidget;
 
 import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
@@ -10,10 +10,10 @@ import android.os.Build;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import org.joda.time.DateTime;
-import ru.bsuirhelper.android.bsuirhelper.Lesson;
-import ru.bsuirhelper.android.bsuirhelper.MainActivity;
+import ru.bsuirhelper.android.Lesson;
+import ru.bsuirhelper.android.MainActivity;
 import ru.bsuirhelper.android.bsuirhelper.R;
-import ru.bsuirhelper.android.bsuirhelper.ScheduleManager;
+import ru.bsuirhelper.android.ScheduleManager;
 
 /**
  * Created by Влад on 15.10.13.

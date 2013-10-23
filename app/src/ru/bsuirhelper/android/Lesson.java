@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.bsuirhelper;
+package ru.bsuirhelper.android;
 
 import android.database.Cursor;
 import android.util.Log;

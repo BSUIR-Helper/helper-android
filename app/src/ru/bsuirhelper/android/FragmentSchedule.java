@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.bsuirhelper;
+package ru.bsuirhelper.android;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.bsuirhelper.R;
 
 /**
  * Created by Влад on 10.10.13.

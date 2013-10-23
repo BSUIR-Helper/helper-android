@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.bsuirhelper;
+package ru.bsuirhelper.android;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import ru.bsuirhelper.android.bsuirhelper.R;
 
 /**
  * Created by Влад on 21.09.13.

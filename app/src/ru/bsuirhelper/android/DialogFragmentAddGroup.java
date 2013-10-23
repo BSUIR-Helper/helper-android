@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.bsuirhelper;
+package ru.bsuirhelper.android;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import ru.bsuirhelper.android.bsuirhelper.R;
 
 /**
  * Created by Влад on 13.10.13.

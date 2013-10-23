@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.bsuirhelper.appwidget;
+package ru.bsuirhelper.android.appwidget;
 
 import android.annotation.TargetApi;
 import android.content.Intent;

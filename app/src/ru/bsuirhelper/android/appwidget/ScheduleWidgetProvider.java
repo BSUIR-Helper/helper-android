@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.bsuirhelper.appwidget;
+package ru.bsuirhelper.android.appwidget;
 
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -12,6 +12,10 @@ import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.Lesson;
+import ru.bsuirhelper.android.MainActivity;
+import ru.bsuirhelper.android.ScheduleManager;
 import ru.bsuirhelper.android.bsuirhelper.*;
 
 /**

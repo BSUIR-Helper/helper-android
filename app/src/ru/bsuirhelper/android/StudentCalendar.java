@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.bsuirhelper;
+package ru.bsuirhelper.android;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;

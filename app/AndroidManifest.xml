@@ -17,11 +17,11 @@
         >
 
         <activity
-            android:name=".ActivityManagerGroups"
+            android:name="ru.bsuirhelper.android.ActivityManagerGroups"
             android:label="Группы "/>
 
         <activity
-            android:name=".MainActivity"
+            android:name="ru.bsuirhelper.android.MainActivity"
             android:label="Bsuir Helper">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,17 +30,17 @@
         </activity>
 
         <activity
-            android:name=".ActivityDeleteGroups"
+            android:name="ru.bsuirhelper.android.ActivityDeleteGroups"
             android:label="Удаление групп"
             >
         </activity>
         <!-- WIDGET !-->
         <service
-            android:name=".appwidget.ScheduleWidgetService"
+            android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
         <receiver
-            android:name=".appwidget.ScheduleWidgetProvider"
+            android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProvider"
             android:icon="@drawable/ic_launcher"
             android:label="Расписание на день">
             <intent-filter>
