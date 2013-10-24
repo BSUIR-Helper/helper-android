@@ -39,7 +39,8 @@ public class ActivityManagerGroups extends ActionBarActivity implements Download
         mDownloaderTaskFragment = (DownloaderTaskFragment) fragmentManager.findFragmentByTag("downloader");
 
         if (mDownloaderTaskFragment == null) {
-            mDownloaderTaskFragment = new DownloaderTaskFragment("Загрузка расписания");
+            mDownloaderTaskFragment = new DownloaderTaskFragment();
+            mDownloaderTaskFragment.setMessage("Загрузка расписания");
             fragmentManager.beginTransaction().add(mDownloaderTaskFragment, "downloader").commit();
         }
         refreshListGroup();
@@ -49,7 +50,7 @@ public class ActivityManagerGroups extends ActionBarActivity implements Download
                 StudentGroup group = (StudentGroup) mListGroups.getAdapter().getItem(position);
                 ApplicationSettings.getInstance(view.getContext()).putString("defaultgroup", group.groupId);
                 updateAppWidget();
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                Intent intent = new Intent(view.getContext(), ActivityMain.class);
                 intent.putExtra("groupId", group.groupId);
                 startActivity(intent);
 

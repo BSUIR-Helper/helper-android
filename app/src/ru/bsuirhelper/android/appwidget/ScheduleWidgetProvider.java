@@ -14,9 +14,9 @@ import android.widget.RemoteViews;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.Lesson;
-import ru.bsuirhelper.android.ui.MainActivity;
 import ru.bsuirhelper.android.ScheduleManager;
 import ru.bsuirhelper.android.bsuirhelper.*;
+import ru.bsuirhelper.android.ui.ActivityMain;
 
 /**
  * Created by Влад on 14.10.13.
@@ -57,7 +57,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
     }
 
     private void setOnClickWidget(Context context, RemoteViews rv, int appWidgetId) {
-        Intent startMainActivity = new Intent(context, MainActivity.class);
+        Intent startMainActivity = new Intent(context, ActivityMain.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, startMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.widget_schedule, pendingIntent);
     }

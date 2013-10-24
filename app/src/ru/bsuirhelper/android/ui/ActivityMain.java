@@ -16,7 +16,7 @@ import android.widget.Toast;
 import ru.bsuirhelper.android.*;
 import ru.bsuirhelper.android.bsuirhelper.R;
 
-public class MainActivity extends ActionBarActivity implements DownloaderTaskFragment.TaskCallbacks {
+public class ActivityMain extends ActionBarActivity implements DownloaderTaskFragment.TaskCallbacks {
     public static final String LOG_TAG = "BSUIR_DEBUG";
     public static final String EDIT_PREFS = "settings.txt";
     private ViewPager mPager;
@@ -27,16 +27,18 @@ public class MainActivity extends ActionBarActivity implements DownloaderTaskFra
     private ApplicationSettings mSettings;
     private DownloaderTaskFragment mDownloaderTaskFragment;
 
-
+    Bundle savedInstanceState;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_schedule);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         mDownloaderTaskFragment = (DownloaderTaskFragment) fragmentManager.findFragmentByTag("downloader");
 
         if (mDownloaderTaskFragment == null) {
-            mDownloaderTaskFragment = new DownloaderTaskFragment("Обновление расписания");
+            mDownloaderTaskFragment = new DownloaderTaskFragment();
+            mDownloaderTaskFragment.setMessage("Обновление расписания");
             fragmentManager.beginTransaction().add(mDownloaderTaskFragment, "downloader").commit();
         }
 

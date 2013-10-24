@@ -21,8 +21,8 @@ import java.util.ArrayList;
 /**
  * Created by Влад on 20.10.13.
  */
-class DownloaderTaskFragment extends Fragment {
-    private final String mProgressDialogMessage;
+public class DownloaderTaskFragment extends Fragment {
+    private String mProgressDialogMessage;
     private ProgressDialog mPogressDialog;
     private boolean mRunning = false;
     private TaskCallbacks mCallbacks;
@@ -38,10 +38,9 @@ class DownloaderTaskFragment extends Fragment {
         void onPostExecute(String result);
     }
 
-    public DownloaderTaskFragment(String progressDialogMessage) {
+    public void setMessage(String progressDialogMessage){
         mProgressDialogMessage = progressDialogMessage;
     }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
