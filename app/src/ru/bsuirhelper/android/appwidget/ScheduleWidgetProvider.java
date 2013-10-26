@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import org.joda.time.DateTime;
@@ -47,12 +48,14 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                     rv.setViewVisibility(R.id.widget_textView, View.INVISIBLE);
                     rv.setRemoteAdapter(R.id.widget_listView, intent);
                 } else {
+                    rv.setViewVisibility(R.id.widget_textView, View.VISIBLE);
                     rv.setTextViewText(R.id.widget_textView, "Занятий нет");
                 }
             }
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }
+        notifyRecreateListView(context);
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
@@ -62,7 +65,6 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
         rv.setOnClickPendingIntent(R.id.widget_schedule, pendingIntent);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -70,9 +72,19 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
             final AppWidgetManager manager = AppWidgetManager.getInstance(context);
             int appWidgetIds[] = manager.getAppWidgetIds(
                     new ComponentName(context, ScheduleWidgetProvider.class));
-            manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
+           if(Build.VERSION.SDK_INT > 10){
+            onUpdate(context,manager,appWidgetIds);
+           }
         } else {
             super.onReceive(context, intent);
         }
+    }
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void notifyRecreateListView(Context context){
+        final AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        int appWidgetIds[] = manager.getAppWidgetIds(
+                new ComponentName(context, ScheduleWidgetProvider.class));
+            manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
+        Log.d(ActivityMain.LOG_TAG, "UPDATE WIDGET");
     }
 }

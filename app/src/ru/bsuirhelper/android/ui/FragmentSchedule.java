@@ -16,7 +16,7 @@ import ru.bsuirhelper.android.bsuirhelper.R;
 /**
  * Created by Влад on 10.10.13.
  */
-class FragmentSchedule extends Fragment {
+public class FragmentSchedule extends Fragment {
 
     private final StudentCalendar mStudentCalendar = new StudentCalendar();
 

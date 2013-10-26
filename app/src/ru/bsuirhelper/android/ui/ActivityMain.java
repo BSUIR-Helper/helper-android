@@ -78,7 +78,6 @@ public class ActivityMain extends ActionBarActivity implements DownloaderTaskFra
     public void onResume() {
         super.onResume();
         mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
-
     }
 
 
@@ -149,7 +148,8 @@ public class ActivityMain extends ActionBarActivity implements DownloaderTaskFra
     void refreshSchedule(int subgroup) {
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, 1);
         int position = mPager.getCurrentItem();
-        mPager.setAdapter(new SchedulePagerAdapter(getSupportFragmentManager(), "313801", subgroup));
+
+        mPager.setAdapter(new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup));
         mPager.setAdapter(adapter);
         mPager.setCurrentItem(position);
     }

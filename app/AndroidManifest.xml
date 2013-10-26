@@ -5,7 +5,7 @@
           android:versionName="0.1">
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="5"
         android:targetSdkVersion="17"/>
 
 
@@ -42,6 +42,7 @@
         <receiver
             android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProvider"
             android:icon="@drawable/ic_launcher"
+            android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день">
             <intent-filter>
                 <action
