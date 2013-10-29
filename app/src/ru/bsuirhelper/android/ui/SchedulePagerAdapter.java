@@ -31,7 +31,6 @@ import ru.bsuirhelper.android.ui.FragmentSchedule;
         args.putInt("subgroup", mSubgroup);
         Fragment fragment = new FragmentSchedule();
         fragment.setArguments(args);
-        int s = 0;
         return fragment;
     }
 

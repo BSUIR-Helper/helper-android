@@ -6,13 +6,12 @@
 
     <uses-sdk
         android:minSdkVersion="5"
-        android:targetSdkVersion="17"/>
+        android:targetSdkVersion="18"/>
 
 
     <application
         android:label="Bsuir Helper"
         android:icon="@drawable/ic_launcher"
-        android:debuggable="true"
         android:theme="@style/Theme.AppCompat"
         >
 
@@ -22,7 +21,7 @@
 
         <activity
             android:name="ru.bsuirhelper.android.ui.ActivityMain"
-            android:label="Bsuir Helper">
+            android:label="BSUIR Helper">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -46,6 +47,9 @@ public class ActivityMain extends ActionBarActivity implements DownloaderTaskFra
         mStudentCalendar = new StudentCalendar();
         mScheduleManager = new ScheduleManager(this);
         mPager = (ViewPager) findViewById(R.id.schedule_pager);
+        if(Build.VERSION.SDK_INT > 10){
+         mPager.setPageTransformer(true,new RotationViewPager());
+        }
         mActionBar = getSupportActionBar();
 
         //Get value if intent get from activity - ScheduleManagerGroups
