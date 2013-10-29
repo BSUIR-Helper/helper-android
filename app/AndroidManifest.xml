@@ -10,7 +10,7 @@
 
 
     <application
-        android:label="Bsuir Helper"
+        android:label="BSUIR Helper"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/Theme.AppCompat"
         >
