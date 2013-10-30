@@ -12,7 +12,7 @@ import android.widget.RemoteViewsService;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.Lesson;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ScheduleManager;
 
 /**
@@ -103,7 +103,8 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     }
 
     @Override
-    public boolean hasStableIds() {
+    public boolean hasStableIds()
+    {
         return true;
     }
 

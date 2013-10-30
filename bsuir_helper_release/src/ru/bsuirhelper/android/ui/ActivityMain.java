@@ -15,7 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import ru.bsuirhelper.android.*;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 
 public class ActivityMain extends ActionBarActivity implements DownloaderTaskFragment.TaskCallbacks {
     public static final String LOG_TAG = "BSUIR_DEBUG";

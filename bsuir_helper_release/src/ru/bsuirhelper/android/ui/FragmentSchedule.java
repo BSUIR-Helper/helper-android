@@ -11,7 +11,7 @@ import android.widget.TextView;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ScheduleManager;
 import ru.bsuirhelper.android.StudentCalendar;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 
 /**
  * Created by Влад on 10.10.13.

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import ru.bsuirhelper.android.StudentGroup;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 
 /**
  * Created by Влад on 12.10.13.

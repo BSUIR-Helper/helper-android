@@ -16,7 +16,7 @@ import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.Lesson;
 import ru.bsuirhelper.android.ScheduleManager;
-import ru.bsuirhelper.android.bsuirhelper.*;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ui.ActivityMain;
 
 /**

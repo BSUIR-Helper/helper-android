@@ -14,7 +14,7 @@ import android.widget.Toast;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.ScheduleManager;
 import ru.bsuirhelper.android.StudentGroup;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.appwidget.ScheduleWidgetProvider;
 
 import java.util.ArrayList;
