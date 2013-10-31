@@ -17,7 +17,7 @@ import android.widget.Toast;
 import ru.bsuirhelper.android.*;
 import ru.bsuirhelper.android.bsuirhelper.R;
 
-public class ActivityMain extends ActionBarActivity implements DownloaderTaskFragment.TaskCallbacks {
+public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFragment.TaskCallbacks {
     public static final String LOG_TAG = "BSUIR_DEBUG";
     public static final String EDIT_PREFS = "settings.txt";
     private ViewPager mPager;
@@ -74,7 +74,6 @@ public class ActivityMain extends ActionBarActivity implements DownloaderTaskFra
         mActionBar.setSubtitle("подгруппа " + subgroup);
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
-
 
     }
 
@@ -139,11 +138,13 @@ public class ActivityMain extends ActionBarActivity implements DownloaderTaskFra
                 refreshSchedule(2);
                 mActionBar.setSubtitle("подгруппа 2");
                 return true;
+            /*
             case android.R.id.home:
                 Intent homeintent = new Intent(this, ActivityManagerGroups.class);
                 homeintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homeintent);
                 return true;
+                */
             default:
                 return super.onOptionsItemSelected(item);
         }

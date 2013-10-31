@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by Влад on 12.10.13.
  */
-public class ActivityManagerGroups extends ActionBarActivity implements DownloaderTaskFragment.TaskCallbacks {
+public class ActivityManagerGroups extends ActivityDrawerMenu implements DownloaderTaskFragment.TaskCallbacks {
     private ScheduleManager mScheduleManager;
     private ListView mListGroups;
     private TextView mTextViewNotification;

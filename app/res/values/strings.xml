@@ -3,6 +3,8 @@
     <string name="app_name">Расписание</string>
     <string name="activity_schedule">Расписание</string>
     <string name="activity_managergroups">Список групп</string>
+    <string name="drawer_open">Открыть меню</string>
+    <string name="drawer_close">Закрыть меню</string>
     <string-array name="action_selectsubgroup_values">
         <item>Подгруппа 1</item>
         <item>Подгруппа 2</item>
