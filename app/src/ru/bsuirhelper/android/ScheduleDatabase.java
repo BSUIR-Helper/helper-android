@@ -125,7 +125,6 @@ class ScheduleDatabase extends SQLiteOpenHelper {
         this.open();
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
         this.close();
-
     }
 
     public ArrayList<StudentGroup> getGroups() {

@@ -10,8 +10,8 @@ import android.os.Build;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.Lesson;
-import ru.bsuirhelper.android.ui.MainActivity;
 import ru.bsuirhelper.android.bsuirhelper.R;
 import ru.bsuirhelper.android.ScheduleManager;
 
@@ -26,26 +26,24 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     private final Intent mIntent;
     private final int mWidgetId;
     private int mLessonCount;
-    private final SharedPreferences mSettings;
+    private final ApplicationSettings mSettings;
 
     public ScheduleFactoryViews(Context context, Intent intent) {
         mScheduleManager = new ScheduleManager(context);
         mIntent = intent;
         mWidgetId = mIntent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         mContext = context;
-        mSettings = context.getSharedPreferences(MainActivity.EDIT_PREFS, 0);
+        mSettings = ApplicationSettings.getInstance(context);
     }
 
     @Override
     public void onCreate() {
-        mLessonsOfToday = mScheduleManager.getLessonsOfDay(mSettings.getString("defaultgroup", null), DateTime.now(), 1);
-        mLessonCount = mLessonsOfToday.length;
+        updateLessonsOfToday();
     }
 
     @Override
     public void onDataSetChanged() {
-        mLessonsOfToday = mScheduleManager.getLessonsOfDay(mSettings.getString("defaultgroup", null), DateTime.now(), 1);
-        mLessonCount = mLessonsOfToday.length;
+        updateLessonsOfToday();
     }
 
     @Override
@@ -107,5 +105,12 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public boolean hasStableIds() {
         return true;
+    }
+
+    public void updateLessonsOfToday(){
+        String groupId =  mSettings.getString("defaultgroup", null);
+        int subgroup = mSettings.getInt(groupId,1);
+        mLessonsOfToday = mScheduleManager.getLessonsOfDay(groupId, DateTime.now(), subgroup);
+        mLessonCount = mLessonsOfToday.length;
     }
 }

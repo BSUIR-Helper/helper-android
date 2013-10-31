@@ -75,7 +75,6 @@ public class ActivityDeleteGroups extends ActionBarActivity {
                 mScheduleManager.deleteSchedule(adapter.getItem(position).groupId);
                 //Delete from settings default group
                 String defaultGroup = mSettings.getString("defaultgroup", null);
-
                 if (!(defaultGroup == null)) {
                     if (defaultGroup.equals(adapter.getItem(position).groupId)) {
                         mSettings.putString("defaultgroup", null);
