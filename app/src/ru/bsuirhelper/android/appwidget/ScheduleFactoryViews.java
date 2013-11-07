@@ -38,14 +38,12 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        mLessonsOfToday = mScheduleManager.getLessonsOfDay(mSettings.getString("defaultgroup", null), DateTime.now(), 1);
-        mLessonCount = mLessonsOfToday.length;
+        updateLessonsOfToday();
     }
 
     @Override
     public void onDataSetChanged() {
-        mLessonsOfToday = mScheduleManager.getLessonsOfDay(mSettings.getString("defaultgroup", null), DateTime.now(), 1);
-        mLessonCount = mLessonsOfToday.length;
+        updateLessonsOfToday();
     }
 
     @Override
@@ -107,5 +105,12 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public boolean hasStableIds() {
         return true;
+    }
+
+    public void updateLessonsOfToday(){
+        String groupId =  mSettings.getString("defaultgroup", null);
+        int subgroup = mSettings.getInt(groupId,1);
+        mLessonsOfToday = mScheduleManager.getLessonsOfDay(groupId, DateTime.now(), subgroup);
+        mLessonCount = mLessonsOfToday.length;
     }
 }

@@ -33,7 +33,7 @@ public class FragmentSchedule extends Fragment {
         dateInText.setText(day.getDayOfMonth() + " " + day.monthOfYear().getAsText() + " " + day.year().getAsText() + "");
         String groupId = args.getString("groupId");
         int subgroup = args.getInt("subgroup");
-        LessonsViewAdapter lessonsViewAdapter = new LessonsViewAdapter(context, scheduleManager.getLessonsOfDay(groupId, day, subgroup));
+        ViewAdapterLessons lessonsViewAdapter = new ViewAdapterLessons(context, scheduleManager.getLessonsOfDay(groupId, day, subgroup));
 
         if ((day.getMonthOfYear() <= 8 && mStudentCalendar.getSemester() == 1) ||
                 (day.getMonthOfYear() >= 9 && mStudentCalendar.getSemester() == 2)) {

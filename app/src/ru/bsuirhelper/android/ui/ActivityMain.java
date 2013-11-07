@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,6 +34,7 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
         this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_schedule);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        mDownloaderTaskFragment = (DownloaderTaskFragment) fragmentManager.findFragmentByTag("downloader");
         mDownloaderTaskFragment = (DownloaderTaskFragment) fragmentManager.findFragmentByTag("downloader");
 
         if (mDownloaderTaskFragment == null) {
@@ -66,7 +66,6 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
             }
         }
 
-
         int subgroup = mSettings.getInt(mGroupId, 1);
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup);
         mPager.setAdapter(adapter);
@@ -90,7 +89,7 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.schedule_activity_actions, menu);
+        inflater.inflate(R.menu.menu_schedule_activity_actions, menu);
         mSubgroup1 = menu.findItem(R.id.subgroup1);
         mSubgroup2 = menu.findItem(R.id.subgroup2);
         int subgroup = mSettings.getInt(mGroupId, 1);
@@ -151,7 +150,7 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
     }
 
     void refreshSchedule(int subgroup) {
-        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, 1);
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup);
         int position = mPager.getCurrentItem();
 
         mPager.setAdapter(new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup));

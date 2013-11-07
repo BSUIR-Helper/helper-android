@@ -9,12 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listview_groups"
-        android:layout_gravity="left|center_vertical"/>
+        android:layout_gravity="left|center_vertical"
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="В вашем списке нету групп"
+        android:text="В вашем списке нет групп"
         android:id="@+id/textview_groupsarenotadded"
         android:visibility="invisible"
         android:layout_gravity="center"

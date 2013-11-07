@@ -2,7 +2,6 @@ package ru.bsuirhelper.android.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -62,7 +61,7 @@ public class ActivityManagerGroups extends ActivityDrawerMenu implements Downloa
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.managergroups_activity_actions, menu);
+        inflater.inflate(R.menu.menu_managergroups_activity_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

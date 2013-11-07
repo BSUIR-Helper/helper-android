@@ -15,10 +15,13 @@
         android:debuggable="true"
         android:theme="@style/Theme.AppCompat"
         >
-
+      <!-- ACTIVITIES -->
         <activity
             android:name="ru.bsuirhelper.android.ui.ActivityManagerGroups"
             android:label="Группы "/>
+        <activity
+            android:name="ru.bsuirhelper.android.ui.ActivityCreateNote"
+            android:label="Создать заметку"/>
 
         <activity
             android:name="ru.bsuirhelper.android.ui.ActivityMain"
@@ -34,7 +37,12 @@
             android:label="Удаление групп"
             >
         </activity>
-        <!-- WIDGET !-->
+
+        <activity
+            android:name="ru.bsuirhelper.android.ui.ActivityNotes"
+            android:label="Заметки"/>
+
+        <!-- WIDGET -->
         <service
             android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
@@ -54,7 +62,6 @@
                 android:resource="@xml/widget_schedule_info">
             </meta-data>
         </receiver>
-        <!-- WIDGET !-->
     </application>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

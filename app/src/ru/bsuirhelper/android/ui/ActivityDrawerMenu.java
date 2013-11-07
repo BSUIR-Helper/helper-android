@@ -24,6 +24,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private final int DRAWER_NAVIGATION_LAYOUT_ID = R.layout.drawerlayout;
+    private final String[] mMenuItems = new String[]{"Группы","Заметки"};
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -73,28 +74,23 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                 R.string.drawer_open,  /* "open drawer" description */
                 R.string.drawer_close  /* "close drawer" description */
         ) {
-            /*
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-            }
-            */
         };
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
         drawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, new String[]{"Группы"}));
+                R.layout.drawer_list_item, mMenuItems));
+
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch(position){
                     case 0:
-                        Intent intent = new Intent(view.getContext(),ActivityManagerGroups.class);
-                        startActivity(intent);
+                        startActivity(new Intent(view.getContext(),ActivityManagerGroups.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(view.getContext(),ActivityNotes.class));
+                        break;
                 }
             }
         });
