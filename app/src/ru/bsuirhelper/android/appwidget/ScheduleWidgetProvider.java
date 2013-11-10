@@ -85,6 +85,5 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
         int appWidgetIds[] = manager.getAppWidgetIds(
                 new ComponentName(context, ScheduleWidgetProvider.class));
             manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
-        Log.d(ActivityMain.LOG_TAG, "UPDATE WIDGET");
     }
 }

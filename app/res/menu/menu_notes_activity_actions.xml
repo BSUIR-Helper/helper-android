@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_addgroup"
         android:title="Создать заметку"
         bsuirguide:showAsAction="always"/>
+    <item
+        android:id="@+id/action_deletenotes"
+        android:icon="@drawable/ic_deletegroups"
+        android:title="Удалить заметку"
+        bsuirguide:showAsAction="always"/>
 </menu>

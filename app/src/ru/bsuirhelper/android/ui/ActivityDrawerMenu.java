@@ -5,16 +5,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.*;
+import android.widget.*;
+import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.bsuirhelper.R;
 
 /**
@@ -22,12 +19,13 @@ import ru.bsuirhelper.android.bsuirhelper.R;
  */
 public class ActivityDrawerMenu extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
+    private DrawerArrayAdapter mDrawerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private final int DRAWER_NAVIGATION_LAYOUT_ID = R.layout.drawerlayout;
-    private final String[] mMenuItems = new String[]{"Группы","Заметки"};
+    private final String[] mMenuItems = new String[]{"Расписание","Заметки"};
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+       super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
        if(mDrawerToggle != null){
          mDrawerToggle.syncState();
@@ -42,13 +40,9 @@ public class ActivityDrawerMenu extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle your other action bar items...
-
         return super.onOptionsItemSelected(item);
 
     }
@@ -56,10 +50,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     public void setContentView(int layoutId){
         LayoutInflater layoutInflater = (LayoutInflater)
                 this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        /*
-        ViewGroup parentLayout = (ViewGroup) layoutInflater.inflate(layoutId,null);
-        parentLayout.addView(layoutInflater.inflate(DRAWER_NAVIGATION_LAYOUT_ID, parentLayout, false),1);
-        */
 
         ViewGroup parentLayout = (ViewGroup) layoutInflater.inflate(DRAWER_NAVIGATION_LAYOUT_ID,null);
         parentLayout.addView(layoutInflater.inflate(layoutId, parentLayout, false),1);
@@ -75,13 +65,14 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                 R.string.drawer_close  /* "close drawer" description */
         ) {
         };
-        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+        ListView listView = (ListView) findViewById(R.id.left_drawer);
+
 
         // Set the adapter for the list view
-        drawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mMenuItems));
+        mDrawerAdapter = new DrawerArrayAdapter(this, mMenuItems);
+        listView.setAdapter(mDrawerAdapter);
 
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch(position){
@@ -100,5 +91,51 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mActionBar.setHomeButtonEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+    }
+
+    void openDrawerMenu(){
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+    void updateMenuDrawer(){
+        mDrawerAdapter.notifyDataSetChanged();
+    }
+    class DrawerArrayAdapter extends ArrayAdapter<String> {
+        LayoutInflater mInflater;
+        public DrawerArrayAdapter(Context context, String[] menuItems) {
+            super(context,R.layout.drawer_list_item, menuItems);
+            mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parentView){
+           if(convertView == null){
+               convertView  = mInflater.inflate(R.layout.drawer_list_item,null);
+               setViewHolder(convertView);
+           }
+           ViewHolder vh = (ViewHolder) convertView.getTag();
+           vh.menuName.setText(getItem(position));
+           switch(position){
+               case 0:
+                   vh.icon.setImageResource(R.drawable.ic_calendar);
+                   break;
+               case 1:
+                   TextView counterOfNotes = (TextView) convertView.findViewById(R.id.textview_counternotes);
+                   counterOfNotes.setVisibility(View.VISIBLE);
+                   counterOfNotes.setText(ApplicationSettings.getInstance(ActivityDrawerMenu.this).getInt("notes",0)+"");
+                   vh.icon.setImageResource(R.drawable.ic_notes);
+                   break;
+           }
+           return convertView;
+        }
+        class ViewHolder{
+            ImageView icon;
+            TextView menuName;
+        }
+        private void setViewHolder(View v){
+            ViewHolder vh = new ViewHolder();
+            vh.icon = (ImageView) v.findViewById(R.id.imageview_itemicon);
+            vh.menuName = (TextView) v.findViewById(R.id.textview_itemname);
+            v.setTag(vh);
+        }
     }
 }

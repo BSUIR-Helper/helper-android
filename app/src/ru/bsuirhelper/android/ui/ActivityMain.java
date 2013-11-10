@@ -7,12 +7,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.Toast;
+import org.joda.time.DateTime;
 import ru.bsuirhelper.android.*;
 import ru.bsuirhelper.android.bsuirhelper.R;
 
@@ -23,7 +26,6 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
     private ActionBar mActionBar;
     private String mGroupId;
     private StudentCalendar mStudentCalendar;
-    private ScheduleManager mScheduleManager;
     private ApplicationSettings mSettings;
     private DownloaderTaskFragment mDownloaderTaskFragment;
 
@@ -33,10 +35,9 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_schedule);
+        //Get fragment for downloader task
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         mDownloaderTaskFragment = (DownloaderTaskFragment) fragmentManager.findFragmentByTag("downloader");
-        mDownloaderTaskFragment = (DownloaderTaskFragment) fragmentManager.findFragmentByTag("downloader");
-
         if (mDownloaderTaskFragment == null) {
             mDownloaderTaskFragment = new DownloaderTaskFragment();
             mDownloaderTaskFragment.setMessage("Обновление расписания");
@@ -45,17 +46,15 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
 
         mSettings = ApplicationSettings.getInstance(this);
         mStudentCalendar = new StudentCalendar();
-        mScheduleManager = new ScheduleManager(this);
         mPager = (ViewPager) findViewById(R.id.schedule_pager);
         if(Build.VERSION.SDK_INT > 10){
          mPager.setPageTransformer(true,new RotationViewPager());
         }
         mActionBar = getSupportActionBar();
 
-        //Get value if intent get from activity - ScheduleManagerGroups
+        //Get value if intent from activity - ScheduleManagerGroups
         Intent intent = getIntent();
         mGroupId = intent.getStringExtra("groupId");
-
 
         if (mGroupId == null) {
             mGroupId = mSettings.getString("defaultgroup", null);
@@ -69,8 +68,23 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
         int subgroup = mSettings.getInt(mGroupId, 1);
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup);
         mPager.setAdapter(adapter);
+        mPager.setOnPageChangeListener( new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                mActionBar.setSubtitle("уч.неделя " + mStudentCalendar.getWorkWeek(StudentCalendar.convertToDefaultDateTime(i)));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         mActionBar.setTitle("Группа " + mGroupId);
-        mActionBar.setSubtitle("подгруппа " + subgroup);
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
 
@@ -121,7 +135,13 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
                 }
                 return true;
             case R.id.action_selecttoday:
-                mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
+                DialogDatePicker newFragment = new DialogDatePicker() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        ActivityMain.this.mPager.setCurrentItem(mStudentCalendar.getDayOfYear(new DateTime(year, month + 1, day, 1, 1)));
+                    }
+                };
+                newFragment.show(getSupportFragmentManager(), "timePicker");
                 return true;
             case R.id.subgroup1:
                 mSubgroup1.setChecked(true);
@@ -150,10 +170,8 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
     }
 
     void refreshSchedule(int subgroup) {
-        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup);
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(),mGroupId, subgroup);
         int position = mPager.getCurrentItem();
-
-        mPager.setAdapter(new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup));
         mPager.setAdapter(adapter);
         mPager.setCurrentItem(position);
     }

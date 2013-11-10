@@ -56,7 +56,14 @@ public class ActivityManagerGroups extends ActivityDrawerMenu implements Downloa
             }
         });
     }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(ApplicationSettings.getInstance(this).getBoolean("firststart",true)){
+            openDrawerMenu();
+            ApplicationSettings.getInstance(this).putBoolean("firststart",false);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar

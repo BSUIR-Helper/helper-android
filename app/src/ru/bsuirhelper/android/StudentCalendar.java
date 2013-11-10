@@ -25,7 +25,6 @@ public class StudentCalendar {
 
     public int getDayOfYear() {
         int dayOfYear;
-
         if (mCurrentDateTime.getMonthOfYear() >= 9) {
             DateTime september = new DateTime(mCurrentDateTime.getYear(), 9, 1, 0, 0, 0);
             dayOfYear = new Interval(september, mCurrentDateTime).toPeriod(PeriodType.days()).getDays();
@@ -37,6 +36,18 @@ public class StudentCalendar {
         return dayOfYear + 1;
     }
 
+    public int getDayOfYear(DateTime dateTime) {
+        int dayOfYear;
+        if (dateTime.getMonthOfYear() >= 9) {
+            DateTime september = new DateTime(dateTime.getYear(), 9, 1, 0, 0, 0);
+            dayOfYear = new Interval(september, dateTime).toPeriod(PeriodType.days()).getDays();
+        } else {
+            DateTime september = new DateTime(dateTime.getYear() - 1, 9, 1, 0, 0, 0);
+            dayOfYear = new Interval(september, dateTime).toPeriod(PeriodType.days()).getDays();
+        }
+
+        return dayOfYear;
+    }
     public int getDaysOfYear() {
         if (mDaysOfYear == 0) {
             DateTime september;
@@ -55,7 +66,7 @@ public class StudentCalendar {
         return mDaysOfYear;
     }
 
-    public int getWorkWeek(DateTime dateTime) {
+    public static int getWorkWeek(DateTime dateTime) {
         DateTime september;
 
         if (dateTime.getMonthOfYear() <= 8) {
@@ -84,4 +95,27 @@ public class StudentCalendar {
     public int getSemester() {
         return mSemester;
     }
+
+    public static long getStartStudentYear(){
+            DateTime september;
+
+            if (DateTime.now().getMonthOfYear() <= 8) {
+                september = new DateTime(DateTime.now().getYear() - 1, 9, 1, 0, 0, 0);
+            } else {
+                september = new DateTime(DateTime.now().getYear(), 8, 31, 1, 0, 0);
+            }
+
+          return september.getMillis();
+    }
+
+    public static long getEndStudentYear(){
+        DateTime august;
+        if (DateTime.now().getMonthOfYear() <= 8) {
+            august = new DateTime(DateTime.now().getYear(), 8, 31, 1, 0, 0);
+        } else {
+            august = new DateTime(DateTime.now().getYear() + 1, 8, 31, 1, 0, 0);
+        }
+        return august.getMillis();
+    }
+
 }

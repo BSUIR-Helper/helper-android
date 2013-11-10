@@ -11,24 +11,27 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Сдать тр"
+        android:text="Сдать трdasdasdasdasdasdasdas"
         android:id="@+id/textview_notetitle"
         android:layout_gravity="left|center_vertical"
         android:textSize="25dp"
         android:textColor="#faffff"
-        android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/checkbox_notedelete"
-        android:paddingLeft="20dp"/>
+        android:paddingLeft="20dp"
+        android:singleLine="true"
+        android:layout_toLeftOf="@+id/textView"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Предмет: Математика"
+        android:text="К завтрашнему дню"
         android:id="@+id/textview_notetext"
         android:textStyle="italic"
         android:paddingLeft="20dp"
         android:layout_below="@+id/textview_notetitle"
-        android:layout_toRightOf="@+id/checkbox_notedelete"/>
+        android:layout_toRightOf="@+id/checkbox_notedelete"
+        android:singleLine="true"
+        android:layout_toLeftOf="@+id/textView"/>
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -38,6 +41,21 @@
         android:focusable="false"
         android:layout_alignTop="@+id/textview_notetitle"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="17dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:padding="4dp"
+        android:id="@+id/textview_notesubject"
+        android:visibility="invisible"
+        android:background="@drawable/rectangle_subject"
+        android:singleLine="true"
+        android:layout_alignBottom="@+id/checkbox_notedelete"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"/>
 
 </RelativeLayout>

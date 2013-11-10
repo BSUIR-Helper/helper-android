@@ -24,6 +24,7 @@ public class FragmentSchedule extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setRetainInstance(true);
+
         View fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
         Context context = getActivity().getApplicationContext();
         ScheduleManager scheduleManager = new ScheduleManager(context);

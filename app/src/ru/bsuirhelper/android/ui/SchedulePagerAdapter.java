@@ -1,12 +1,12 @@
 package ru.bsuirhelper.android.ui;
 
+import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.StudentCalendar;
-import ru.bsuirhelper.android.ui.FragmentSchedule;
 
 /**
  * Created by Влад on 10.10.13.
@@ -16,7 +16,7 @@ import ru.bsuirhelper.android.ui.FragmentSchedule;
     private final String mGroupId;
     private final int mSubgroup;
 
-    public SchedulePagerAdapter(FragmentManager fm, String groupId, int subgroup) {
+    public SchedulePagerAdapter(FragmentManager fm,String groupId, int subgroup) {
         super(fm);
         mStudentCalendar = new StudentCalendar();
         mGroupId = groupId;
@@ -49,7 +49,6 @@ import ru.bsuirhelper.android.ui.FragmentSchedule;
 
         }
         dateTime += sDay;
-        //dateTime+=day.toString();
         return dateTime;
     }
 
