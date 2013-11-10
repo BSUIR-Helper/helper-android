@@ -2,6 +2,7 @@ package ru.bsuirhelper.android.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +16,7 @@ import ru.bsuirhelper.android.bsuirhelper.R;
 /**
  * Created by Влад on 01.11.13.
  */
-public class ActivityCreateNote extends ActivityDrawerMenu {
+public class ActivityCreateNote extends ActionBarActivity {
     private NoteDatabase mNoteDatabase;
     private EditText noteTitle;
     private EditText noteText;
