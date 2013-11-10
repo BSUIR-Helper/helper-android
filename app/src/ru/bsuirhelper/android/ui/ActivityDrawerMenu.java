@@ -113,13 +113,14 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                setViewHolder(convertView);
            }
            ViewHolder vh = (ViewHolder) convertView.getTag();
+           TextView counterOfNotes = (TextView) convertView.findViewById(R.id.textview_counternotes);
            vh.menuName.setText(getItem(position));
            switch(position){
                case 0:
                    vh.icon.setImageResource(R.drawable.ic_calendar);
+                   counterOfNotes.setVisibility(View.INVISIBLE);
                    break;
                case 1:
-                   TextView counterOfNotes = (TextView) convertView.findViewById(R.id.textview_counternotes);
                    counterOfNotes.setVisibility(View.VISIBLE);
                    counterOfNotes.setText(ApplicationSettings.getInstance(ActivityDrawerMenu.this).getInt("notes",0)+"");
                    vh.icon.setImageResource(R.drawable.ic_notes);

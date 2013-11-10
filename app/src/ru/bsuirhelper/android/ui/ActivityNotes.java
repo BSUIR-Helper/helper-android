@@ -147,7 +147,7 @@ public class ActivityNotes extends ActivityDrawerMenu {
         if(!someNoteChecked){
           Toast.makeText(this,"Не выбрана заметка для удаления",Toast.LENGTH_SHORT).show();
         }
-        ApplicationSettings.getInstance(this).putInt("notes", mNotesList.size()-1);
+        ApplicationSettings.getInstance(this).putInt("notes", mNoteDatabase.fetchAllNotes().length);
     }
  class ViewAdapterNotes extends ArrayAdapter<Note> {
         private Context mContext;
