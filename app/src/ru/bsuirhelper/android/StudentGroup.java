@@ -8,7 +8,7 @@ public class StudentGroup {
     public final String faculty;
     public final String updatedTime;
     public boolean isChecked = false;
-    private final String[] facultyNames = new String[]{"ФКП", "ФИТиУ", "Военный", "ФРиЭ", "ФКСиС", "ФТ", "ИЭФ"};
+    private final String[] facultyNames = new String[]{"ФКП", "ФИТиУ", "Военный", "ФРиЭ", "ФКСиС", "ФТК", "ИЭФ"};
 
     public StudentGroup(String groupId, String updatedTime) {
         this.groupId = groupId;
