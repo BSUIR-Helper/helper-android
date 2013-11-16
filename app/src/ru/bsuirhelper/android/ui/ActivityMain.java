@@ -17,7 +17,7 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.*;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 
 public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFragment.TaskCallbacks {
     public static final String LOG_TAG = "BSUIR_DEBUG";

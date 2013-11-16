@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import ru.bsuirhelper.android.ApplicationSettings;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 
 /**
  * Created by Влад on 29.10.13.

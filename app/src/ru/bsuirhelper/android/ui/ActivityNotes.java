@@ -12,7 +12,7 @@ import android.widget.*;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.Note;
 import ru.bsuirhelper.android.NoteDatabase;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

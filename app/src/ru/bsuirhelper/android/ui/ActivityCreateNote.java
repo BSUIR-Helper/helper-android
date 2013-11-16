@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import ru.bsuirhelper.android.Note;
 import ru.bsuirhelper.android.NoteDatabase;
-import ru.bsuirhelper.android.bsuirhelper.R;
+import ru.bsuirhelper.android.R;
 
 /**
  * Created by Влад on 01.11.13.
