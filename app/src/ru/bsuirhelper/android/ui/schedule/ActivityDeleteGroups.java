@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.ui;
+package ru.bsuirhelper.android.ui.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import com.google.analytics.tracking.android.EasyTracker;
 import ru.bsuirhelper.android.ApplicationSettings;
-import ru.bsuirhelper.android.ScheduleManager;
-import ru.bsuirhelper.android.StudentGroup;
+import ru.bsuirhelper.android.core.schedule.ScheduleManager;
+import ru.bsuirhelper.android.core.schedule.StudentGroup;
 import ru.bsuirhelper.android.R;
 
 import java.util.ArrayList;
@@ -38,6 +39,18 @@ public class ActivityDeleteGroups extends ActionBarActivity {
             mListView.setAdapter(vaGroups);
         }
 
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override

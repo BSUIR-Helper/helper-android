@@ -1,7 +1,8 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.core.schedule;
 
 import android.content.Context;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.core.StudentCalendar;
 
 import java.util.ArrayList;
 

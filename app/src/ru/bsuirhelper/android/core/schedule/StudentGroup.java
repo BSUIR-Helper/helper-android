@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.core.schedule;
 
 /**
  * Created by Влад on 12.10.13.

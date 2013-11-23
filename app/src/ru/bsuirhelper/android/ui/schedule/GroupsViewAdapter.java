@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.ui;
+package ru.bsuirhelper.android.ui.schedule;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import ru.bsuirhelper.android.StudentGroup;
+import ru.bsuirhelper.android.core.schedule.StudentGroup;
 import ru.bsuirhelper.android.R;
 
 /**

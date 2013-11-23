@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.core.schedule;
 
 import android.database.Cursor;
 import android.util.Log;

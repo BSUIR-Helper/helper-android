@@ -1,16 +1,15 @@
-package ru.bsuirhelper.android.ui;
+package ru.bsuirhelper.android.ui.notes;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.TextView;
-import ru.bsuirhelper.android.Note;
-import ru.bsuirhelper.android.NoteDatabase;
+import com.google.analytics.tracking.android.EasyTracker;
+import ru.bsuirhelper.android.core.notes.Note;
+import ru.bsuirhelper.android.core.notes.NoteDatabase;
 import ru.bsuirhelper.android.R;
 
 /**
@@ -42,6 +41,19 @@ public class ActivityCreateNote extends ActionBarActivity {
             noteText.setText(note.text);
             noteSubject.setText(note.subject);
         }
+    }
+
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override

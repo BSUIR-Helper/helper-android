@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.core.notes;
 
 /**
  * Created by Влад on 02.11.13.

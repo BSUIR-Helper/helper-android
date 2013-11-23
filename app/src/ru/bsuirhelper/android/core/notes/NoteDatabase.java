@@ -1,13 +1,10 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.core.notes;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import ru.bsuirhelper.android.ui.ActivityMain;
 
 /**
  * Created by Влад on 01.11.13.

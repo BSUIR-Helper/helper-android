@@ -8,25 +8,30 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.ui.schedule.ActivityManagerGroups;
+import ru.bsuirhelper.android.ui.notes.ActivityNotes;
+import ru.bsuirhelper.android.ui.teachers.ActivityManagerTeachers;
 
 /**
  * Created by Влад on 29.10.13.
  */
 public class ActivityDrawerMenu extends ActionBarActivity {
+    private final int ACTIVITY_SCHEDULE = 0;
+    private final int ACTIVITY_NOTES = 1;
+    private final int ACTIVITY_TEACHERS = 2;
     private DrawerLayout mDrawerLayout;
     private DrawerArrayAdapter mDrawerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private final int DRAWER_NAVIGATION_LAYOUT_ID = R.layout.drawerlayout;
-    private final String[] mMenuItems = new String[]{"Расписание","Заметки"};
+    private final String[] mMenuItems = new String[]{"Расписание","Заметки","Преподаватели"};
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
        if(mDrawerToggle != null){
          mDrawerToggle.syncState();
        }
@@ -46,6 +51,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
     @Override
     public void setContentView(int layoutId){
         LayoutInflater layoutInflater = (LayoutInflater)
@@ -66,9 +72,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         ) {
         };
         ListView listView = (ListView) findViewById(R.id.left_drawer);
-
-
-        // Set the adapter for the list view
         mDrawerAdapter = new DrawerArrayAdapter(this, mMenuItems);
         listView.setAdapter(mDrawerAdapter);
 
@@ -76,16 +79,20 @@ public class ActivityDrawerMenu extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch(position){
-                    case 0:
+                    case ACTIVITY_SCHEDULE:
                         startActivity(new Intent(view.getContext(),ActivityManagerGroups.class));
                         break;
-                    case 1:
+                    case ACTIVITY_NOTES:
                         startActivity(new Intent(view.getContext(),ActivityNotes.class));
                         break;
+                    case ACTIVITY_TEACHERS:
+                        startActivity(new Intent(view.getContext(), ActivityManagerTeachers.class));
+                        break;
+
                 }
             }
         });
-        // Set the drawer toggle as the DrawerListener
+
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
@@ -93,11 +100,11 @@ public class ActivityDrawerMenu extends ActionBarActivity {
 
     }
 
-    void openDrawerMenu(){
-        mDrawerLayout.openDrawer(GravityCompat.START);
-    }
-    void updateMenuDrawer(){
+    protected void updateDrawerMenu(){
         mDrawerAdapter.notifyDataSetChanged();
+    }
+    protected void openDrawerMenu(){
+        mDrawerLayout.openDrawer(GravityCompat.START);
     }
     class DrawerArrayAdapter extends ArrayAdapter<String> {
         LayoutInflater mInflater;
@@ -116,15 +123,20 @@ public class ActivityDrawerMenu extends ActionBarActivity {
            TextView counterOfNotes = (TextView) convertView.findViewById(R.id.textview_counternotes);
            vh.menuName.setText(getItem(position));
            switch(position){
-               case 0:
+               case ACTIVITY_SCHEDULE:
                    vh.icon.setImageResource(R.drawable.ic_calendar);
                    counterOfNotes.setVisibility(View.INVISIBLE);
                    break;
-               case 1:
+               case ACTIVITY_NOTES:
                    counterOfNotes.setVisibility(View.VISIBLE);
                    counterOfNotes.setText(ApplicationSettings.getInstance(ActivityDrawerMenu.this).getInt("notes",0)+"");
                    vh.icon.setImageResource(R.drawable.ic_notes);
                    break;
+               case ACTIVITY_TEACHERS:
+                   vh.icon.setImageResource(R.drawable.ic_socialgroup);
+                   counterOfNotes.setVisibility(View.INVISIBLE);
+                   break;
+
            }
            return convertView;
         }

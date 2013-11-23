@@ -9,7 +9,7 @@
         android:id="@+id/action_updateschedule"
         android:icon="@drawable/ic_updateschedule"
         android:title="Обновить расписание"
-        bsuirguide:showAsAction="ifRoom"/>
+        bsuirguide:showAsAction="always"/>
     <item
         android:id="@+id/action_selectsubgroup"
         android:icon="@drawable/ic_subgroup"

@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.ui;
+package ru.bsuirhelper.android.ui.schedule;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -15,9 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.Toast;
+import com.google.analytics.tracking.android.EasyTracker;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.*;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.StudentCalendar;
+import ru.bsuirhelper.android.ui.*;
 
 public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFragment.TaskCallbacks {
     public static final String LOG_TAG = "BSUIR_DEBUG";
@@ -89,7 +91,17 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
         mActionBar.setHomeButtonEnabled(true);
 
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
 
+    @Override
+    public void onStop(){
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
     @Override
     public void onResume() {
         super.onResume();

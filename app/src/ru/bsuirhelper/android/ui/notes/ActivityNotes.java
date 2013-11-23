@@ -1,18 +1,20 @@
-package ru.bsuirhelper.android.ui;
+package ru.bsuirhelper.android.ui.notes;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.*;
+import com.google.analytics.tracking.android.EasyTracker;
 import ru.bsuirhelper.android.ApplicationSettings;
-import ru.bsuirhelper.android.Note;
-import ru.bsuirhelper.android.NoteDatabase;
+import ru.bsuirhelper.android.core.notes.Note;
+import ru.bsuirhelper.android.core.notes.NoteDatabase;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
+import ru.bsuirhelper.android.ui.notes.ActivityCreateNote;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,11 +24,11 @@ import java.util.List;
  * Created by Влад on 02.11.13.
  */
 public class ActivityNotes extends ActivityDrawerMenu {
-    ViewAdapterNotes mNotesAdapter;
-    List<Note> mNotesList;
-    List<View> mNotesForDelete;
-    ListView mListView;
-    NoteDatabase mNoteDatabase;
+    private ViewAdapterNotes mNotesAdapter;
+    private List<Note> mNotesList;
+    private List<View> mNotesForDelete;
+    private ListView mListView;
+    private NoteDatabase mNoteDatabase;
     final int ANIMATION_DURATION = 600;
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -56,6 +58,18 @@ public class ActivityNotes extends ActivityDrawerMenu {
         super.onResume();
 
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -71,7 +85,7 @@ public class ActivityNotes extends ActivityDrawerMenu {
                 return true;
             case R.id.action_deletenotes:
                 deleteNotes();
-                updateMenuDrawer();
+                updateDrawerMenu();
                 return true;
             default:
                 return super.onOptionsItemSelected(menu);
@@ -182,6 +196,8 @@ public class ActivityNotes extends ActivityDrawerMenu {
             if(!note.subject.equals("")){
                 vh.noteSubject.setText(note.text);
                 vh.noteSubject.setVisibility(View.VISIBLE);
+            } else {
+                vh.noteSubject.setVisibility(View.GONE);
             }
             vh.noteSubject.setText(note.subject);
             vh.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

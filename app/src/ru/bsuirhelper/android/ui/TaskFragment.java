@@ -6,9 +6,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import ru.bsuirhelper.android.Lesson;
-import ru.bsuirhelper.android.ScheduleManager;
-import ru.bsuirhelper.android.ScheduleParser;
+import ru.bsuirhelper.android.core.schedule.Lesson;
+import ru.bsuirhelper.android.core.schedule.ScheduleManager;
+import ru.bsuirhelper.android.core.schedule.ScheduleParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,14 +21,18 @@ import java.util.ArrayList;
 /**
  * Created by Влад on 20.10.13.
  */
-public class DownloaderTaskFragment extends Fragment {
+public class TaskFragment extends Fragment {
     private String mProgressDialogMessage;
     private ProgressDialog mPogressDialog;
     private boolean mRunning = false;
     private TaskCallbacks mCallbacks;
-    private DownloadScheduleTask mTask;
+    private AsyncTask mTask;
 
-    static interface TaskCallbacks {
+    public TaskFragment(AsyncTask asyncTask){
+        mTask = asyncTask;
+    }
+
+    public static interface TaskCallbacks {
         void onPreExecute();
 
         void onProgressUpdate(int percent);
@@ -41,6 +45,7 @@ public class DownloaderTaskFragment extends Fragment {
     public void setMessage(String progressDialogMessage){
         mProgressDialogMessage = progressDialogMessage;
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -51,10 +56,11 @@ public class DownloaderTaskFragment extends Fragment {
             mPogressDialog.show();
         }
     }
-
+    /**
+     * Start the background task.
+     */
     public void start(String groupId) {
         if (!mRunning) {
-            mTask = new DownloadScheduleTask();
             mTask.execute(groupId);
             mRunning = true;
             showProgressDialog();
@@ -91,7 +97,7 @@ public class DownloaderTaskFragment extends Fragment {
         mCallbacks = null;
     }
 
-    private class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
+    private class FAsyncTask extends AsyncTask<String, Integer, String> {
         final ScheduleManager mScheduleManager = new ScheduleManager(getActivity());
 
         private File downloadScheduleFromInternet(String groupId) {
