@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.appwidget.ScheduleWidgetProvider;
+import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBig;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.core.schedule.StudentGroup;
 import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
@@ -34,7 +34,7 @@ public class ActivityManagerGroups extends ActivityDrawerMenu implements Downloa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_managerschedule);
-        mScheduleManager = new ScheduleManager(this);
+        mScheduleManager = ScheduleManager.getInstance(this);
         mTextViewNotification = (TextView) findViewById(R.id.textview_groupsarenotadded);
         mListGroups = (ListView) findViewById(R.id.listview_groups);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -107,8 +107,8 @@ public class ActivityManagerGroups extends ActivityDrawerMenu implements Downloa
     }
 
     private void updateAppWidget() {
-        Intent i = new Intent(this, ScheduleWidgetProvider.class);
-        i.setAction(ScheduleWidgetProvider.UPDATE_ACTION);
+        Intent i = new Intent(this, ScheduleWidgetProviderBig.class);
+        i.setAction(ScheduleWidgetProviderBig.UPDATE_ACTION);
         sendBroadcast(i);
     }
 

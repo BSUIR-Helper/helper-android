@@ -37,7 +37,7 @@ public class FragmentSchedule extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
         Context context = getActivity().getApplicationContext();
 
-        ScheduleManager scheduleManager = new ScheduleManager(context);
+        ScheduleManager scheduleManager = ScheduleManager.getInstance(context);
         Bundle args = getArguments();
         DateTime day = StudentCalendar.convertToDefaultDateTime(args.getInt("day"));
         TextView dateInText = (TextView) fragmentView.findViewById(R.id.date);

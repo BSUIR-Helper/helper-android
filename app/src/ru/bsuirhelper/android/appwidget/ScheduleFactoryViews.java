@@ -10,8 +10,8 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ApplicationSettings;
-import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 
 /**
@@ -20,7 +20,7 @@ import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     private final ScheduleManager mScheduleManager;
-    private Lesson[] mLessonsOfToday;
+    private Lesson[] mLessons;
     private final Context mContext;
     private final Intent mIntent;
     private final int mWidgetId;
@@ -28,7 +28,7 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     private final ApplicationSettings mSettings;
 
     public ScheduleFactoryViews(Context context, Intent intent) {
-        mScheduleManager = new ScheduleManager(context);
+        mScheduleManager = ScheduleManager.getInstance(context);
         mIntent = intent;
         mWidgetId = mIntent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         mContext = context;
@@ -37,12 +37,12 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        updateLessonsOfToday();
+        updateLessons();
     }
 
     @Override
     public void onDataSetChanged() {
-        updateLessonsOfToday();
+        updateLessons();
     }
 
     @Override
@@ -59,7 +59,7 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         RemoteViews rView = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_view_lesson);
-        Lesson lesson = mLessonsOfToday[position];
+        Lesson lesson = mLessons[position];
         rView.setTextViewText(R.id.widget_lesson_name, lesson.fields.get("subject"));
         rView.setTextViewText(R.id.widget_lesson_time, lesson.fields.get("timePeriod"));
         rView.setTextViewText(R.id.widget_lesson_teacher, lesson.fields.get("teacher"));
@@ -106,10 +106,14 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
         return true;
     }
 
-    public void updateLessonsOfToday(){
+    public void updateLessons() {
         String groupId =  mSettings.getString("defaultgroup", null);
         int subgroup = mSettings.getInt(groupId,1);
-        mLessonsOfToday = mScheduleManager.getLessonsOfDay(groupId, DateTime.now(), subgroup);
-        mLessonCount = mLessonsOfToday.length;
+        if (!mScheduleManager.isLessonsEndToday(groupId, subgroup)) {
+            mLessons = mScheduleManager.getLessonsOfDay(groupId, DateTime.now(), subgroup);
+        } else {
+            mLessons = mScheduleManager.getLessonsOfDay(groupId, new DateTime().plusDays(1), subgroup);
+        }
+        mLessonCount = mLessons.length;
     }
 }

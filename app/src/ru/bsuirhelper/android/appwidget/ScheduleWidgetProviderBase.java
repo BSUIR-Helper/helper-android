@@ -19,9 +19,9 @@ import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.ui.schedule.ActivitySchedule;
 
 /**
- * Created by Влад on 14.10.13.
+ * Created by Влад on 04.02.14.
  */
-public class ScheduleWidgetProvider extends AppWidgetProvider {
+public class ScheduleWidgetProviderBase extends AppWidgetProvider {
     public static final String UPDATE_ACTION = "UDATE_ACTION";
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -34,18 +34,26 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
             String defaultGroup = ApplicationSettings.getInstance(context).getString("defaultgroup", null);
-            ScheduleManager manager = new ScheduleManager(context);
+            int subgroup = 1;
+            if (defaultGroup != null) {
+                subgroup = ApplicationSettings.getInstance(context).getInt(defaultGroup, 1);
+            }
+            ScheduleManager scheduleManager = ScheduleManager.getInstance(context);
             setOnClickWidget(context, rv, i);
 
             if (defaultGroup == null) {
                 rv.setViewVisibility(R.id.widget_textView, View.VISIBLE);
                 rv.setTextViewText(R.id.widget_textView, "Загрузить расписание");
             } else {
-                Lesson[] lessons = manager.getLessonsOfDay(defaultGroup, DateTime.now(),
-                        ApplicationSettings.getInstance(context).getInt(defaultGroup, 1));
+                Lesson[] lessons = scheduleManager.getLessonsOfDay(defaultGroup, DateTime.now(),
+                        ApplicationSettings.getInstance(context).getInt(defaultGroup, subgroup));
                 if (lessons.length > 0) {
                     rv.setViewVisibility(R.id.widget_textView, View.INVISIBLE);
                     rv.setRemoteAdapter(R.id.widget_listView, intent);
+                    if (scheduleManager.isLessonsEndToday(defaultGroup, subgroup)) {
+                        rv.setTextViewText(R.id.widget_date, "Расписание на завтра");
+                    }
+
                 } else {
                     rv.setViewVisibility(R.id.widget_textView, View.VISIBLE);
                     rv.setTextViewText(R.id.widget_textView, "Занятий нет");
@@ -70,7 +78,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
         if (action != null && action.equals(UPDATE_ACTION)) {
             final AppWidgetManager manager = AppWidgetManager.getInstance(context);
             int appWidgetIds[] = manager.getAppWidgetIds(
-                    new ComponentName(context, ScheduleWidgetProvider.class));
+                    new ComponentName(context, ScheduleWidgetProviderBig.class));
             if (Build.VERSION.SDK_INT > 10) {
                 onUpdate(context, manager, appWidgetIds);
             }
@@ -83,7 +91,8 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
     private void notifyRecreateListView(Context context) {
         final AppWidgetManager manager = AppWidgetManager.getInstance(context);
         int appWidgetIds[] = manager.getAppWidgetIds(
-                new ComponentName(context, ScheduleWidgetProvider.class));
+                new ComponentName(context, ScheduleWidgetProviderBig.class));
         manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
     }
+
 }

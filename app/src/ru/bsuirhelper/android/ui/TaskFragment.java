@@ -98,7 +98,7 @@ public class TaskFragment extends Fragment {
     }
 
     private class FAsyncTask extends AsyncTask<String, Integer, String> {
-        final ScheduleManager mScheduleManager = new ScheduleManager(getActivity());
+        final ScheduleManager mScheduleManager = ScheduleManager.getInstance(getActivity());
 
         private File downloadScheduleFromInternet(String groupId) {
             final String LIST_URL = "http://www.bsuir.by/psched/rest/";
