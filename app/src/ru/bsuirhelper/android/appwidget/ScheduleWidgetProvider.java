@@ -16,7 +16,7 @@ import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
-import ru.bsuirhelper.android.ui.schedule.ActivityMain;
+import ru.bsuirhelper.android.ui.schedule.ActivitySchedule;
 
 /**
  * Created by Влад on 14.10.13.
@@ -59,7 +59,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
     }
 
     private void setOnClickWidget(Context context, RemoteViews rv, int appWidgetId) {
-        Intent startMainActivity = new Intent(context, ActivityMain.class);
+        Intent startMainActivity = new Intent(context, ActivitySchedule.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, startMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.widget_schedule, pendingIntent);
     }
@@ -71,18 +71,19 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
             final AppWidgetManager manager = AppWidgetManager.getInstance(context);
             int appWidgetIds[] = manager.getAppWidgetIds(
                     new ComponentName(context, ScheduleWidgetProvider.class));
-           if(Build.VERSION.SDK_INT > 10){
-            onUpdate(context,manager,appWidgetIds);
-           }
+            if (Build.VERSION.SDK_INT > 10) {
+                onUpdate(context, manager, appWidgetIds);
+            }
         } else {
             super.onReceive(context, intent);
         }
     }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void notifyRecreateListView(Context context){
+    private void notifyRecreateListView(Context context) {
         final AppWidgetManager manager = AppWidgetManager.getInstance(context);
         int appWidgetIds[] = manager.getAppWidgetIds(
                 new ComponentName(context, ScheduleWidgetProvider.class));
-            manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
+        manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
     }
 }

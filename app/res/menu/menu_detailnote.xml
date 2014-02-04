@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:bsuirhelper="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_editnote"
+        android:title="Редактировать"
+        android:icon="@drawable/ic_edit"
+        bsuirhelper:showAsAction="always|withText"/>
+</menu>

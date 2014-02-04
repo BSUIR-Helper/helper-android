@@ -17,13 +17,23 @@ public class NoteDatabase extends SQLiteOpenHelper {
     private final String COLUMN_NAME_TITLE = "title";
     private final String COLUMN_NAME_NOTE = "text";
     private final String COLUMN_NAME_CREATE_DATE = "create_date";
+    private final String COLUMN_NAME_LESSOND_ID = "lesson_id";
     private final String COLUMN_NAME_SUBJECT = "subject";
 
-    private SQLiteDatabase db;
 
-    public NoteDatabase(Context context) {
+    private SQLiteDatabase db;
+    private static NoteDatabase instance;
+
+    private NoteDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
 
+    }
+
+    public static NoteDatabase getInstance(Context context) {
+        if (instance == null) {
+            instance = new NoteDatabase(context);
+        }
+        return instance;
     }
 
     @Override
@@ -34,7 +44,8 @@ public class NoteDatabase extends SQLiteOpenHelper {
                 + COLUMN_NAME_TITLE + " TEXT,"
                 + COLUMN_NAME_NOTE + " TEXT,"
                 + COLUMN_NAME_CREATE_DATE + " INTEGER,"
-                + COLUMN_NAME_SUBJECT + " INTEGER"
+                + COLUMN_NAME_SUBJECT + " INTEGER,"
+                + COLUMN_NAME_LESSOND_ID + " INTEGER"
                 + ");");
 
 
@@ -70,7 +81,8 @@ public class NoteDatabase extends SQLiteOpenHelper {
      cv.put(COLUMN_NAME_NOTE,note.text);
      cv.put(COLUMN_NAME_SUBJECT,note.subject);
      cv.put(COLUMN_NAME_CREATE_DATE,note.dateCreated);
-     db.insert(TABLE_NAME,null,cv);
+        cv.put(COLUMN_NAME_LESSOND_ID, note.lesson_id);
+        db.insert(TABLE_NAME,null,cv);
      this.close();
     }
 
@@ -91,6 +103,24 @@ public class NoteDatabase extends SQLiteOpenHelper {
      return note;
     }
 
+    public Note fetchNoteByLessonId(int lessonId) {
+        this.open();
+        Cursor c = db.rawQuery("SELECT*FROM notes WHERE " + COLUMN_NAME_LESSOND_ID + "=" + lessonId, null);
+        Note note = null;
+        if (c.moveToNext()) {
+            String title = c.getString(c.getColumnIndex(COLUMN_NAME_TITLE));
+            String text = c.getString(c.getColumnIndex(COLUMN_NAME_NOTE));
+            String subject = c.getString(c.getColumnIndex(COLUMN_NAME_SUBJECT));
+            long dateCreated = c.getLong(c.getColumnIndex(COLUMN_NAME_CREATE_DATE));
+            int id = c.getInt(c.getColumnIndex(_ID));
+            note = new Note(title, text, subject, dateCreated);
+            note.lesson_id = lessonId;
+            note.setId(id);
+        }
+        this.close();
+        return note;
+    }
+
     public void updateNote(int id, Note note){
         this.open();
         ContentValues cv = new ContentValues();
@@ -98,6 +128,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
         cv.put(COLUMN_NAME_NOTE,note.text);
         cv.put(COLUMN_NAME_SUBJECT,note.subject);
         cv.put(COLUMN_NAME_CREATE_DATE,note.dateCreated);
+        cv.put(COLUMN_NAME_LESSOND_ID, note.lesson_id);
         db.update(TABLE_NAME,cv,_ID + " = " + id,null);
         this.close();
     }

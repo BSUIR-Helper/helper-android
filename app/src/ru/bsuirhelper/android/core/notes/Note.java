@@ -7,10 +7,12 @@ public class Note {
     public String text;
     public String title;
     public String subject;
+    //Parameters for lesson
+    public int lesson_id = -1;
+
     public long dateCreated;
     public int id;
 
-    public Note(){}
 
     public Note(String title,String text,  String subject,long dateCreated){
         this.text = text;
@@ -18,6 +20,7 @@ public class Note {
         this.subject = subject;
         this.dateCreated = dateCreated;
     }
+
     public void setId(int id){
         this.id = id;
     }

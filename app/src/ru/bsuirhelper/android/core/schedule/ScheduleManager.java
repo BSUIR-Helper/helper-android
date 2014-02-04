@@ -26,8 +26,8 @@ public class ScheduleManager {
         mScheduleDatabase.addSchedule(lessons, groupId);
     }
 
-    public Lesson[] getLessonsOfDay(String groupId, DateTime dateTime, int subgroup) {
-        return mScheduleDatabase.getLessonsOfDay(groupId, dateTime.getDayOfWeek(), mStudentCalendar.getWorkWeek(dateTime), subgroup);
+    public Lesson[] getLessonsOfDay(String groupId, DateTime dayOfYear, int subgroup) {
+        return mScheduleDatabase.getLessonsOfDay(groupId, dayOfYear, subgroup);
     }
 
     public void deleteSchedule(String groupId) {

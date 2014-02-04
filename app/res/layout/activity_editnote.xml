@@ -21,6 +21,7 @@
         android:layout_marginTop="15dp"
         android:text="ДОПОЛНИТЕЛЬНО"
         android:textColor="#f6f7ff"/>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -37,14 +38,26 @@
         android:hint="Текст заметки"
         />
 
-    <EditText
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:maxLength="15"
-        android:id="@+id/edittext_createnotesubject"
-        android:hint="Предмет"
-        />
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:text="ПРЕДМЕТ"
+        android:textColor="#f6f7ff"
+        android:id="@+id/textView"
+        android:singleLine="true"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#0099cc"
+        android:layout_margin="5dp"
+        android:id="@+id/imageView2"/>
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_subjects"/>
 
 </LinearLayout>

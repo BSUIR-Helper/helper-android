@@ -45,9 +45,9 @@ public class StudentCalendar {
             DateTime september = new DateTime(dateTime.getYear() - 1, 9, 1, 0, 0, 0);
             dayOfYear = new Interval(september, dateTime).toPeriod(PeriodType.days()).getDays();
         }
-
         return dayOfYear;
     }
+
     public int getDaysOfYear() {
         if (mDaysOfYear == 0) {
             DateTime september;
@@ -96,19 +96,19 @@ public class StudentCalendar {
         return mSemester;
     }
 
-    public static long getStartStudentYear(){
-            DateTime september;
+    public static long getStartStudentYear() {
+        DateTime september;
 
-            if (DateTime.now().getMonthOfYear() <= 8) {
-                september = new DateTime(DateTime.now().getYear() - 1, 9, 1, 0, 0, 0);
-            } else {
-                september = new DateTime(DateTime.now().getYear(), 8, 31, 1, 0, 0);
-            }
+        if (DateTime.now().getMonthOfYear() <= 8) {
+            september = new DateTime(DateTime.now().getYear() - 1, 9, 1, 0, 0, 0);
+        } else {
+            september = new DateTime(DateTime.now().getYear(), 8, 31, 1, 0, 0);
+        }
 
-          return september.getMillis();
+        return september.getMillis();
     }
 
-    public static long getEndStudentYear(){
+    public static long getEndStudentYear() {
         DateTime august;
         if (DateTime.now().getMonthOfYear() <= 8) {
             august = new DateTime(DateTime.now().getYear(), 8, 31, 1, 0, 0);

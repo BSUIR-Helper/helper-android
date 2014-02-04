@@ -10,11 +10,10 @@ import android.view.animation.Transformation;
 import android.widget.*;
 import com.google.analytics.tracking.android.EasyTracker;
 import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.notes.Note;
 import ru.bsuirhelper.android.core.notes.NoteDatabase;
-import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
-import ru.bsuirhelper.android.ui.notes.ActivityCreateNote;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,27 +34,28 @@ public class ActivityNotes extends ActivityDrawerMenu {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_notes);
        mListView = (ListView) findViewById(R.id.listview_notes);
-       mNoteDatabase = new NoteDatabase(this);
-       mNotesForDelete = new ArrayList<View>();
-       mNotesList = new ArrayList<Note>(Arrays.asList(mNoteDatabase.fetchAllNotes()));
-       ApplicationSettings.getInstance(this).putInt("notes",mNotesList.size());
-       mNotesAdapter = new ViewAdapterNotes(this,mNotesList);
+        mNoteDatabase = NoteDatabase.getInstance(getApplicationContext());
+        mNotesForDelete = new ArrayList<View>();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mNotesList = new ArrayList<Note>(Arrays.asList(mNoteDatabase.fetchAllNotes()));
+        ApplicationSettings.getInstance(this).putInt("notes", mNotesList.size());
+        mNotesAdapter = new ViewAdapterNotes(this, mNotesList);
         if(mNotesList.size() > 0){
             mListView.setAdapter(mNotesAdapter);
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent = new Intent(view.getContext(),ActivityCreateNote.class);
+                    Intent intent = new Intent(view.getContext(), ActivityDetailNote.class);
                     intent.putExtra("note_id",((ViewHolder)view.getTag()).id);
                     startActivity(intent);
 
                 }
             });
-       }
-    }
-    @Override
-    public void onResume(){
-        super.onResume();
+        }
 
     }
 
@@ -81,7 +81,7 @@ public class ActivityNotes extends ActivityDrawerMenu {
     public boolean onOptionsItemSelected(MenuItem menu){
         switch(menu.getItemId()){
             case R.id.action_addnote:
-                startActivity(new Intent(this,ActivityCreateNote.class));
+                startActivity(new Intent(this, ActivityEditNote.class));
                 return true;
             case R.id.action_deletenotes:
                 deleteNotes();

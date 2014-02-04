@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import ru.bsuirhelper.android.core.StudentCalendar;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,10 +17,11 @@ import java.util.Map;
 /**
  * Created by Влад on 14.09.13.
  */
-class ScheduleDatabase extends SQLiteOpenHelper {
+public class ScheduleDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Schedule";
     private static final int VERSION = 1;
     private SQLiteDatabase db;
+    private String _ID = "id";
 
     public ScheduleDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -39,8 +41,26 @@ class ScheduleDatabase extends SQLiteOpenHelper {
         */
     }
 
-    public Lesson[] getLessonsOfDay(String grouID, int weekDay, int workWeek, int subgroup) {
+    public ArrayList<Lesson> fetchAllLessons(String groupId) {
+        this.open();
+        String scheduleGroup = "schedule_" + groupId;
+        Cursor c = db.rawQuery("SELECT*FROM " + scheduleGroup, null);
+        ArrayList<Lesson> lessons = new ArrayList<Lesson>(c.getCount());
+
+        while (c.moveToNext()) {
+            Lesson lesson = new Lesson();
+            setDataFromCursor(lesson, c);
+            lessons.add(lesson);
+        }
+
+        this.close();
+        return lessons;
+    }
+
+    public Lesson[] getLessonsOfDay(String groupID, DateTime dayOfYear, int subgroup) {
         String sWeekDay = "";
+        int weekDay = dayOfYear.getDayOfWeek();
+        int workWeek = StudentCalendar.getWorkWeek(dayOfYear);
         switch (weekDay) {
             case DateTimeConstants.MONDAY:
                 sWeekDay = "пн";
@@ -64,18 +84,17 @@ class ScheduleDatabase extends SQLiteOpenHelper {
                 sWeekDay = "вс";
                 break;
         }
-        //Open dataBase
         this.open();
-        String scheduleGroup = "schedule_" + grouID;
+        String scheduleGroup = "schedule_" + groupID;
         String query = "SELECT*FROM " + scheduleGroup + " WHERE (weekDay=?) AND ((weekList LIKE ?) OR (weekList LIKE '')) AND ((subgroup LIKE ?) OR (subgroup LIKE ''))  ORDER BY timePeriodStart";
         Cursor cursor = db.rawQuery(query, new String[]{sWeekDay, "%" + workWeek + "%", "%" + subgroup + "%"});
         Lesson[] lessons = new Lesson[cursor.getCount()];
         while (cursor.moveToNext()) {
             Lesson lesson = new Lesson();
-            lesson.setDataFromCursor(cursor);
+            setDataFromCursor(lesson, cursor);
+            lesson.id = new String(dayOfYear.getDayOfYear() + lesson.fields.get("timePeriodStart") + lesson.fields.get("timePeriodEnd") + lesson.fields.get("teacher")).hashCode();
             lessons[cursor.getPosition()] = lesson;
         }
-        //Close Database
         this.close();
         return lessons;
     }
@@ -88,7 +107,7 @@ class ScheduleDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
         String createTableQuery = "CREATE table " + tablePrefix + groupId;
         //Add column names and types in table
-        createTableQuery += " (id INT, updatedTime TEXT, ";
+        createTableQuery += " ( " + _ID + " INT, updatedTime TEXT, ";
         Lesson lesson = new Lesson();
         Map<String, String> columns = lesson.fields;
         for (String columnName : columns.keySet()) {
@@ -156,5 +175,11 @@ class ScheduleDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    private void setDataFromCursor(Lesson lesson, Cursor cursor) {
+        for (String key : lesson.fields.keySet()) {
+            lesson.fields.put(key, cursor.getString(cursor.getColumnIndex(key)));
+        }
+    }
 
 }

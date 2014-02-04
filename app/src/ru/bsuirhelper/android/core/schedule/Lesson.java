@@ -1,8 +1,5 @@
 package ru.bsuirhelper.android.core.schedule;
 
-import android.database.Cursor;
-import android.util.Log;
-
 import java.util.HashMap;
 
 /**
@@ -10,6 +7,7 @@ import java.util.HashMap;
  */
 public class Lesson {
     public final HashMap<String, String> fields = new HashMap<String, String>();
+    public int id;
 
     public Lesson() {
         fields.put("faculty", "");
@@ -40,9 +38,4 @@ public class Lesson {
         Log.d(MainActivity.LOG_TAG, "---------------------------------------");
     }
     */
-    public void setDataFromCursor(Cursor cursor) {
-        for (String key : this.fields.keySet()) {
-            this.fields.put(key, cursor.getString(cursor.getColumnIndex(key)));
-        }
-    }
 }

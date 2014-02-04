@@ -10,12 +10,12 @@ import ru.bsuirhelper.android.core.StudentCalendar;
 /**
  * Created by Влад on 10.10.13.
  */
- class SchedulePagerAdapter extends FragmentStatePagerAdapter {
+class SchedulePagerAdapter extends FragmentStatePagerAdapter {
     private final StudentCalendar mStudentCalendar;
     private final String mGroupId;
     private final int mSubgroup;
 
-    public SchedulePagerAdapter(FragmentManager fm,String groupId, int subgroup) {
+    public SchedulePagerAdapter(FragmentManager fm, String groupId, int subgroup) {
         super(fm);
         mStudentCalendar = new StudentCalendar();
         mGroupId = groupId;
@@ -53,7 +53,6 @@ import ru.bsuirhelper.android.core.StudentCalendar;
 
     @Override
     public int getCount() {
-
         return mStudentCalendar.getDaysOfYear();
     }
 }

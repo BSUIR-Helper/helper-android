@@ -11,13 +11,13 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import ru.bsuirhelper.android.ScheduleManager;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 
 /**
  * Created by Влад on 13.10.13.
  */
-class DialogFragmentAddGroup extends DialogFragment {
+public class DialogFragmentAddGroup extends DialogFragment {
     private final ScheduleManager mScheduleManager;
     private final DownloaderTaskFragment mDownloaderTaskFragment;
 

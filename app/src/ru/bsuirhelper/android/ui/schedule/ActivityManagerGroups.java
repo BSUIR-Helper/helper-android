@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.ui;
+package ru.bsuirhelper.android.ui.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.ScheduleManager;
-import ru.bsuirhelper.android.StudentGroup;
 import ru.bsuirhelper.android.appwidget.ScheduleWidgetProvider;
+import ru.bsuirhelper.android.core.schedule.ScheduleManager;
+import ru.bsuirhelper.android.core.schedule.StudentGroup;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
+import ru.bsuirhelper.android.ui.DialogFragmentAddGroup;
+import ru.bsuirhelper.android.ui.DownloaderTaskFragment;
 
 import java.util.ArrayList;
 
@@ -49,21 +52,23 @@ public class ActivityManagerGroups extends ActivityDrawerMenu implements Downloa
                 StudentGroup group = (StudentGroup) mListGroups.getAdapter().getItem(position);
                 ApplicationSettings.getInstance(view.getContext()).putString("defaultgroup", group.groupId);
                 updateAppWidget();
-                Intent intent = new Intent(view.getContext(), ActivityMain.class);
+                Intent intent = new Intent(view.getContext(), ActivitySchedule.class);
                 intent.putExtra("groupId", group.groupId);
                 startActivity(intent);
 
             }
         });
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(ApplicationSettings.getInstance(this).getBoolean("firststart",true)){
+        if (ApplicationSettings.getInstance(this).getBoolean("firststart", true)) {
             openDrawerMenu();
-            ApplicationSettings.getInstance(this).putBoolean("firststart",false);
+            ApplicationSettings.getInstance(this).putBoolean("firststart", false);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar

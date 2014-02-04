@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="18"/>
-                        sdd
+    sdd
 
     <application
         android:label="BSUIR Helper"
@@ -15,16 +15,16 @@
         android:debuggable="false"
         android:theme="@style/Theme.AppCompat"
         >
-      <!-- ACTIVITIES -->
+        <!-- ACTIVITIES -->
         <activity
             android:name=".ui.schedule.ActivityManagerGroups"
             android:label="Группы "/>
         <activity
-            android:name=".ui.notes.ActivityCreateNote"
+            android:name=".ui.notes.ActivityEditNote"
             android:label="Создать заметку"/>
 
         <activity
-            android:name=".ui.schedule.ActivityMain"
+            android:name=".ui.schedule.ActivitySchedule"
             android:label="BSUIR Helper">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -43,7 +43,11 @@
             android:label="Преподаватели"
             >
         </activity>
-
+        <activity
+            android:name=".ui.notes.ActivityDetailNote"
+            android:label="Заметка"
+            >
+        </activity>
         <activity
             android:name=".ui.notes.ActivityNotes"
             android:label="Заметки"/>
@@ -69,6 +73,7 @@
             </meta-data>
         </receiver>
     </application>
+
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>

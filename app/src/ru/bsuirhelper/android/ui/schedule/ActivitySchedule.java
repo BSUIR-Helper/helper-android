@@ -16,12 +16,14 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 import com.google.analytics.tracking.android.EasyTracker;
 import org.joda.time.DateTime;
-import ru.bsuirhelper.android.*;
+import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.ui.*;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
+import ru.bsuirhelper.android.ui.DownloaderTaskFragment;
+import ru.bsuirhelper.android.ui.RotationViewPager;
 
-public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFragment.TaskCallbacks {
+public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTaskFragment.TaskCallbacks {
     public static final String LOG_TAG = "BSUIR_DEBUG";
     public static final String EDIT_PREFS = "settings.txt";
     private ViewPager mPager;
@@ -32,6 +34,7 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
     private DownloaderTaskFragment mDownloaderTaskFragment;
 
     Bundle savedInstanceState;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +52,8 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
         mSettings = ApplicationSettings.getInstance(this);
         mStudentCalendar = new StudentCalendar();
         mPager = (ViewPager) findViewById(R.id.schedule_pager);
-        if(Build.VERSION.SDK_INT > 10){
-         mPager.setPageTransformer(true,new RotationViewPager());
+        if (Build.VERSION.SDK_INT > 10) {
+            mPager.setPageTransformer(true, new RotationViewPager());
         }
         mActionBar = getSupportActionBar();
 
@@ -70,7 +73,7 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
         int subgroup = mSettings.getInt(mGroupId, 1);
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup);
         mPager.setAdapter(adapter);
-        mPager.setOnPageChangeListener( new ViewPager.OnPageChangeListener() {
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
 
@@ -91,21 +94,24 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
         mActionBar.setHomeButtonEnabled(true);
 
     }
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
     }
+
     @Override
     public void onResume() {
         super.onResume();
         mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
+
     }
 
 
@@ -150,7 +156,7 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
                 DialogDatePicker newFragment = new DialogDatePicker() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        ActivityMain.this.mPager.setCurrentItem(mStudentCalendar.getDayOfYear(new DateTime(year, month + 1, day, 1, 1)));
+                        ActivitySchedule.this.mPager.setCurrentItem(mStudentCalendar.getDayOfYear(new DateTime(year, month + 1, day, 1, 1)));
                     }
                 };
                 newFragment.show(getSupportFragmentManager(), "timePicker");
@@ -182,7 +188,7 @@ public class ActivityMain extends ActivityDrawerMenu implements DownloaderTaskFr
     }
 
     void refreshSchedule(int subgroup) {
-        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(),mGroupId, subgroup);
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup);
         int position = mPager.getCurrentItem();
         mPager.setAdapter(adapter);
         mPager.setCurrentItem(position);
