@@ -58,7 +58,7 @@
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
         <receiver
-            android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProvider"
+            android:name=".appwidget.ScheduleWidgetProviderBig"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день">
@@ -69,7 +69,22 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_schedule_info">
+                android:resource="@xml/widget_schedule_info_big">
+            </meta-data>
+        </receiver>
+        <receiver
+            android:name=".appwidget.ScheduleWidgetProviderMedium"
+            android:icon="@drawable/ic_launcher"
+            android:enabled="@bool/honeycombOrAbove"
+            android:label="Расписание на день2">
+            <intent-filter>
+                <action
+                    android:name="android.appwidget.action.APPWIDGET_UPDATE">
+                </action>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule_info_medium">
             </meta-data>
         </receiver>
     </application>

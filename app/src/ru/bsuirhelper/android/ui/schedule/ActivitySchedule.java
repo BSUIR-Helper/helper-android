@@ -93,6 +93,7 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
 
+        mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
     }
 
     @Override
@@ -110,7 +111,6 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
     @Override
     public void onResume() {
         super.onResume();
-        mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
 
     }
 
@@ -163,14 +163,12 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
                 return true;
             case R.id.subgroup1:
                 mSubgroup1.setChecked(true);
-                mSubgroup2.setChecked(false);
                 mSettings.putInt(mGroupId, 1);
                 refreshSchedule(1);
                 mActionBar.setSubtitle("подгруппа 1");
                 return true;
             case R.id.subgroup2:
                 mSubgroup2.setChecked(true);
-                mSubgroup1.setChecked(false);
                 mSettings.putInt(mGroupId, 2);
                 refreshSchedule(2);
                 mActionBar.setSubtitle("подгруппа 2");

@@ -86,6 +86,7 @@ public class ActivityEditNote extends ActionBarActivity {
                 ArrayAdapter<String> adapter = (ArrayAdapter<String>) mSpinner.getAdapter();
                 int position = adapter.getPosition(subject);
                 mSpinner.setSelection(position);
+                mSpinner.setEnabled(false);
             }
         }
     }
