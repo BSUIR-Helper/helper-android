@@ -21,7 +21,7 @@
         android:id="@+id/widget_lesson_name"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text=""
+        android:text="dsadasdasdasdasd"
         android:textSize="24sp"
         android:padding="0dp"
         android:paddingLeft="0dp"
@@ -48,23 +48,25 @@
         android:id="@+id/widget_lesson_time"
         android:layout_width="121dp"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="dasdasdas"
         android:textSize="20sp"
         android:paddingRight="0dp"
-        android:paddingTop="8dp"
+        android:paddingTop="0dp"
+        android:textColor="#faffff"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:textColor="#faffff"/>
+        android:layout_marginTop="2dp"/>
 
     <TextView
         android:id="@+id/widget_lesson_auditorium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="13sp"
+        android:text="dasdasdasda"
+        android:textSize="16sp"
         android:paddingRight="8dp"
         android:layout_below="@+id/widget_lesson_time"
-        android:layout_alignLeft="@+id/widget_lesson_time"/>
+        android:layout_alignLeft="@+id/widget_lesson_time"
+        android:layout_marginTop="2dp"/>
 
     <ImageView
         android:layout_width="1dp"

@@ -90,17 +90,21 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         View settingsItem = createSettingsItem();
         listViewTop.addFooterView(settingsItem);
         listViewTop.setAdapter(mDrawerAdapter);
+
         listViewTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent();
                 switch (position) {
                     case ACTIVITY_SCHEDULE:
-                        startActivity(new Intent(view.getContext(), ActivityManagerGroups.class));
+                        startActivity(intent.setClass(view.getContext(), ActivityManagerGroups.class));
                         break;
                     case ACTIVITY_NOTES:
-                        startActivity(new Intent(view.getContext(), ActivityNotes.class));
+                        startActivity(intent.setClass(view.getContext(), ActivityNotes.class));
                         break;
-
+                    case ACTIVITY_SETTINGS:
+                        startActivity(intent.setClass(view.getContext(), ActivitySettings.class));
+                        break;
                 }
             }
         });

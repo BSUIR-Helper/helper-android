@@ -2,6 +2,7 @@ package ru.bsuirhelper.android.ui.schedule;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -92,13 +94,16 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
         mActionBar.setTitle("Группа " + mGroupId);
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
-
         mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        if (ApplicationSettings.getInstance(this).getBoolean("firststart", true)) {
+            showDialogSubjectTypeHelper();
+            ApplicationSettings.getInstance(this).putBoolean("firststart", false);
+        }
         EasyTracker.getInstance(this).activityStart(this);
     }
 
@@ -114,6 +119,13 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
     private MenuItem mSubgroup1;
     private MenuItem mSubgroup2;
@@ -185,6 +197,20 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
         }
     }
 
+    public void showDialogSubjectTypeHelper() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_sybject_type_helper, null));
+        builder.setTitle("Типы занятий");
+        builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
+        mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
+    }
+
     void refreshSchedule(int subgroup) {
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getSupportFragmentManager(), mGroupId, subgroup);
         int position = mPager.getCurrentItem();
@@ -214,13 +240,10 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
     @Override
     public void onPostExecute(String result) {
         if (result.equals("Error")) {
-
             Toast.makeText(this, "Произошла ошибка", Toast.LENGTH_LONG).show();
         } else {
             refreshSchedule(mSettings.getInt(mGroupId, 1));
             Toast.makeText(this, "Расписание обновлено", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }

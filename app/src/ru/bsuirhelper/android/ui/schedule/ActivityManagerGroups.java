@@ -2,6 +2,7 @@ package ru.bsuirhelper.android.ui.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -63,9 +64,9 @@ public class ActivityManagerGroups extends ActivityDrawerMenu implements Downloa
     @Override
     public void onResume() {
         super.onResume();
+        Log.wtf(ActivitySchedule.LOG_TAG, "First start ?:" + ApplicationSettings.getInstance(this).getBoolean("firststart", true));
         if (ApplicationSettings.getInstance(this).getBoolean("firststart", true)) {
             openDrawerMenu();
-            ApplicationSettings.getInstance(this).putBoolean("firststart", false);
         }
     }
 

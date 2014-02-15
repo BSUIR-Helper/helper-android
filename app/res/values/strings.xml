@@ -6,6 +6,8 @@
     <string name="drawer_open">Открыть меню</string>
     <string name="drawer_close">Закрыть меню</string>
     <string name="add_note">Добавить заметку</string>
+    <!--Settings -->
+    <string name="settings_subject_type">Отображать тип занятия текстом</string>
     <string-array name="action_selectsubgroup_values">
         <item>Подгруппа 1</item>
         <item>Подгруппа 2</item>

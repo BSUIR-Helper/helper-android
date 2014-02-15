@@ -63,7 +63,11 @@ class ViewAdapterLessons extends BaseAdapter {
         TextView lessonName = (TextView) rowView.findViewById(R.id.lesson_name);
         ImageView ivNote = (ImageView) rowView.findViewById(R.id.imageview_note);
 
-        lessonName.setText(subject);
+        if (!subjectType.equals("кч")) {
+            lessonName.setText(subject);
+        } else {
+            lessonName.setText("КЧ");
+        }
         lessonTime.setText(timePeriod);
         lessonTeacher.setText(teacher);
         Note note = NoteDatabase.getInstance(rowView.getContext()).fetchNoteByLessonId(lesson.id);
@@ -75,7 +79,7 @@ class ViewAdapterLessons extends BaseAdapter {
         }
 
         if (!auditorium.equals("")) {
-            lessonAuditorium.setText(lesson.fields.get("auditorium") + " аудитория");
+            lessonAuditorium.setText(lesson.fields.get("auditorium"));
         }
 
         if (subjectType.equals("лр")) {
@@ -87,6 +91,7 @@ class ViewAdapterLessons extends BaseAdapter {
         } else {
             lView.setBackgroundColor(Color.WHITE);
         }
+
         View verticalLine = rowView.findViewById(R.id.customview);
         verticalLine.setBackgroundColor(Color.WHITE);
         return rowView;

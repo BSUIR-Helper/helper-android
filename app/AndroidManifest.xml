@@ -51,6 +51,9 @@
         <activity
             android:name=".ui.notes.ActivityNotes"
             android:label="Заметки"/>
+        <activity
+            android:name=".ui.ActivitySettings"
+            android:label="Настройки"/>
 
         <!-- WIDGET -->
         <service

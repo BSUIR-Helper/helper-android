@@ -65,7 +65,7 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
         rView.setTextViewText(R.id.widget_lesson_teacher, lesson.fields.get("teacher"));
 
         if (!lesson.fields.get("auditorium").equals("")) {
-            rView.setTextViewText(R.id.widget_lesson_auditorium, "аудитория " + lesson.fields.get("auditorium"));
+            rView.setTextViewText(R.id.widget_lesson_auditorium, lesson.fields.get("auditorium"));
         }
 
         String lessonType = lesson.fields.get("subjectType");
@@ -107,8 +107,8 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public void updateLessons() {
-        String groupId =  mSettings.getString("defaultgroup", null);
-        int subgroup = mSettings.getInt(groupId,1);
+        String groupId = mSettings.getString("defaultgroup", null);
+        int subgroup = mSettings.getInt(groupId, 1);
         if (!mScheduleManager.isLessonsEndToday(groupId, subgroup)) {
             mLessons = mScheduleManager.getLessonsOfDay(groupId, DateTime.now(), subgroup);
         } else {

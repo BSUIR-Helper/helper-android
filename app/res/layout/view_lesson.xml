@@ -60,8 +60,7 @@
         android:id="@+id/lesson_auditorium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="13sp"
+        android:textSize="16sp"
         android:paddingRight="8dp"
         android:layout_below="@+id/lesson_time"
         android:layout_alignLeft="@+id/lesson_time"/>
