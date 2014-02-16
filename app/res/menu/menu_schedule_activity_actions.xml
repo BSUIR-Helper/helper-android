@@ -4,7 +4,7 @@
         android:id="@+id/action_selecttoday"
         android:icon="@drawable/ic_calendar"
         android:title="Сегодня"
-        bsuirguide:showAsAction="ifRoom"/>
+        bsuirguide:showAsAction="always"/>
     <item
         android:id="@+id/action_updateschedule"
         android:icon="@drawable/ic_updateschedule"
@@ -29,5 +29,8 @@
             </group>
         </menu>
     </item>
+    <item
+        android:id="@+id/action_help"
+        android:title="Справка"/>
 
 </menu>

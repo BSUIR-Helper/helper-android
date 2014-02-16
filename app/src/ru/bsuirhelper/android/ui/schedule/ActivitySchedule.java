@@ -95,6 +95,7 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
         mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
+
     }
 
     @Override
@@ -185,13 +186,9 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
                 refreshSchedule(2);
                 mActionBar.setSubtitle("подгруппа 2");
                 return true;
-            /*
-            case android.R.id.home:
-                Intent homeintent = new Intent(this, ActivityManagerGroups.class);
-                homeintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(homeintent);
+            case R.id.action_help:
+                showDialogSubjectTypeHelper();
                 return true;
-                */
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -200,7 +197,7 @@ public class ActivitySchedule extends ActivityDrawerMenu implements DownloaderTa
     public void showDialogSubjectTypeHelper() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_sybject_type_helper, null));
-        builder.setTitle("Типы занятий");
+        builder.setTitle("Типы пар");
         builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
