@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
@@ -13,7 +14,6 @@ import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.notes.Note;
 import ru.bsuirhelper.android.core.notes.NoteDatabase;
-import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,28 +22,39 @@ import java.util.List;
 /**
  * Created by Влад on 02.11.13.
  */
-public class ActivityNotes extends ActivityDrawerMenu {
+public class FragmentNotes extends Fragment {
+    public static final String TITLE = "Заметки";
+
     private ViewAdapterNotes mNotesAdapter;
     private List<Note> mNotesList;
     private List<View> mNotesForDelete;
     private ListView mListView;
     private NoteDatabase mNoteDatabase;
-    final int ANIMATION_DURATION = 600;
+    private final int ANIMATION_DURATION = 600;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
        super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_notes);
-       mListView = (ListView) findViewById(R.id.listview_notes);
-        mNoteDatabase = NoteDatabase.getInstance(getApplicationContext());
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View fragmentContent = inflater.inflate(R.layout.activity_notes, container, false);
+        mListView = (ListView) fragmentContent.findViewById(R.id.listview_notes);
+        mNoteDatabase = NoteDatabase.getInstance(getActivity().getApplicationContext());
         mNotesForDelete = new ArrayList<View>();
+        return fragmentContent;
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mNotesList = new ArrayList<Note>(Arrays.asList(mNoteDatabase.fetchAllNotes()));
-        ApplicationSettings.getInstance(this).putInt("notes", mNotesList.size());
-        mNotesAdapter = new ViewAdapterNotes(this, mNotesList);
+        ApplicationSettings.getInstance(getActivity().getApplicationContext()).putInt("notes", mNotesList.size());
+        mNotesAdapter = new ViewAdapterNotes(getActivity().getApplicationContext(), mNotesList);
         if(mNotesList.size() > 0){
             mListView.setAdapter(mNotesAdapter);
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,30 +73,30 @@ public class ActivityNotes extends ActivityDrawerMenu {
     @Override
     public void onStart(){
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
+        EasyTracker.getInstance(getActivity().getApplicationContext()).activityStart(getActivity());
     }
 
     @Override
     public void onStop(){
         super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
+        EasyTracker.getInstance(getActivity().getApplicationContext()).activityStop(getActivity());
     }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_notes_activity_actions, menu);
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menu){
         switch(menu.getItemId()){
             case R.id.action_addnote:
-                startActivity(new Intent(this, ActivityEditNote.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), ActivityEditNote.class));
                 return true;
             case R.id.action_deletenotes:
                 deleteNotes();
-                updateDrawerMenu();
+                // updateDrawerMenu();
                 return true;
             default:
                 return super.onOptionsItemSelected(menu);
@@ -159,9 +170,9 @@ public class ActivityNotes extends ActivityDrawerMenu {
             }
         }
         if(!someNoteChecked){
-          Toast.makeText(this,"Не выбрана заметка для удаления",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Не выбрана заметка для удаления", Toast.LENGTH_SHORT).show();
         }
-        ApplicationSettings.getInstance(this).putInt("notes", mNoteDatabase.fetchAllNotes().length);
+        ApplicationSettings.getInstance(getActivity().getApplicationContext()).putInt("notes", mNoteDatabase.fetchAllNotes().length);
     }
  class ViewAdapterNotes extends ArrayAdapter<Note> {
         private Context mContext;

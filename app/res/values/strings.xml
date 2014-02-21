@@ -12,4 +12,26 @@
         <item>Подгруппа 1</item>
         <item>Подгруппа 2</item>
     </string-array>
+    <string-array name="lessons_types">
+        <item>Лекция</item>
+        <item>Практическое занятия</item>
+        <item>Лабараторная работа</item>
+        <item>Другое</item>
+    </string-array>
+    <string-array name="week_days">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресенье</item>
+    </string-array>
+
+    <string-array name="work_weeks">
+        <item>1-я неделя</item>
+        <item>2-я неделя</item>
+        <item>3-я неделя</item>
+        <item>4-я неделя</item>
+    </string-array>
 </resources>

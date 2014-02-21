@@ -7,14 +7,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
-import ru.bsuirhelper.android.ui.DownloaderTaskFragment;
 
-/**
- * Created by Влад on 17.11.13.
- */
-public class ActivityManagerTeachers extends ActivityDrawerMenu implements DownloaderTaskFragment.TaskCallbacks {
+public class ActivityManagerTeachers extends ActivityDrawerMenu {
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -27,36 +23,18 @@ public class ActivityManagerTeachers extends ActivityDrawerMenu implements Downl
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_addteacher:
-                Toast.makeText(getApplicationContext(),"Add teacher",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Add teacher", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_deleteteacher:
-                Toast.makeText(getApplicationContext(),"Delete teacher",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Delete teacher", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public void onPreExecute() {
 
-    }
-
-    @Override
-    public void onProgressUpdate(int percent) {
-
-    }
-
-    @Override
-    public void onCancelled() {
-
-    }
-
-    @Override
-    public void onPostExecute(String result) {
-
-    }
 }

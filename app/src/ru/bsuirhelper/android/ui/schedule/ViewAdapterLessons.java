@@ -78,7 +78,7 @@ class ViewAdapterLessons extends BaseAdapter {
         vh.lessonTeacher.setText(teacher);
         Note note = NoteDatabase.getInstance(convertView.getContext()).fetchNoteByLessonId(lesson.id);
         if (note != null) {
-            Log.wtf(ActivitySchedule.LOG_TAG, note.subject + " " + note.title);
+            Log.wtf(FragmentSchedule.LOG_TAG, note.subject + " " + note.title);
             vh.ivNote.setVisibility(View.VISIBLE);
         } else {
             vh.ivNote.setVisibility(View.INVISIBLE);

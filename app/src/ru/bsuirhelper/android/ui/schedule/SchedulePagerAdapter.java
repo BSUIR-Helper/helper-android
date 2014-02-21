@@ -28,7 +28,7 @@ class SchedulePagerAdapter extends FragmentStatePagerAdapter {
         args.putInt("day", i + 1);
         args.putString("groupId", mGroupId);
         args.putInt("subgroup", mSubgroup);
-        Fragment fragment = new FragmentSchedule();
+        Fragment fragment = new FragmentScheduleOfDay();
         fragment.setArguments(args);
         return fragment;
     }

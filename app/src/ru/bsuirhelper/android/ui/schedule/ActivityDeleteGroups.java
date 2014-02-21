@@ -13,6 +13,7 @@ import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.core.schedule.StudentGroup;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 
 import java.util.ArrayList;
 
@@ -42,13 +43,13 @@ public class ActivityDeleteGroups extends ActionBarActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
     }
@@ -66,7 +67,7 @@ public class ActivityDeleteGroups extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_deletegroup:
                 deleteGroupsWhichChecked(mListView);
-                Intent intent = new Intent(this, ActivityManagerGroups.class);
+                Intent intent = new Intent(this, ActivityDrawerMenu.class);
                 startActivity(intent);
                 return true;
             default:

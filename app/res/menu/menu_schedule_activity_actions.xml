@@ -30,6 +30,10 @@
         </menu>
     </item>
     <item
+        android:id="@+id/action_addlesson"
+        android:title="Добавить расписание"
+        />
+    <item
         android:id="@+id/action_help"
         android:title="Справка"/>
 

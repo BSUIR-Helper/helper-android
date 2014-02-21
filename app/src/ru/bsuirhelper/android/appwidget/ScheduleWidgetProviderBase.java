@@ -16,7 +16,7 @@ import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
-import ru.bsuirhelper.android.ui.schedule.ActivitySchedule;
+import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
 
 /**
  * Created by Влад on 04.02.14.
@@ -67,7 +67,7 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
     }
 
     private void setOnClickWidget(Context context, RemoteViews rv, int appWidgetId) {
-        Intent startMainActivity = new Intent(context, ActivitySchedule.class);
+        Intent startMainActivity = new Intent(context, FragmentSchedule.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, startMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.widget_schedule, pendingIntent);
     }

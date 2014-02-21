@@ -12,18 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 
 /**
  * Created by Влад on 13.10.13.
  */
-public class DialogFragmentAddGroup extends DialogFragment {
-    private final ScheduleManager mScheduleManager;
-    private final DownloaderTaskFragment mDownloaderTaskFragment;
+public class DialogFragmentAddGroup extends DialogFragment implements DownloadScheduleTask.CallBack {
+    private Context context;
+    private DownloadScheduleTask.CallBack callBack;
 
-    public DialogFragmentAddGroup(ScheduleManager scheduleManager, DownloaderTaskFragment downloaderTaskFragment) {
-        mScheduleManager = scheduleManager;
-        mDownloaderTaskFragment = downloaderTaskFragment;
+    public DialogFragmentAddGroup(DownloadScheduleTask.CallBack callBack, Context context) {
+        this.context = context;
+        this.callBack = callBack;
     }
 
     @Override
@@ -57,7 +56,9 @@ public class DialogFragmentAddGroup extends DialogFragment {
                             alert.show();
                         } else {
                             String groupId = etAddGroup.getText().toString();
-                            mDownloaderTaskFragment.start(groupId);
+                            DownloadScheduleTask downloadScheduleTask = new DownloadScheduleTask(DialogFragmentAddGroup.this);
+                            downloadScheduleTask.setPogressDialogMessage("Загрузка расписания");
+                            downloadScheduleTask.execute(groupId);
                         }
                     }
                 })
@@ -67,5 +68,10 @@ public class DialogFragmentAddGroup extends DialogFragment {
                     }
                 });
         return builder.create();
+    }
+
+    @Override
+    public void onPostExecute() {
+        callBack.onPostExecute();
     }
 }

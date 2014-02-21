@@ -2,9 +2,6 @@ package ru.bsuirhelper.android.core.schedule;
 
 import java.util.HashMap;
 
-/**
- * Created by Влад on 14.09.13.
- */
 public class Lesson {
     public final HashMap<String, String> fields = new HashMap<String, String>();
     public int id;
@@ -27,15 +24,5 @@ public class Lesson {
         fields.put("date", "");
         fields.put("timePeriodStart", "");
         fields.put("timePeriodEnd", "");
-
     }
-    /*
-    public void consolePrint() {
-        Log.d(MainActivity.LOG_TAG, "---------------------------------------");
-        for (String key : fields.keySet()) {
-            Log.d(MainActivity.LOG_TAG, key + ":" + fields.get(key));
-        }
-        Log.d(MainActivity.LOG_TAG, "---------------------------------------");
-    }
-    */
 }

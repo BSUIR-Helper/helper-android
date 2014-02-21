@@ -1,92 +1,219 @@
 package ru.bsuirhelper.android.ui.schedule;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.*;
+import android.widget.DatePicker;
+import android.widget.Toast;
+import com.google.analytics.tracking.android.EasyTracker;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.core.notes.Note;
-import ru.bsuirhelper.android.core.notes.NoteDatabase;
-import ru.bsuirhelper.android.core.schedule.Lesson;
-import ru.bsuirhelper.android.core.schedule.ScheduleManager;
-import ru.bsuirhelper.android.ui.notes.ActivityDetailNote;
-import ru.bsuirhelper.android.ui.notes.ActivityEditNote;
+import ru.bsuirhelper.android.ui.DownloadScheduleTask;
+import ru.bsuirhelper.android.ui.RotationViewPager;
 
-/**
- * Created by Влад on 10.10.13.
- */
-public class FragmentSchedule extends Fragment {
+public class FragmentSchedule extends Fragment implements DownloadScheduleTask.CallBack {
+    public static final String LOG_TAG = "BSUIR_DEBUG";
+    private ViewPager mPager;
+    private String mGroupId;
+    private StudentCalendar mStudentCalendar;
+    private ApplicationSettings mSettings;
+    private ActionBar mActionBar;
 
-    private final StudentCalendar mStudentCalendar = new StudentCalendar();
-    private ListView mListOfLessons;
-    private ViewAdapterLessons mAdapterLessons;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        mSettings = ApplicationSettings.getInstance(getActivity().getApplicationContext());
+        mStudentCalendar = new StudentCalendar();
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setRetainInstance(true);
+        mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayShowTitleEnabled(true);
+        View fragmentContent = inflater.inflate(R.layout.activity_schedule, container, false);
+        mPager = (ViewPager) fragmentContent.findViewById(R.id.schedule_pager);
 
-        View fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
-        Context context = getActivity().getApplicationContext();
-
-        ScheduleManager scheduleManager = ScheduleManager.getInstance(context);
-        Bundle args = getArguments();
-        DateTime day = StudentCalendar.convertToDefaultDateTime(args.getInt("day"));
-        TextView dateInText = (TextView) fragmentView.findViewById(R.id.date);
-        dateInText.setText(day.getDayOfMonth() + " " + day.monthOfYear().getAsText() + " " + day.year().getAsText() + "");
-        String groupId = args.getString("groupId");
-        int subgroup = args.getInt("subgroup");
-        mAdapterLessons = new ViewAdapterLessons(context, scheduleManager.getLessonsOfDay(groupId, day, subgroup));
-
-        if ((day.getMonthOfYear() <= 8 && mStudentCalendar.getSemester() == 1) ||
-                (day.getMonthOfYear() >= 9 && mStudentCalendar.getSemester() == 2)) {
-            TextView view = (TextView) fragmentView.findViewById(R.id.textView);
-            view.setText("Занятия не известны");
-            view.setVisibility(View.VISIBLE);
-        } else if (mAdapterLessons.getCount() != 0) {
-            mListOfLessons = (ListView) fragmentView.findViewById(R.id.listView);
-            mListOfLessons.setAdapter(mAdapterLessons);
-            mListOfLessons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Lesson lesson = (Lesson) mListOfLessons.getAdapter().getItem(i);
-                    Note note = NoteDatabase.getInstance(getActivity().getApplicationContext())
-                            .fetchNoteByLessonId(lesson.id);
-                    Intent intent = null;
-                    if (note != null) {
-                        intent = new Intent(getActivity(), ActivityDetailNote.class);
-                        intent.putExtra("note_id", note.getId());
-                        intent.putExtra("lesson_id", lesson.id);
-                        intent.putExtra("REQUEST_CODE", ActivityEditNote.REQUEST_CODE_EDIT_NOTE);
-                    } else {
-                        intent = new Intent(getActivity(), ActivityEditNote.class);
-                        intent.putExtra("lesson_id", lesson.id);
-                        intent.putExtra("lesson_subject", lesson.fields.get("subject") + " " + lesson.fields.get("subjectType"));
-                        intent.putExtra("REQUEST_CODE", ActivityEditNote.REQUEST_CODE_ADD_NOTE);
-                    }
-                    startActivity(intent);
-                }
-            });
-        } else {
-            TextView view = (TextView) fragmentView.findViewById(R.id.textView);
-            view.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT > 10) {
+            mPager.setPageTransformer(true, new RotationViewPager());
         }
 
-        return fragmentView;
+        try {
+            mGroupId = (String) getArguments().get("groupId");
+        } catch (NullPointerException ex) {
+        }
+
+
+        if (mGroupId == null) {
+            mGroupId = mSettings.getString("defaultgroup", null);
+            //If get null, it's mean not set default group
+            if (mGroupId == null) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
+            }
+        }
+
+        int subgroup = mSettings.getInt(mGroupId, 1);
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity().getSupportFragmentManager(), mGroupId, subgroup);
+        mPager.setAdapter(adapter);
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                mActionBar.setSubtitle("уч.неделя " + mStudentCalendar.getWorkWeek(StudentCalendar.convertToDefaultDateTime(i)));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
+        mActionBar.setTitle("Группа " + mGroupId);
+        mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
+        return fragmentContent;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (ApplicationSettings.getInstance(getActivity().getApplicationContext()).getBoolean("firststart", true)) {
+            showDialogSubjectTypeHelper();
+            ApplicationSettings.getInstance(getActivity().getApplicationContext()).putBoolean("firststart", false);
+        }
+        EasyTracker.getInstance(getActivity().getApplicationContext()).activityStart(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(getActivity().getApplicationContext()).activityStop(getActivity());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mAdapterLessons.notifyDataSetChanged();
-        mAdapterLessons.notifyDataSetInvalidated();
+
+    }
+
+    private MenuItem mSubgroup1;
+    private MenuItem mSubgroup2;
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_schedule_activity_actions, menu);
+        mSubgroup1 = menu.findItem(R.id.subgroup1);
+        mSubgroup2 = menu.findItem(R.id.subgroup2);
+        int subgroup = mSettings.getInt(mGroupId, 1);
+
+        if (subgroup == 1) {
+            mSubgroup1.setChecked(true);
+        } else {
+            mSubgroup2.setChecked(true);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_updateschedule:
+                ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+
+                if (!isConnected) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                    alert.setTitle("Информация")
+                            .setMessage("Интернет соединение отсуствует, проверьте подключение к интернету");
+                    alert.show();
+                } else {
+                    DownloadScheduleTask downloadScheduleTask = new DownloadScheduleTask(this);
+                    downloadScheduleTask.execute(mGroupId);
+                }
+                return true;
+            case R.id.action_selecttoday:
+                DialogDatePicker newFragment = new DialogDatePicker() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        mPager.setCurrentItem(mStudentCalendar.getDayOfYear(new DateTime(year, month + 1, day, 1, 1)));
+                    }
+                };
+                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                return true;
+            case R.id.subgroup1:
+                mSubgroup1.setChecked(true);
+                mSettings.putInt(mGroupId, 1);
+                refreshSchedule(1);
+                mActionBar.setSubtitle("подгруппа 1");
+                return true;
+            case R.id.subgroup2:
+                mSubgroup2.setChecked(true);
+                mSettings.putInt(mGroupId, 2);
+                refreshSchedule(2);
+                mActionBar.setSubtitle("подгруппа 2");
+                return true;
+            case R.id.action_help:
+                showDialogSubjectTypeHelper();
+                return true;
+            case R.id.action_addlesson:
+                startActivity(new Intent(getActivity(), ActivityEditLesson.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void showDialogSubjectTypeHelper() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.dialog_sybject_type_helper, null));
+        builder.setTitle("Типы пар");
+        builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
+    }
+
+    void refreshSchedule(int subgroup) {
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity().getSupportFragmentManager(), mGroupId, subgroup);
+        int position = mPager.getCurrentItem();
+        mPager.setAdapter(adapter);
+        mPager.setCurrentItem(position);
+    }
+
+
+    @Override
+    public void onPostExecute() {
+        Toast.makeText(getActivity(), "Расписание обновлено", Toast.LENGTH_SHORT).show();
     }
 }

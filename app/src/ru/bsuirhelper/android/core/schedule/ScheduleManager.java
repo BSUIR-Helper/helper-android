@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.ui.schedule.ActivitySchedule;
+import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class ScheduleManager {
         return instance;
     }
 
-    private ScheduleManager(Context context) {
+    public ScheduleManager(Context context) {
         mScheduleDatabase = new ScheduleDatabase(context);
         mStudentCalendar = new StudentCalendar();
     }
@@ -65,7 +65,7 @@ public class ScheduleManager {
         int pos = -1;
         while (time.charAt(++pos) != c) ;
         String result = time.substring(pos + 1, time.length());
-        Log.wtf(ActivitySchedule.LOG_TAG, "Result:" + result);
+        Log.wtf(FragmentSchedule.LOG_TAG, "Result:" + result);
         return result;
     }
 }

@@ -12,19 +12,16 @@
     <application
         android:label="BSUIR Helper"
         android:icon="@drawable/ic_launcher"
-        android:debuggable="false"
+        android:debuggable="true"
         android:theme="@style/Theme.AppCompat"
         >
         <!-- ACTIVITIES -->
-        <activity
-            android:name=".ui.schedule.ActivityManagerGroups"
-            android:label="Группы "/>
         <activity
             android:name=".ui.notes.ActivityEditNote"
             android:label="Создать заметку"/>
 
         <activity
-            android:name=".ui.schedule.ActivitySchedule"
+            android:name=".ui.ActivityDrawerMenu"
             android:label="BSUIR Helper">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -39,33 +36,29 @@
         </activity>
 
         <activity
-            android:name=".ui.teachers.ActivityManagerTeachers"
-            android:label="Преподаватели"
-            >
-        </activity>
-        <activity
             android:name=".ui.notes.ActivityDetailNote"
             android:label="Заметка"
             >
         </activity>
         <activity
-            android:name=".ui.notes.ActivityNotes"
-            android:label="Заметки"/>
-        <activity
             android:name=".ui.ActivitySettings"
             android:label="Настройки"/>
+        <activity
+            android:name=".ui.schedule.ActivityEditLesson"
+            android:label="Добавить расписание"/>
 
         <!-- WIDGET -->
         <service
             android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
+
         <receiver
             android:name=".appwidget.ScheduleWidgetProviderBig"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
-            android:label="Расписание на день">
-            <intent-filter>
+            android:label="Расписание на день 4x4">
+        <intent-filter>
                 <action
                     android:name="android.appwidget.action.APPWIDGET_UPDATE">
                 </action>
@@ -79,8 +72,8 @@
             android:name=".appwidget.ScheduleWidgetProviderMedium"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
-            android:label="Расписание на день2">
-            <intent-filter>
+            android:label="Расписание на день 2x4">
+        <intent-filter>
                 <action
                     android:name="android.appwidget.action.APPWIDGET_UPDATE">
                 </action>
