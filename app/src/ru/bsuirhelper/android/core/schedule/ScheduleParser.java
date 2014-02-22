@@ -1,7 +1,6 @@
 package ru.bsuirhelper.android.core.schedule;
 
 import org.w3c.dom.*;
-import ru.bsuirhelper.android.core.schedule.Lesson;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

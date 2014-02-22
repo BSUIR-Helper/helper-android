@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="ru.bsuirhelper.android"
-          android:versionCode="2"
-          android:versionName="0.2">
+          android:versionCode="3"
+          android:versionName="0.3">
 
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="18"/>
-    sdd
 
     <application
         android:label="BSUIR Helper"
@@ -17,11 +16,11 @@
         >
         <!-- ACTIVITIES -->
         <activity
-            android:name=".ui.notes.ActivityEditNote"
+            android:name="ru.bsuirhelper.android.ui.notes.ActivityEditNote"
             android:label="Создать заметку"/>
 
         <activity
-            android:name=".ui.ActivityDrawerMenu"
+            android:name="ru.bsuirhelper.android.ui.ActivityDrawerMenu"
             android:label="BSUIR Helper">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,21 +29,21 @@
         </activity>
 
         <activity
-            android:name=".ui.schedule.ActivityDeleteGroups"
+            android:name="ru.bsuirhelper.android.ui.schedule.ActivityDeleteGroups"
             android:label="Удаление групп"
             >
         </activity>
 
         <activity
-            android:name=".ui.notes.ActivityDetailNote"
+            android:name="ru.bsuirhelper.android.ui.notes.ActivityDetailNote"
             android:label="Заметка"
             >
         </activity>
         <activity
-            android:name=".ui.ActivitySettings"
+            android:name="ru.bsuirhelper.android.ui.ActivitySettings"
             android:label="Настройки"/>
         <activity
-            android:name=".ui.schedule.ActivityEditLesson"
+            android:name="ru.bsuirhelper.android.ui.schedule.ActivityEditLesson"
             android:label="Добавить расписание"/>
 
         <!-- WIDGET -->
@@ -54,7 +53,7 @@
         </service>
 
         <receiver
-            android:name=".appwidget.ScheduleWidgetProviderBig"
+            android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBig"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день 4x4">
@@ -69,10 +68,10 @@
             </meta-data>
         </receiver>
         <receiver
-            android:name=".appwidget.ScheduleWidgetProviderMedium"
+            android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderMedium"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
-            android:label="Расписание на день 2x4">
+            android:label="Расписание на день 4x2">
         <intent-filter>
                 <action
                     android:name="android.appwidget.action.APPWIDGET_UPDATE">

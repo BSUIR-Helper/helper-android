@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Расписание"
+        android:key="pref_schedule_category">
+        <CheckBoxPreference
+            android:key="show_subject_type"
+            android:title="@string/settings_subject_type"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Дополнительно"
+        android:key="pref_schedule_category">
+        <CheckBoxPreference
+            android:key="turn_sound_off"
+            android:title="Выключать звук во время пар"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

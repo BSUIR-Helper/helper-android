@@ -84,7 +84,7 @@ public class FragmentNotes extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_notes_activity_actions, menu);
+        inflater.inflate(R.menu.menu_notes_fragment_actions, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

@@ -27,7 +27,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     private ScheduleManager mScheduleManager;
     private ListView mListGroups;
     private TextView mTextViewNotification;
-    public static final String TITLE = "Группы";
+    public static final String TITLE = "Расписание";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu items for use in the action bar
-        inflater.inflate(R.menu.menu_managergroups_activity_actions, menu);
+        inflater.inflate(R.menu.menu_managergroups_fragment_actions, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

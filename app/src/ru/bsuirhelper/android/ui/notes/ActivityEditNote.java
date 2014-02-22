@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -49,18 +50,7 @@ public class ActivityEditNote extends ActionBarActivity {
         noteTitle = (EditText) findViewById(R.id.edittext_createnotetitle);
         noteText = (EditText) findViewById(R.id.edittext_createnotetext);
 
-        //Create spinner from subjects
-        ArrayList<Lesson> lessons = mScheduleDatabase.fetchAllLessons(ApplicationSettings.getInstance(
-                getApplicationContext()).getString("defaultgroup", null));
-        Set<String> subjects = new HashSet<String>(lessons.size());
-        ArrayList<String> list = new ArrayList<String>(subjects);
-        for (Lesson lesson : lessons) {
-            subjects.add(lesson.fields.get("subject") + " " + lesson.fields.get("subjectType"));
-        }
-        list.addAll(subjects);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
-        mSpinner = (Spinner) findViewById(R.id.spinner_subjects);
-        mSpinner.setAdapter(spinnerAdapter);
+        createSpinnerFromLessons();
 
         Intent startIntent = getIntent();
         mRequestCode = startIntent.getIntExtra("REQUEST_CODE", 0);
@@ -68,19 +58,19 @@ public class ActivityEditNote extends ActionBarActivity {
         mLessonId = startIntent.getIntExtra("lesson_id", -1);
 
         if (mRequestCode == REQUEST_CODE_EDIT_NOTE) {
-
             mNoteEditable = mNoteDatabase.fetchNote(mNoteId);
             noteTitle.setText(mNoteEditable.title);
             noteText.setText(mNoteEditable.text);
-
-            ArrayAdapter<String> adapter = (ArrayAdapter<String>) mSpinner.getAdapter();
+            if (mSpinner.getVisibility() != View.INVISIBLE) {
+                ArrayAdapter<String> adapter = (ArrayAdapter<String>) mSpinner.getAdapter();
             int position = adapter.getPosition(mNoteEditable.subject);
             mSpinner.setSelection(position);
             //Disable spinner because note for lesson from schedule
             if (mLessonId != -1) {
                 mSpinner.setEnabled(false);
             }
-        } else if (mRequestCode == REQUEST_CODE_ADD_NOTE) {
+            }
+        } else if (mRequestCode == REQUEST_CODE_ADD_NOTE && mSpinner.getVisibility() != View.INVISIBLE) {
             if (mLessonId != -1) {
                 String subject = startIntent.getStringExtra("lesson_subject");
                 ArrayAdapter<String> adapter = (ArrayAdapter<String>) mSpinner.getAdapter();
@@ -126,7 +116,7 @@ public class ActivityEditNote extends ActionBarActivity {
             case R.id.action_createnote:
                 if (noteTitle.getText().length() != 0) {
                     Note note = new Note(noteTitle.getText().toString(), noteText.getText().toString(),
-                            mSpinner.getSelectedItem().toString(), System.currentTimeMillis());
+                            mSpinner.getVisibility() == View.INVISIBLE ? "" : mSpinner.getSelectedItem().toString(), System.currentTimeMillis());
                     note.lesson_id = mLessonId;
                     if (mRequestCode == REQUEST_CODE_EDIT_NOTE) {
                         mNoteDatabase.updateNote(mNoteId, note);
@@ -141,4 +131,23 @@ public class ActivityEditNote extends ActionBarActivity {
         }
     }
 
+    private void createSpinnerFromLessons() {
+        String groupId = ApplicationSettings.getInstance(
+                getApplicationContext()).getString("defaultgroup", null);
+        mSpinner = (Spinner) findViewById(R.id.spinner_subjects);
+        if (groupId != null) {
+            ArrayList<Lesson> lessons = mScheduleDatabase.fetchAllLessons(groupId);
+            Set<String> subjects = new HashSet<String>(lessons.size());
+            ArrayList<String> list = new ArrayList<String>(subjects);
+            for (Lesson lesson : lessons) {
+                subjects.add(lesson.fields.get("subject") + " " + lesson.fields.get("subjectType"));
+            }
+            list.addAll(subjects);
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+            mSpinner.setAdapter(spinnerAdapter);
+            mSpinner.setVisibility(View.VISIBLE);
+        } else {
+            mSpinner.setVisibility(View.INVISIBLE);
+        }
+    }
 }

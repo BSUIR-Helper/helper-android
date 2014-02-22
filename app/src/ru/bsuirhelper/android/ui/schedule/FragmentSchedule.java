@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -65,13 +64,14 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         } catch (NullPointerException ex) {
         }
 
-
         if (mGroupId == null) {
             mGroupId = mSettings.getString("defaultgroup", null);
             //If get null, it's mean not set default group
             if (mGroupId == null) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
+                mActionBar.setTitle(FragmentManagerGroups.TITLE);
+                return null;
             }
         }
 
@@ -158,6 +158,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
                     DownloadScheduleTask downloadScheduleTask = new DownloadScheduleTask(this);
                     downloadScheduleTask.execute(mGroupId);
                 }
+
                 return true;
             case R.id.action_selecttoday:
                 DialogDatePicker newFragment = new DialogDatePicker() {
@@ -182,9 +183,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
                 return true;
             case R.id.action_help:
                 showDialogSubjectTypeHelper();
-                return true;
-            case R.id.action_addlesson:
-                startActivity(new Intent(getActivity(), ActivityEditLesson.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
