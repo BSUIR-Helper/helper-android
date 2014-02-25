@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -54,7 +55,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         ) {
             @Override
             public void onDrawerClosed(View view) {
-                invalidateOptionsMenu();
+                ActivityCompat.invalidateOptionsMenu(ActivityDrawerMenu.this);
                 // If mPendingRunnable is not null, then add to the message queue
                 if (mPendingRunnable != null) {
                     mHandler.post(mPendingRunnable);
@@ -103,8 +104,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-
-
     }
 
     protected void updateDrawerMenu() {

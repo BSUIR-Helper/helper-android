@@ -3,7 +3,6 @@ package ru.bsuirhelper.android.ui.schedule;
 import android.content.Context;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +66,12 @@ class ViewAdapterLessons extends BaseAdapter {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
                     convertView.getContext()).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
             if (isShowSubjectTypes && !subjectType.equals("")) {
-                vh.lessonName.setText(subject + " (" + subjectType + ")");
+                vh.lessonName.setText(subject);
+                vh.lessonSubject.setVisibility(View.VISIBLE);
+                vh.lessonSubject.setText(" (" + subjectType + ")");
             } else {
                 vh.lessonName.setText(subject);
+                vh.lessonSubject.setVisibility(View.GONE);
             }
         } else {
             vh.lessonName.setText("КЧ");
@@ -78,12 +80,10 @@ class ViewAdapterLessons extends BaseAdapter {
         vh.lessonTeacher.setText(teacher);
         Note note = NoteDatabase.getInstance(convertView.getContext()).fetchNoteByLessonId(lesson.id);
         if (note != null) {
-            Log.wtf(FragmentSchedule.LOG_TAG, note.subject + " " + note.title);
             vh.ivNote.setVisibility(View.VISIBLE);
         } else {
             vh.ivNote.setVisibility(View.INVISIBLE);
         }
-
         if (!auditorium.equals("")) {
             vh.lessonAuditorium.setText(lesson.fields.get("auditorium"));
         }
@@ -116,6 +116,7 @@ class ViewAdapterLessons extends BaseAdapter {
         vh.lessonAuditorium = (TextView) rowView.findViewById(R.id.lesson_auditorium);
         vh.lessonTeacher = (TextView) rowView.findViewById(R.id.lesson_teacher);
         vh.lessonName = (TextView) rowView.findViewById(R.id.lesson_name);
+        vh.lessonSubject = (TextView) rowView.findViewById(R.id.lesson_subject_type);
         vh.ivNote = (ImageView) rowView.findViewById(R.id.imageview_note);
         rowView.setTag(vh);
     }
@@ -126,6 +127,7 @@ class ViewAdapterLessons extends BaseAdapter {
         TextView lessonAuditorium;
         TextView lessonTeacher;
         TextView lessonName;
+        TextView lessonSubject;
         ImageView ivNote;
 
     }

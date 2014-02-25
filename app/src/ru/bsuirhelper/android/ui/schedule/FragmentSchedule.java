@@ -41,7 +41,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         mSettings = ApplicationSettings.getInstance(getActivity().getApplicationContext());
         mStudentCalendar = new StudentCalendar();
         setHasOptionsMenu(true);
