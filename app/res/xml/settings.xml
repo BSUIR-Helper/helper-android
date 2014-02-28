@@ -9,12 +9,16 @@
             android:title="@string/settings_subject_type"
             android:defaultValue="false"/>
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="Дополнительно"
-        android:key="pref_schedule_category">
-        <CheckBoxPreference
-            android:key="turn_sound_off"
-            android:title="Выключать звук во время пар"
-            android:defaultValue="false"/>
+    <!--
+   <PreferenceCategory
+       android:title="Дополнительно"
+       android:key="pref_schedule_category">
+
+       <CheckBoxPreference
+           android:key="turn_sound_off"
+           android:title="Выключать звук во время пар"
+           android:defaultValue="false"/>
+       */
     </PreferenceCategory>
+    -->
 </PreferenceScreen>

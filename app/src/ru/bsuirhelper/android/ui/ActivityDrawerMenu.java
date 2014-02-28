@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.google.analytics.tracking.android.EasyTracker;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ui.notes.FragmentNotes;
@@ -28,6 +29,7 @@ import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
  * Created by Влад on 29.10.13.
  */
 public class ActivityDrawerMenu extends ActionBarActivity {
+    public static final String LOG_TAG = "BSUIR_DEBUG";
     private final int ACTIVITY_SCHEDULE = 0;
     private final int ACTIVITY_NOTES = 1;
     private final int ACTIVITY_SETTINGS = 2;
@@ -39,7 +41,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     private Runnable mPendingRunnable;
     private Handler mHandler;
     private final String[] mMenuItems = new String[]{"Расписание", "Заметки", "Настройки"};
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,12 @@ public class ActivityDrawerMenu extends ActionBarActivity {
             mDrawerToggle.syncState();
 
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override

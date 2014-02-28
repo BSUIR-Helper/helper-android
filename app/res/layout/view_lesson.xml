@@ -66,18 +66,17 @@
         android:layout_below="@+id/lesson_time"
         android:layout_alignLeft="@+id/lesson_time"/>
 
-    <View
+    <ImageView
         android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:background="#faffff"
+        android:layout_height="40dp"
+        android:background="@android:color/background_light"
         android:layout_marginRight="15dp"
-        android:layout_alignBottom="@+id/lesson_type_color"
         android:layout_toLeftOf="@+id/lesson_time"
         android:padding="0dp"
         android:layout_marginLeft="10dp"
         android:id="@+id/customview"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_alignBottom="@+id/lesson_teacher"
+        />
 
     <ImageView
         android:layout_width="wrap_content"

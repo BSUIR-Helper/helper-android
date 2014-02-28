@@ -167,12 +167,17 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         return studentGroups;
     }
 
+    private boolean isOpen = false;
+
     void open() {
-        db = this.getWritableDatabase();
+        if (!isOpen) {
+            db = this.getWritableDatabase();
+            isOpen = true;
+        }
     }
 
     public void close() {
-        db.close();
+
     }
 
 

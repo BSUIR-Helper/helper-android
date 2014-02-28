@@ -16,7 +16,7 @@ import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
-import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 
 /**
  * Created by Влад on 04.02.14.
@@ -45,15 +45,19 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
                 rv.setViewVisibility(R.id.widget_textView, View.VISIBLE);
                 rv.setTextViewText(R.id.widget_textView, "Загрузить расписание");
             } else {
-                Lesson[] lessons = scheduleManager.getLessonsOfDay(defaultGroup, DateTime.now(),
+                DateTime lessonDay = DateTime.now();
+                if (scheduleManager.isLessonsEndToday(defaultGroup, subgroup)) {
+                    rv.setTextViewText(R.id.widget_date, "Расписание на завтра");
+                    lessonDay = lessonDay.plusDays(1);
+                } else {
+                    rv.setTextViewText(R.id.widget_date, "Расписание на сегодня");
+                }
+
+                Lesson[] lessons = scheduleManager.getLessonsOfDay(defaultGroup, lessonDay,
                         ApplicationSettings.getInstance(context).getInt(defaultGroup, subgroup));
                 if (lessons.length > 0) {
                     rv.setViewVisibility(R.id.widget_textView, View.INVISIBLE);
                     rv.setRemoteAdapter(R.id.widget_listView, intent);
-                    if (scheduleManager.isLessonsEndToday(defaultGroup, subgroup)) {
-                        rv.setTextViewText(R.id.widget_date, "Расписание на завтра");
-                    }
-
                 } else {
                     rv.setViewVisibility(R.id.widget_textView, View.VISIBLE);
                     rv.setTextViewText(R.id.widget_textView, "Занятий нет");
@@ -67,7 +71,7 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
     }
 
     private void setOnClickWidget(Context context, RemoteViews rv, int appWidgetId) {
-        Intent startMainActivity = new Intent(context, FragmentSchedule.class);
+        Intent startMainActivity = new Intent(context, ActivityDrawerMenu.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, startMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.widget_schedule, pendingIntent);
     }
@@ -78,7 +82,7 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
         if (action != null && action.equals(UPDATE_ACTION)) {
             final AppWidgetManager manager = AppWidgetManager.getInstance(context);
             int appWidgetIds[] = manager.getAppWidgetIds(
-                    new ComponentName(context, ScheduleWidgetProviderBig.class));
+                    new ComponentName(context, ScheduleWidgetProviderBase.class));
             if (Build.VERSION.SDK_INT > 10) {
                 onUpdate(context, manager, appWidgetIds);
             }
@@ -91,7 +95,7 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
     private void notifyRecreateListView(Context context) {
         final AppWidgetManager manager = AppWidgetManager.getInstance(context);
         int appWidgetIds[] = manager.getAppWidgetIds(
-                new ComponentName(context, ScheduleWidgetProviderBig.class));
+                new ComponentName(context, ScheduleWidgetProviderBase.class));
         manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
     }
 

@@ -84,9 +84,7 @@ class ViewAdapterLessons extends BaseAdapter {
         } else {
             vh.ivNote.setVisibility(View.INVISIBLE);
         }
-        if (!auditorium.equals("")) {
-            vh.lessonAuditorium.setText(lesson.fields.get("auditorium"));
-        }
+        vh.lessonAuditorium.setText(auditorium);
 
         if (subjectType.equals("лр")) {
             vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.red));

@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBig;
@@ -64,7 +66,6 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     @Override
     public void onResume() {
         super.onResume();
-        Log.wtf(FragmentSchedule.LOG_TAG, "First start ?:" + ApplicationSettings.getInstance(getActivity()).getBoolean("firststart", true));
         if (ApplicationSettings.getInstance(getActivity()).getBoolean("firststart", true)) {
             //     openDrawerMenu();
         }
@@ -116,5 +117,13 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     public void onPostExecute() {
         Toast.makeText(getActivity(), "Расписание добавлено", Toast.LENGTH_SHORT);
         refreshListGroup();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker tracker = EasyTracker.getInstance(getActivity());
+        tracker.set(Fields.SCREEN_NAME, TITLE);
+        tracker.send(MapBuilder.createAppView().build());
     }
 }

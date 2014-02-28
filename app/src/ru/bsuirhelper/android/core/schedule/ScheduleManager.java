@@ -46,7 +46,7 @@ public class ScheduleManager {
 
     public boolean isLessonsEndToday(String groupId, int subgroup) {
         DateTime currentTime = new DateTime();
-        Lesson[] lessons = mScheduleDatabase.getLessonsOfDay(groupId, new DateTime(), subgroup);
+        Lesson[] lessons = mScheduleDatabase.getLessonsOfDay(groupId, DateTime.now(), subgroup);
         Lesson lesson = lessons[lessons.length - 1];
 
         DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm");

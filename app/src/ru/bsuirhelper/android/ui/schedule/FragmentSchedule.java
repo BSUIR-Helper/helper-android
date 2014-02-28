@@ -17,6 +17,8 @@ import android.view.*;
 import android.widget.DatePicker;
 import android.widget.Toast;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
@@ -25,7 +27,8 @@ import ru.bsuirhelper.android.ui.DownloadScheduleTask;
 import ru.bsuirhelper.android.ui.RotationViewPager;
 
 public class FragmentSchedule extends Fragment implements DownloadScheduleTask.CallBack {
-    public static final String LOG_TAG = "BSUIR_DEBUG";
+
+    private String title = "Fragment Schedule";
     private ViewPager mPager;
     private String mGroupId;
     private StudentCalendar mStudentCalendar;
@@ -106,7 +109,9 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
             showDialogSubjectTypeHelper();
             ApplicationSettings.getInstance(getActivity().getApplicationContext()).putBoolean("firststart", false);
         }
-        EasyTracker.getInstance(getActivity().getApplicationContext()).activityStart(getActivity());
+        EasyTracker tracker = EasyTracker.getInstance(getActivity());
+        tracker.set(Fields.SCREEN_NAME, title);
+        tracker.send(MapBuilder.createAppView().build());
     }
 
     @Override

@@ -56,7 +56,7 @@
             android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBig"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
-            android:label="Расписание на день 4x4">
+            android:label="Расписание на день (большое)">
         <intent-filter>
                 <action
                     android:name="android.appwidget.action.APPWIDGET_UPDATE">
@@ -71,7 +71,7 @@
             android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderMedium"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
-            android:label="Расписание на день 4x2">
+            android:label="Расписание на день (среднее)">
         <intent-filter>
                 <action
                     android:name="android.appwidget.action.APPWIDGET_UPDATE">
