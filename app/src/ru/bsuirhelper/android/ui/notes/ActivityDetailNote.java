@@ -31,6 +31,8 @@ public class ActivityDetailNote extends ActionBarActivity {
         tvNoteTitle = (TextView) findViewById(R.id.textview_notetitle);
         tvNoteSubject = (TextView) findViewById(R.id.textview_notesubject);
         tvNoteText = (TextView) findViewById(R.id.textview_notetext);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -57,6 +59,9 @@ public class ActivityDetailNote extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_editnote:
                 Intent intent = new Intent(this, ActivityEditNote.class);
                 intent.putExtra("note_id", mNoteId);

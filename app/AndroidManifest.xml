@@ -11,7 +11,7 @@
     <application
         android:label="BSUIR Helper"
         android:icon="@drawable/ic_launcher"
-        android:debuggable="true"
+        android:debuggable="false"
         android:theme="@style/Theme.AppCompat"
         >
         <!-- ACTIVITIES -->

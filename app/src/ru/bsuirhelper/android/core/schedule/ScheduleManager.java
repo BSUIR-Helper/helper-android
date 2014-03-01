@@ -47,11 +47,15 @@ public class ScheduleManager {
     public boolean isLessonsEndToday(String groupId, int subgroup) {
         DateTime currentTime = new DateTime();
         Lesson[] lessons = mScheduleDatabase.getLessonsOfDay(groupId, DateTime.now(), subgroup);
-        Lesson lesson = lessons[lessons.length - 1];
+        if (lessons.length > 0) {
+            Lesson lesson = lessons[lessons.length - 1];
 
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm");
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm");
         DateTime dt = formatter.parseDateTime(getFinishTimeOfLesson(lesson));
         if (currentTime.getHourOfDay() + 1 > dt.getHourOfDay()) {
+            return true;
+        }
+        } else {
             return true;
         }
         return false;

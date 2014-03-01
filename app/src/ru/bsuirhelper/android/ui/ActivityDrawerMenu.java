@@ -82,6 +82,10 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mHandler = new Handler();
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+        if (ApplicationSettings.getInstance(this).getBoolean("isFirstShowDrawer", true)) {
+            openDrawerMenu();
+            ApplicationSettings.getInstance(this).putBoolean("isFirstShowDrawer", false);
+        }
     }
 
     @Override
