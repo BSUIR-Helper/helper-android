@@ -63,12 +63,12 @@ public class ActivityEditNote extends ActionBarActivity {
             noteText.setText(mNoteEditable.text);
             if (mSpinner.getVisibility() != View.INVISIBLE) {
                 ArrayAdapter<String> adapter = (ArrayAdapter<String>) mSpinner.getAdapter();
-            int position = adapter.getPosition(mNoteEditable.subject);
-            mSpinner.setSelection(position);
-            //Disable spinner because note for lesson from schedule
-            if (mLessonId != -1) {
-                mSpinner.setEnabled(false);
-            }
+                int position = adapter.getPosition(mNoteEditable.subject);
+                mSpinner.setSelection(position);
+                //Disable spinner because note for lesson from schedule
+                if (mLessonId != -1) {
+                    mSpinner.setEnabled(false);
+                }
             }
         } else if (mRequestCode == REQUEST_CODE_ADD_NOTE && mSpinner.getVisibility() != View.INVISIBLE) {
             if (mLessonId != -1) {

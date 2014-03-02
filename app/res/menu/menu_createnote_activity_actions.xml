@@ -12,4 +12,4 @@
         android:title="Создать заметку"
         android:icon="@drawable/ic_accept"
         bsuirguide:showAsAction="always"/>
- </menu>
+</menu>

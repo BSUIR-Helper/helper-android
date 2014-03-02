@@ -51,10 +51,10 @@ public class ScheduleManager {
             Lesson lesson = lessons[lessons.length - 1];
 
             DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm");
-        DateTime dt = formatter.parseDateTime(getFinishTimeOfLesson(lesson));
-        if (currentTime.getHourOfDay() + 1 > dt.getHourOfDay()) {
-            return true;
-        }
+            DateTime dt = formatter.parseDateTime(getFinishTimeOfLesson(lesson));
+            if (currentTime.getHourOfDay() + 1 > dt.getHourOfDay()) {
+                return true;
+            }
         } else {
             return true;
         }

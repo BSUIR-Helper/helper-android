@@ -14,18 +14,18 @@ public class Note {
     public int id;
 
 
-    public Note(String title,String text,  String subject,long dateCreated){
+    public Note(String title, String text, String subject, long dateCreated) {
         this.text = text;
         this.title = title;
         this.subject = subject;
         this.dateCreated = dateCreated;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 }
