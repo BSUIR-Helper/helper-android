@@ -34,10 +34,12 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
     private StudentCalendar mStudentCalendar;
     private ApplicationSettings mSettings;
     private ActionBar mActionBar;
+    private Context context;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        context = activity;
         setRetainInstance(true);
     }
 
@@ -110,7 +112,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
             ApplicationSettings.getInstance(getActivity().getApplicationContext()).putBoolean("firststart", false);
         }
         EasyTracker tracker = EasyTracker.getInstance(getActivity());
-        tracker.set(Fields.SCREEN_NAME, title);
+        tracker.set(Fields.SCREEN_NAME, "Окно расписания");
         tracker.send(MapBuilder.createAppView().build());
     }
 
@@ -123,7 +125,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     private MenuItem mSubgroup1;
@@ -159,8 +160,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
                             .setMessage("Интернет соединение отсуствует, проверьте подключение к интернету");
                     alert.show();
                 } else {
-                    DownloadScheduleTask downloadScheduleTask = new DownloadScheduleTask(this);
-                    downloadScheduleTask.execute(mGroupId);
+                    new DownloadScheduleTask(this).execute(mGroupId);
                 }
 
                 return true;
@@ -213,9 +213,9 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         mPager.setCurrentItem(position);
     }
 
-
     @Override
     public void onPostExecute() {
-        Toast.makeText(getActivity(), "Расписание обновлено", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Расписание обновлено", Toast.LENGTH_SHORT).show();
     }
+
 }

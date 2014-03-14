@@ -100,7 +100,12 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
 
     @Override
     public void onPostExecute(String result) {
-        mPogressDialog.cancel();
+
+        try {
+            if (mPogressDialog.isShowing()) mPogressDialog.cancel();
+        } catch (Exception exception) {
+        }
+
         if (result.equals("Error")) {
             Toast.makeText(context.getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
         } else {
@@ -111,6 +116,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
                 System.out.print("Fragment must implement CallBack Interface" + e.getMessage());
             }
         }
+
     }
 
     private void showProgressDialog() {

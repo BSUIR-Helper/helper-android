@@ -76,7 +76,7 @@ public class FragmentNotes extends Fragment {
     public void onStart(){
         super.onStart();
         EasyTracker tracker = EasyTracker.getInstance(getActivity());
-        tracker.set(Fields.SCREEN_NAME, "Fragment notes");
+        tracker.set(Fields.SCREEN_NAME, "Окно списка заметок");
         tracker.send(MapBuilder.createAppView().build());
     }
 

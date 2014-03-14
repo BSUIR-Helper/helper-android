@@ -13,13 +13,13 @@ import ru.bsuirhelper.android.core.schedule.StudentGroup;
  * Created by Влад on 12.10.13.
  */
 class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
-    private final StudentGroup[] mValues;
+    public StudentGroup[] values;
     private final Context mContext;
     private final int mViewId;
 
     public GroupsViewAdapter(Context context, StudentGroup[] values, int viewId) {
         super(context, R.layout.view_group, values);
-        mValues = values;
+        this.values = values;
         mContext = context;
         mViewId = viewId;
 
@@ -33,15 +33,16 @@ class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
         View rowView = inflater.inflate(mViewId, null);
         TextView tvGroupId = (TextView) rowView.findViewById(R.id.textview_groupid);
         TextView tvDateUpdate = (TextView) rowView.findViewById(R.id.textview_dateupdated);
-        String groupId = mValues[position].groupId;
-        String faculty = mValues[position].faculty;
+        String groupId = values[position].groupId;
+        String faculty = values[position].faculty;
         if (faculty != null) {
             faculty = "(" + faculty + ")";
         } else {
             faculty = "";
         }
         tvGroupId.setText(groupId + " " + faculty);
-        tvDateUpdate.setText("Обновлено: " + mValues[position].updatedTime);
+        tvDateUpdate.setText("Обновлено: " + values[position].updatedTime);
         return rowView;
     }
+
 }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import org.joda.time.DateTime;
@@ -29,6 +30,7 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         for (int i = 0; i < appWidgetIds.length; i++) {
+            Log.wtf(ActivityDrawerMenu.LOG_TAG, "UPDATE in onUpdate!");
             Intent intent = new Intent(context, ScheduleWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
@@ -95,7 +97,7 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
     private void notifyRecreateListView(Context context) {
         final AppWidgetManager manager = AppWidgetManager.getInstance(context);
         int appWidgetIds[] = manager.getAppWidgetIds(
-                new ComponentName(context, ScheduleWidgetProviderBase.class));
+                new ComponentName(context, this.getClass()));
         manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
     }
 

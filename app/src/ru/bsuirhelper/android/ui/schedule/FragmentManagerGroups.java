@@ -1,5 +1,7 @@
 package ru.bsuirhelper.android.ui.schedule;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +31,16 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     private ScheduleManager mScheduleManager;
     private ListView mListGroups;
     private TextView mTextViewNotification;
+    private Context context;
+    private GroupsViewAdapter mGroupsAdapter;
     public static final String TITLE = "Расписание";
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
+        setRetainInstance(true);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,9 +109,15 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
         ArrayList<StudentGroup> alGroups = mScheduleManager.getGroups();
         StudentGroup[] groups = new StudentGroup[alGroups.size()];
         groups = alGroups.toArray(groups);
-        GroupsViewAdapter vaGroups = new GroupsViewAdapter(getActivity(), groups, R.layout.view_group);
-        if (vaGroups.getCount() != 0) {
-            mListGroups.setAdapter(vaGroups);
+        if (mGroupsAdapter == null) {
+            mGroupsAdapter = new GroupsViewAdapter(getActivity(), groups, R.layout.view_group);
+        } else {
+            mGroupsAdapter.values = groups;
+            mGroupsAdapter.notifyDataSetChanged();
+            mGroupsAdapter.notifyDataSetInvalidated();
+        }
+        if (mGroupsAdapter.getCount() != 0) {
+            mListGroups.setAdapter(mGroupsAdapter);
             mTextViewNotification.setVisibility(View.INVISIBLE);
         } else {
             mTextViewNotification.setVisibility(View.VISIBLE);
@@ -115,7 +132,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
 
     @Override
     public void onPostExecute() {
-        Toast.makeText(getActivity(), "Расписание добавлено", Toast.LENGTH_SHORT);
+        Toast.makeText(context, "Расписание добавлено", Toast.LENGTH_SHORT).show();
         refreshListGroup();
     }
 
@@ -123,7 +140,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     public void onStart() {
         super.onStart();
         EasyTracker tracker = EasyTracker.getInstance(getActivity());
-        tracker.set(Fields.SCREEN_NAME, TITLE);
+        tracker.set(Fields.SCREEN_NAME, "Окно списка групп");
         tracker.send(MapBuilder.createAppView().build());
     }
 }
