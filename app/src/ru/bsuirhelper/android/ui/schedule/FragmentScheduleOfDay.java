@@ -32,8 +32,6 @@ public class FragmentScheduleOfDay extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setRetainInstance(true);
-
         View fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
         Context context = getActivity().getApplicationContext();
 

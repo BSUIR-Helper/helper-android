@@ -40,7 +40,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
-        setRetainInstance(true);
+        //  setRetainInstance(true);
     }
 
     @Override
@@ -58,7 +58,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         mActionBar.setDisplayShowTitleEnabled(true);
         View fragmentContent = inflater.inflate(R.layout.activity_schedule, container, false);
         mPager = (ViewPager) fragmentContent.findViewById(R.id.schedule_pager);
-
         if (Build.VERSION.SDK_INT > 10) {
             mPager.setPageTransformer(true, new RotationViewPager());
         }
@@ -66,13 +65,14 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         try {
             mGroupId = (String) getArguments().get("groupId");
         } catch (NullPointerException ex) {
+
         }
 
         if (mGroupId == null) {
             mGroupId = mSettings.getString("defaultgroup", null);
             //If get null, it's mean not set default group
             if (mGroupId == null) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentManager fm = getChildFragmentManager();
                 fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
                 mActionBar.setTitle(FragmentManagerGroups.TITLE);
                 return null;
@@ -80,7 +80,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         }
 
         int subgroup = mSettings.getInt(mGroupId, 1);
-        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity().getSupportFragmentManager(), mGroupId, subgroup);
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getChildFragmentManager(), mGroupId, subgroup);
         mPager.setAdapter(adapter);
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

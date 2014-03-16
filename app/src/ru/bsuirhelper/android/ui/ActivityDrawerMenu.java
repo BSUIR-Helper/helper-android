@@ -13,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +31,8 @@ import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
  */
 public class ActivityDrawerMenu extends ActionBarActivity {
     public static final String LOG_TAG = "BSUIR_DEBUG";
-    private final int ACTIVITY_SCHEDULE = 0;
-    private final int ACTIVITY_NOTES = 1;
+    private final int SCHEDULE_FRAGMENT = 0;
+    private final int NOTE_FRAGMENT = 1;
     private final int ACTIVITY_SETTINGS = 2;
     private DrawerLayout mDrawerLayout;
     private DrawerArrayAdapter mDrawerAdapter;
@@ -40,6 +41,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     private ActionBar mActionBar;
     private Runnable mPendingRunnable;
     private Handler mHandler;
+    private int selectedPosition = -1;
     private final String[] mMenuItems = new String[]{"Расписание", "Заметки", "Настройки"};
 
     @Override
@@ -81,7 +83,11 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mHandler = new Handler();
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+        if (savedInstanceState == null || !savedInstanceState.getBoolean("selected", false)) {
+            selectedPosition = SCHEDULE_FRAGMENT;
+            Log.wtf(LOG_TAG, "Call replace");
+            fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+        }
         if (ApplicationSettings.getInstance(this).getBoolean("isFirstShowDrawer", true)) {
             openDrawerMenu();
             ApplicationSettings.getInstance(this).putBoolean("isFirstShowDrawer", false);
@@ -93,7 +99,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         if (mDrawerToggle != null) {
             mDrawerToggle.syncState();
-
         }
     }
 
@@ -101,6 +106,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     public void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
+
     }
 
     @Override
@@ -121,17 +127,24 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mDrawerAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("selected", true);
+    }
+
     private void selectItem(final int position) {
         // Create a new fragment and specify the planet to show based on position
         Fragment fragment = null;
         Intent intent = new Intent();
         mActionBar.setSubtitle(null);
+        selectedPosition = position;
         switch (position) {
-            case ACTIVITY_SCHEDULE:
+            case SCHEDULE_FRAGMENT:
                 fragment = new FragmentManagerGroups();
                 mActionBar.setTitle(FragmentManagerGroups.TITLE);
                 break;
-            case ACTIVITY_NOTES:
+            case NOTE_FRAGMENT:
                 fragment = new FragmentNotes();
                 mActionBar.setTitle(FragmentNotes.TITLE);
                 break;
@@ -183,11 +196,11 @@ public class ActivityDrawerMenu extends ActionBarActivity {
             TextView counterOfNotes = (TextView) convertView.findViewById(R.id.textview_counternotes);
             vh.menuName.setText(getItem(position));
             switch (position) {
-                case ACTIVITY_SCHEDULE:
+                case SCHEDULE_FRAGMENT:
                     vh.icon.setImageResource(R.drawable.ic_calendar);
                     counterOfNotes.setVisibility(View.INVISIBLE);
                     break;
-                case ACTIVITY_NOTES:
+                case NOTE_FRAGMENT:
                     counterOfNotes.setVisibility(View.VISIBLE);
                     counterOfNotes.setText(ApplicationSettings.getInstance(ActivityDrawerMenu.this).getInt("notes", 0) + "");
                     vh.icon.setImageResource(R.drawable.ic_notes);

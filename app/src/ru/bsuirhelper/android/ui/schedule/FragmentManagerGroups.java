@@ -1,16 +1,19 @@
 package ru.bsuirhelper.android.ui.schedule;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -19,7 +22,6 @@ import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBig;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.core.schedule.StudentGroup;
-import ru.bsuirhelper.android.ui.DialogFragmentAddGroup;
 import ru.bsuirhelper.android.ui.DownloadScheduleTask;
 
 import java.util.ArrayList;
@@ -39,7 +41,6 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
-        setRetainInstance(true);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
                 startActivity(intent);
                 return true;
             case R.id.action_addgroup:
-                DialogFragmentAddGroup dialog = new DialogFragmentAddGroup(this, getActivity());
+                DialogFragmentAddGroup dialog = new DialogFragmentAddGroup();
                 dialog.show(getActivity().getSupportFragmentManager(), "");
                 return true;
             default:
@@ -106,13 +107,12 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     }
 
     void refreshListGroup() {
-        ArrayList<StudentGroup> alGroups = mScheduleManager.getGroups();
-        StudentGroup[] groups = new StudentGroup[alGroups.size()];
-        groups = alGroups.toArray(groups);
+        ArrayList<StudentGroup> groups = mScheduleManager.getGroups();
         if (mGroupsAdapter == null) {
             mGroupsAdapter = new GroupsViewAdapter(getActivity(), groups, R.layout.view_group);
         } else {
-            mGroupsAdapter.values = groups;
+            mGroupsAdapter.values.clear();
+            mGroupsAdapter.values.addAll(groups);
             mGroupsAdapter.notifyDataSetChanged();
             mGroupsAdapter.notifyDataSetInvalidated();
         }
@@ -142,5 +142,56 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
         EasyTracker tracker = EasyTracker.getInstance(getActivity());
         tracker.set(Fields.SCREEN_NAME, "Окно списка групп");
         tracker.send(MapBuilder.createAppView().build());
+    }
+
+    class DialogFragmentAddGroup extends DialogFragment {
+
+
+        @Override
+        public void onDestroyView() {
+            if (getDialog() != null && getRetainInstance())
+                getDialog().setOnDismissListener(null);
+            super.onDestroyView();
+        }
+
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            setRetainInstance(true);
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            View contentView = inflater.inflate(R.layout.dialog_addgroup, null);
+            builder.setView(contentView);
+            final EditText etAddGroup = (EditText) contentView.findViewById(R.id.edittext_addgroup);
+            builder.setTitle("Добавить группу")
+                    .setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+                            boolean isConnected = activeNetwork != null &&
+                                    activeNetwork.isConnectedOrConnecting();
+
+                            if (!isConnected) {
+                                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                                alert.setTitle("Информация")
+                                        .setMessage("Интернет соединение отсуствует, проверьте подключение к интернету");
+                                alert.show();
+                            } else {
+                                String groupId = etAddGroup.getText().toString();
+                                DownloadScheduleTask downloadScheduleTask = new DownloadScheduleTask(FragmentManagerGroups.this);
+                                downloadScheduleTask.setPogressDialogMessage("Загрузка расписания");
+                                downloadScheduleTask.execute(groupId);
+                            }
+                        }
+                    })
+                    .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            DialogFragmentAddGroup.this.dismiss();
+                        }
+                    });
+            return builder.create();
+
+        }
     }
 }

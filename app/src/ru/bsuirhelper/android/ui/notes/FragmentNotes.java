@@ -35,8 +35,8 @@ public class FragmentNotes extends Fragment {
     private final int ANIMATION_DURATION = 600;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
-       super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
@@ -44,7 +44,7 @@ public class FragmentNotes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View fragmentContent = inflater.inflate(R.layout.activity_notes, container, false);
+        View fragmentContent = inflater.inflate(R.layout.fragment_notes, container, false);
         mListView = (ListView) fragmentContent.findViewById(R.id.listview_notes);
         mNoteDatabase = NoteDatabase.getInstance(getActivity().getApplicationContext());
         mNotesForDelete = new ArrayList<View>();
@@ -57,13 +57,13 @@ public class FragmentNotes extends Fragment {
         mNotesList = new ArrayList<Note>(Arrays.asList(mNoteDatabase.fetchAllNotes()));
         ApplicationSettings.getInstance(getActivity().getApplicationContext()).putInt("notes", mNotesList.size());
         mNotesAdapter = new ViewAdapterNotes(getActivity().getApplicationContext(), mNotesList);
-        if(mNotesList.size() > 0){
+        if (mNotesList.size() > 0) {
             mListView.setAdapter(mNotesAdapter);
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(view.getContext(), ActivityDetailNote.class);
-                    intent.putExtra("note_id",((ViewHolder)view.getTag()).id);
+                    intent.putExtra("note_id", ((ViewHolder) view.getTag()).id);
                     startActivity(intent);
 
                 }
@@ -73,7 +73,7 @@ public class FragmentNotes extends Fragment {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         EasyTracker tracker = EasyTracker.getInstance(getActivity());
         tracker.set(Fields.SCREEN_NAME, "Окно списка заметок");
@@ -81,7 +81,7 @@ public class FragmentNotes extends Fragment {
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         EasyTracker.getInstance(getActivity().getApplicationContext()).activityStop(getActivity());
     }
@@ -93,8 +93,8 @@ public class FragmentNotes extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menu){
-        switch(menu.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem menu) {
+        switch (menu.getItemId()) {
             case R.id.action_addnote:
                 startActivity(new Intent(getActivity().getApplicationContext(), ActivityEditNote.class));
                 return true;
@@ -116,17 +116,24 @@ public class FragmentNotes extends Fragment {
         boolean checked = false;
         int id;
     }
+
     private void deleteRowInListView(final View v, final int index) {
         Animation.AnimationListener al = new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
                 mNotesList.remove(index);
-                ViewHolder vh = (ViewHolder)v.getTag();
+                ViewHolder vh = (ViewHolder) v.getTag();
                 vh.needInflate = true;
                 mNotesAdapter.notifyDataSetChanged();
             }
-            @Override public void onAnimationRepeat(Animation animation) {}
-            @Override public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
         };
 
         collapse(v, al);
@@ -140,9 +147,8 @@ public class FragmentNotes extends Fragment {
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 if (interpolatedTime == 1) {
                     v.setVisibility(View.GONE);
-                }
-                else {
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                } else {
+                    v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
                     v.requestLayout();
                 }
             }
@@ -153,41 +159,44 @@ public class FragmentNotes extends Fragment {
             }
         };
 
-        if (al!=null) {
+        if (al != null) {
             anim.setAnimationListener(al);
         }
         anim.setDuration(ANIMATION_DURATION);
         v.startAnimation(anim);
     }
-    private void deleteNotes(){
+
+    private void deleteNotes() {
         boolean someNoteChecked = false;
-        if(mListView.getCount() == 0){
+        if (mListView.getCount() == 0) {
             return;
         }
-        for(int i = 0; i < mListView.getCount() ;i++){
+        for (int i = 0; i < mListView.getCount(); i++) {
             View view = mListView.getChildAt(i);
             ViewHolder vh = (ViewHolder) view.getTag();
-            if(vh.checked){
-             someNoteChecked = true;
-             deleteRowInListView(view, i);
-             mNoteDatabase.removeNote(vh.id);
+            if (vh.checked) {
+                someNoteChecked = true;
+                deleteRowInListView(view, i);
+                mNoteDatabase.removeNote(vh.id);
             }
         }
-        if(!someNoteChecked){
+        if (!someNoteChecked) {
             Toast.makeText(getActivity().getApplicationContext(), "Не выбрана заметка для удаления", Toast.LENGTH_SHORT).show();
         }
         ApplicationSettings.getInstance(getActivity().getApplicationContext()).putInt("notes", mNoteDatabase.fetchAllNotes().length);
     }
- class ViewAdapterNotes extends ArrayAdapter<Note> {
+
+    class ViewAdapterNotes extends ArrayAdapter<Note> {
         private Context mContext;
         private LayoutInflater mInflater;
         Toast buttonDeleteNotes;
-        public ViewAdapterNotes(Context context,List<Note> notes) {
+
+        public ViewAdapterNotes(Context context, List<Note> notes) {
             super(context, R.layout.view_note, notes);
             mContext = context;
             mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             buttonDeleteNotes = new Toast(context);
-            buttonDeleteNotes.setView(mInflater.inflate(R.layout.toast_deletenotes,null));
+            buttonDeleteNotes.setView(mInflater.inflate(R.layout.toast_deletenotes, null));
         }
 
         @Override
@@ -195,12 +204,12 @@ public class FragmentNotes extends Fragment {
             final View rowView;
             Note note = getItem(position);
 
-            if(convertView == null){
-                rowView = mInflater.inflate(R.layout.view_note,null);
-                setViewHolder(rowView,note.getId());
-            } else if ( ((ViewHolder)convertView.getTag()).needInflate){
-                rowView = mInflater.inflate(R.layout.view_note,null);
-                setViewHolder(rowView,note.getId());
+            if (convertView == null) {
+                rowView = mInflater.inflate(R.layout.view_note, null);
+                setViewHolder(rowView, note.getId());
+            } else if (((ViewHolder) convertView.getTag()).needInflate) {
+                rowView = mInflater.inflate(R.layout.view_note, null);
+                setViewHolder(rowView, note.getId());
             } else {
                 rowView = convertView;
             }
@@ -208,7 +217,7 @@ public class FragmentNotes extends Fragment {
             final ViewHolder vh = (ViewHolder) rowView.getTag();
             vh.noteTitle.setText(note.title);
             vh.noteText.setText(note.text);
-            if(!note.subject.equals("")){
+            if (!note.subject.equals("")) {
                 vh.noteSubject.setText(note.text);
                 vh.noteSubject.setVisibility(View.VISIBLE);
             } else {
@@ -218,10 +227,10 @@ public class FragmentNotes extends Fragment {
             vh.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(b){
+                    if (b) {
                         vh.noteTitle.setPaintFlags(vh.noteTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     } else {
-                        vh.noteTitle.setPaintFlags(vh.noteTitle.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                        vh.noteTitle.setPaintFlags(vh.noteTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                     }
                     //buttonDeleteNotes.show();
                     vh.checked = !vh.checked;
@@ -231,7 +240,7 @@ public class FragmentNotes extends Fragment {
             return rowView;
         }
 
-        private void setViewHolder(View v, int id){
+        private void setViewHolder(View v, int id) {
             ViewHolder vh = new ViewHolder();
             vh.noteTitle = (TextView) v.findViewById(R.id.textview_notetitle);
             vh.noteText = (TextView) v.findViewById(R.id.textview_notetext);

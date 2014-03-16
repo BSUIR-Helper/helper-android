@@ -1,6 +1,5 @@
 package ru.bsuirhelper.android.ui.schedule;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -13,7 +12,6 @@ import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.core.schedule.StudentGroup;
-import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 
 import java.util.ArrayList;
 
@@ -32,9 +30,7 @@ public class ActivityDeleteGroups extends ActionBarActivity {
         mListView = (ListView) findViewById(R.id.listview_groups);
         mScheduleManager = ScheduleManager.getInstance(this);
         mSettings = ApplicationSettings.getInstance(this);
-        ArrayList<StudentGroup> alGroups = mScheduleManager.getGroups();
-        StudentGroup[] groups = new StudentGroup[alGroups.size()];
-        groups = alGroups.toArray(groups);
+        ArrayList<StudentGroup> groups = mScheduleManager.getGroups();
         final GroupsViewAdapter vaGroups = new GroupsViewAdapter(this, groups, R.layout.view_deletegroup);
         if (vaGroups.getCount() != 0) {
             mListView.setAdapter(vaGroups);
@@ -67,8 +63,7 @@ public class ActivityDeleteGroups extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_deletegroup:
                 deleteGroupsWhichChecked(mListView);
-                Intent intent = new Intent(this, ActivityDrawerMenu.class);
-                startActivity(intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

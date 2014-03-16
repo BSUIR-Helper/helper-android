@@ -15,6 +15,7 @@
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
         android:password="false"
+        android:focusable="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"/>
 </RelativeLayout>

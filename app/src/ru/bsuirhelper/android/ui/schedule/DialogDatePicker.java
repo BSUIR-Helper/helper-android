@@ -12,12 +12,19 @@ import ru.bsuirhelper.android.core.StudentCalendar;
 
 import java.util.Calendar;
 
-import static android.app.DatePickerDialog.*;
+import static android.app.DatePickerDialog.OnDateSetListener;
 
 /**
  * Created by Влад on 07.11.13.
  */
 public abstract class DialogDatePicker extends DialogFragment implements OnDateSetListener {
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,20 +34,29 @@ public abstract class DialogDatePicker extends DialogFragment implements OnDateS
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         CustomDatePicker datePickerDialog = new CustomDatePicker(getActivity(), this, year, month, day);
-        if(Build.VERSION.SDK_INT > 10){
-         datePickerDialog.getDatePicker().setMinDate(StudentCalendar.getStartStudentYear());
-         datePickerDialog.getDatePicker().setMaxDate(StudentCalendar.getEndStudentYear());
+        if (Build.VERSION.SDK_INT > 10) {
+            datePickerDialog.getDatePicker().setMinDate(StudentCalendar.getStartStudentYear());
+            datePickerDialog.getDatePicker().setMaxDate(StudentCalendar.getEndStudentYear());
         }
         return datePickerDialog;
     }
-    class CustomDatePicker extends DatePickerDialog{
+
+    @Override
+    public void onDestroyView() {
+        if (getDialog() != null && getRetainInstance())
+            getDialog().setOnDismissListener(null);
+        super.onDestroyView();
+    }
+
+    class CustomDatePicker extends DatePickerDialog {
 
         public CustomDatePicker(Context context, OnDateSetListener callBack, int year, int month, int day) {
             super(context, callBack, year, month, day);
             setTitle("Учебная неделя " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
+
         @Override
-        public void onDateChanged(DatePicker view, int year,int month, int day) {
+        public void onDateChanged(DatePicker view, int year, int month, int day) {
             setTitle("Учебная неделя " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
     }
