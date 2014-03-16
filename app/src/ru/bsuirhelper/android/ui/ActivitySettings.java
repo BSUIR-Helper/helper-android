@@ -2,9 +2,11 @@ package ru.bsuirhelper.android.ui;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBase;
 
 /**
  * Created by Влад on 15.02.14.
@@ -20,6 +22,14 @@ public class ActivitySettings extends PreferenceActivity {
             getActionBar().setDisplayHomeAsUpEnabled(true);
             getActionBar().setHomeButtonEnabled(true);
         }
+        Preference myPref = (Preference) findPreference("show_subject_type");
+        myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                ScheduleWidgetProviderBase.updateAllWidgets(ActivitySettings.this);
+                return true;
+            }
+        });
+
     }
 
     @Override

@@ -19,7 +19,6 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBig;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.core.schedule.StudentGroup;
 import ru.bsuirhelper.android.ui.DownloadScheduleTask;
@@ -63,7 +62,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 StudentGroup group = (StudentGroup) mListGroups.getAdapter().getItem(position);
                 ApplicationSettings.getInstance(view.getContext()).putString("defaultgroup", group.groupId);
-                updateAppWidget();
+                //  ScheduleWidgetProviderBase.getInstance().updateAppWidget(getActivity());
                 Bundle args = new Bundle();
                 args.putString("groupId", group.groupId);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -124,11 +123,6 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
         }
     }
 
-    private void updateAppWidget() {
-        Intent i = new Intent(getActivity(), ScheduleWidgetProviderBig.class);
-        i.setAction(ScheduleWidgetProviderBig.UPDATE_ACTION);
-        getActivity().sendBroadcast(i);
-    }
 
     @Override
     public void onPostExecute() {

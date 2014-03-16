@@ -5,5 +5,9 @@ package ru.bsuirhelper.android.appwidget;
  */
 public class ScheduleWidgetProviderMedium extends ScheduleWidgetProviderBase {
 
+    @Override
+    Class getWidgetClass() {
+        return getClass();
+    }
 }
 

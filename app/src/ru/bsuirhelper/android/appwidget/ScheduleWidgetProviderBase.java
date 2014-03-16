@@ -22,15 +22,15 @@ import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 /**
  * Created by Влад on 04.02.14.
  */
-public class ScheduleWidgetProviderBase extends AppWidgetProvider {
+public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
     public static final String UPDATE_ACTION = "UDATE_ACTION";
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
+        notifyRecreateListView(context);
         for (int i = 0; i < appWidgetIds.length; i++) {
-            Log.wtf(ActivityDrawerMenu.LOG_TAG, "UPDATE in onUpdate!");
             Intent intent = new Intent(context, ScheduleWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
@@ -42,7 +42,6 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
             }
             ScheduleManager scheduleManager = ScheduleManager.getInstance(context);
             setOnClickWidget(context, rv, i);
-
             if (defaultGroup == null) {
                 rv.setViewVisibility(R.id.widget_textView, View.VISIBLE);
                 rv.setTextViewText(R.id.widget_textView, "Загрузить расписание");
@@ -68,37 +67,61 @@ public class ScheduleWidgetProviderBase extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }
-        notifyRecreateListView(context);
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setOnClickWidget(Context context, RemoteViews rv, int appWidgetId) {
         Intent startMainActivity = new Intent(context, ActivityDrawerMenu.class);
+        startMainActivity.setData(Uri.parse(startMainActivity.toUri(Intent.URI_INTENT_SCHEME)));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, startMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.widget_schedule, pendingIntent);
+        rv.setPendingIntentTemplate(R.id.widget_listView, pendingIntent);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
         String action = intent.getAction();
         if (action != null && action.equals(UPDATE_ACTION)) {
             final AppWidgetManager manager = AppWidgetManager.getInstance(context);
             int appWidgetIds[] = manager.getAppWidgetIds(
-                    new ComponentName(context, ScheduleWidgetProviderBase.class));
+                    new ComponentName(context, this.getClass()));
             if (Build.VERSION.SDK_INT > 10) {
                 onUpdate(context, manager, appWidgetIds);
             }
-        } else {
-            super.onReceive(context, intent);
+            Intent startActivity = new Intent(context, ActivityDrawerMenu.class);
+            context.startActivity(startActivity);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void notifyRecreateListView(Context context) {
+    public void notifyRecreateListView(Context context) {
+        Log.wtf(ActivityDrawerMenu.LOG_TAG, "Notify recreate listview");
         final AppWidgetManager manager = AppWidgetManager.getInstance(context);
         int appWidgetIds[] = manager.getAppWidgetIds(
-                new ComponentName(context, this.getClass()));
+                new ComponentName(context, getWidgetClass()));
         manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
     }
 
+    public void updateAppWidget(Context context) {
+        Intent i = new Intent(context, ScheduleWidgetProviderBase.class);
+        i.setAction(UPDATE_ACTION);
+        context.sendBroadcast(i);
+    }
+
+    public static void updateAllWidgets(Context context) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] appWidgetIdsBig = appWidgetManager.getAppWidgetIds(new ComponentName(context, ScheduleWidgetProviderBig.class));
+        if (appWidgetIdsBig.length > 0) {
+            new ScheduleWidgetProviderBig().onUpdate(context, appWidgetManager, appWidgetIdsBig);
+        }
+
+        int[] appWidgetIdsMedium = appWidgetManager.getAppWidgetIds(new ComponentName(context, ScheduleWidgetProviderMedium.class));
+        if (appWidgetIdsBig.length > 0) {
+            new ScheduleWidgetProviderMedium().onUpdate(context, appWidgetManager, appWidgetIdsMedium);
+        }
+    }
+
+    abstract Class getWidgetClass();
 }

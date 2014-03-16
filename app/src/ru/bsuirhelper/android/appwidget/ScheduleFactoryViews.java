@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import org.joda.time.DateTime;
@@ -13,6 +16,8 @@ import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
+import ru.bsuirhelper.android.ui.ActivitySettings;
 
 /**
  * Created by Влад on 15.10.13.
@@ -57,10 +62,10 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int position) {
+        Log.wtf(ActivityDrawerMenu.LOG_TAG, "Redraw listview");
         RemoteViews rView = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_view_lesson);
         Lesson lesson = mLessons[position];
-        rView.setTextViewText(R.id.widget_lesson_name, lesson.fields.get("subject"));
         rView.setTextViewText(R.id.widget_lesson_time, lesson.fields.get("timePeriod"));
         rView.setTextViewText(R.id.widget_lesson_teacher, lesson.fields.get("teacher"));
 
@@ -68,20 +73,37 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
             rView.setTextViewText(R.id.widget_lesson_auditorium, lesson.fields.get("auditorium"));
         }
 
-        String lessonType = lesson.fields.get("subjectType");
+        String subjectType = lesson.fields.get("subjectType");
 
-        if (lessonType.equals("лр")) {
+        if (!subjectType.equals("кч")) {
+            boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
+                    mContext).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
+            Log.wtf(ActivityDrawerMenu.LOG_TAG, "isSubjectType:" + isShowSubjectTypes);
+            if (isShowSubjectTypes && !subjectType.equals("")) {
+                rView.setTextViewText(R.id.widget_lesson_name, lesson.fields.get("subject"));
+                rView.setViewVisibility(R.id.widget_subject_type, View.VISIBLE);
+                rView.setTextViewText(R.id.widget_subject_type, " (" + subjectType + ")");
+            } else {
+                rView.setTextViewText(R.id.widget_lesson_name, lesson.fields.get("subject"));
+                rView.setViewVisibility(R.id.widget_subject_type, View.GONE);
+            }
+        } else {
+            rView.setTextViewText(R.id.widget_lesson_name, "КЧ");
+        }
+
+        if (subjectType.equals("лр")) {
             rView.setInt(R.id.widget_lesson_type_color, "setBackgroundColor", (Color.parseColor("#FF4444")));
-        } else if (lessonType.equals("пз")) {
+        } else if (subjectType.equals("пз")) {
             rView.setInt(R.id.widget_lesson_type_color, "setBackgroundColor", (Color.parseColor("#FFBB33")));
-        } else if (lessonType.equals("лк")) {
+        } else if (subjectType.equals("лк")) {
             rView.setInt(R.id.widget_lesson_type_color, "setBackgroundColor", (Color.parseColor("#99CC00")));
         } else {
             rView.setInt(R.id.widget_lesson_type_color, "setBackgroundColor", (Color.WHITE));
         }
 
         rView.setInt(R.id.widget_separateline, "setBackgroundColor", Color.WHITE);
-
+        Intent startMainActivity = new Intent();
+        rView.setOnClickFillInIntent(R.id.widget_lesson_container, startMainActivity);
         return rView;
 
     }
