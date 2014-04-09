@@ -8,6 +8,8 @@ import org.joda.time.PeriodType;
  * Created by Влад on 11.10.13.
  */
 public class StudentCalendar {
+    public static final int FIRST_SEMESTER = 1;
+    public static final int SECOND_SEMESTER = 2;
     private final DateTime mCurrentDateTime;
     private static int mDaysOfYear = 0;
     private static int mSemester;

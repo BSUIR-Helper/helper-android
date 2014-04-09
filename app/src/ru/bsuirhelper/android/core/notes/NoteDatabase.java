@@ -19,8 +19,6 @@ public class NoteDatabase extends SQLiteOpenHelper {
     private final String COLUMN_NAME_CREATE_DATE = "create_date";
     private final String COLUMN_NAME_LESSOND_ID = "lesson_id";
     private final String COLUMN_NAME_SUBJECT = "subject";
-
-
     private SQLiteDatabase db;
     private static NoteDatabase instance;
 
@@ -38,7 +36,6 @@ public class NoteDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " ("
                 + _ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_NAME_TITLE + " TEXT,"
@@ -47,13 +44,10 @@ public class NoteDatabase extends SQLiteOpenHelper {
                 + COLUMN_NAME_SUBJECT + " INTEGER,"
                 + COLUMN_NAME_LESSOND_ID + " INTEGER"
                 + ");");
-
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(sqLiteDatabase);
     }

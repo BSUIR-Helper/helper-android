@@ -22,6 +22,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private SQLiteDatabase db;
     private String _ID = "id";
+    private boolean isDatabaseOpen = false;
 
     public ScheduleDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -46,14 +47,11 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String scheduleGroup = "schedule_" + groupId;
         Cursor c = db.rawQuery("SELECT*FROM " + scheduleGroup, null);
         ArrayList<Lesson> lessons = new ArrayList<Lesson>(c.getCount());
-
         while (c.moveToNext()) {
             Lesson lesson = new Lesson();
-            setDataFromCursor(lesson, c);
+            createLessonFromCursor(lesson, c);
             lessons.add(lesson);
         }
-
-        this.close();
         return lessons;
     }
 
@@ -91,11 +89,10 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         Lesson[] lessons = new Lesson[cursor.getCount()];
         while (cursor.moveToNext()) {
             Lesson lesson = new Lesson();
-            setDataFromCursor(lesson, cursor);
+            createLessonFromCursor(lesson, cursor);
             lesson.id = new String(dayOfYear.getDayOfYear() + lesson.fields.get("timePeriodStart") + lesson.fields.get("timePeriodEnd") + lesson.fields.get("teacher")).hashCode();
             lessons[cursor.getPosition()] = lesson;
         }
-        this.close();
         return lessons;
     }
 
@@ -136,14 +133,12 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         for (ContentValues cv : tableValues) {
             db.insert(tableName, null, cv);
         }
-        this.close();
     }
 
     public void deleteSchedule(String groupId) {
         String tableName = "schedule_" + groupId;
         this.open();
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
-        this.close();
 
     }
 
@@ -163,25 +158,17 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 tables.moveToNext();
             }
         }
-        this.close();
         return studentGroups;
     }
 
-    private boolean isOpen = false;
-
     void open() {
-        if (!isOpen) {
+        if (!isDatabaseOpen) {
             db = this.getWritableDatabase();
-            isOpen = true;
+            isDatabaseOpen = true;
         }
     }
 
-    public void close() {
-
-    }
-
-
-    private void setDataFromCursor(Lesson lesson, Cursor cursor) {
+    private void createLessonFromCursor(Lesson lesson, Cursor cursor) {
         for (String key : lesson.fields.keySet()) {
             lesson.fields.put(key, cursor.getString(cursor.getColumnIndex(key)));
         }

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import org.joda.time.DateTime;
@@ -97,7 +96,6 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void notifyRecreateListView(Context context) {
-        Log.wtf(ActivityDrawerMenu.LOG_TAG, "Notify recreate listview");
         final AppWidgetManager manager = AppWidgetManager.getInstance(context);
         int appWidgetIds[] = manager.getAppWidgetIds(
                 new ComponentName(context, getWidgetClass()));

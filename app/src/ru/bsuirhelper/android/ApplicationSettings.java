@@ -10,6 +10,7 @@ public class ApplicationSettings {
     private static ApplicationSettings instance;
     private static SharedPreferences settings;
     private static final String PREFS_NAME = "settings.txt";
+    public static final String DEFAULT_GROUP_OF_SCHEDULE = "defaultgroup";
 
     private ApplicationSettings(Context context) {
         settings = context.getSharedPreferences(PREFS_NAME, 1);

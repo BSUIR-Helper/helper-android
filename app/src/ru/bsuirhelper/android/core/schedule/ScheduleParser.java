@@ -23,7 +23,6 @@ public class ScheduleParser {
             e.printStackTrace();
         }
         doc.getDocumentElement().normalize();
-
         NodeList list = doc.getElementsByTagName("ROW");
         ArrayList<Lesson> lessons = new ArrayList<Lesson>();
         for (int i = 0; i < list.getLength(); i++) {

@@ -18,7 +18,6 @@ import ru.bsuirhelper.android.core.notes.NoteDatabase;
  * Created by Влад on 02.02.14.
  */
 public class ActivityDetailNote extends ActionBarActivity {
-
     private NoteDatabase mNoteDatabase;
     private int mNoteId;
     private int mLessonId;
@@ -43,8 +42,8 @@ public class ActivityDetailNote extends ActionBarActivity {
         super.onResume();
         mNoteDatabase = NoteDatabase.getInstance(getApplicationContext());
         Intent startIntent = getIntent();
-        mNoteId = startIntent.getIntExtra("note_id", -1);
-        mLessonId = startIntent.getIntExtra("lesson_id", -1);
+        mNoteId = startIntent.getIntExtra("note_id", Note.NO_LESSON);
+        mLessonId = startIntent.getIntExtra("lesson_id", Note.NO_LESSON);
         Note note = mNoteDatabase.fetchNote(mNoteId);
 
         tvNoteTitle.setText(note.title);

@@ -40,7 +40,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
-        //  setRetainInstance(true);
     }
 
     @Override

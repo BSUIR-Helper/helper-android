@@ -61,7 +61,6 @@ class ViewAdapterLessons extends BaseAdapter {
         String teacher = lesson.fields.get("teacher");
         String subjectType = lesson.fields.get("subjectType");
 
-
         if (!subjectType.equals("кч")) {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
                     convertView.getContext()).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);

@@ -52,7 +52,6 @@ public class ActivityDeleteGroups extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_groupsdelete_activity_actions, menu);
         return super.onCreateOptionsMenu(menu);
@@ -76,12 +75,10 @@ public class ActivityDeleteGroups extends ActionBarActivity {
             CheckBox checkBox = (CheckBox) listView.getChildAt(position).findViewById(R.id.checkbox_fordelete);
             if (checkBox.isChecked()) {
                 mScheduleManager.deleteSchedule(adapter.getItem(position).groupId);
-                //Delete from settings default group
-                String defaultGroup = mSettings.getString("defaultgroup", null);
-
+                String defaultGroup = mSettings.getString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
                 if (!(defaultGroup == null)) {
                     if (defaultGroup.equals(adapter.getItem(position).groupId)) {
-                        mSettings.putString("defaultgroup", null);
+                        mSettings.putString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
                     }
                 }
             }

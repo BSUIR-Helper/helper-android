@@ -34,18 +34,16 @@ public class FragmentScheduleOfDay extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
         Context context = getActivity().getApplicationContext();
-
         ScheduleManager scheduleManager = ScheduleManager.getInstance(context);
         Bundle args = getArguments();
-        DateTime day = StudentCalendar.convertToDefaultDateTime(args.getInt("day"));
         TextView dateInText = (TextView) fragmentView.findViewById(R.id.date);
+        DateTime day = StudentCalendar.convertToDefaultDateTime(args.getInt("day"));
         dateInText.setText(day.getDayOfMonth() + " " + day.monthOfYear().getAsText() + " " + day.year().getAsText() + "");
         String groupId = args.getString("groupId");
         int subgroup = args.getInt("subgroup");
         mAdapterLessons = new ViewAdapterLessons(context, scheduleManager.getLessonsOfDay(groupId, day, subgroup));
 
-        if ((day.getMonthOfYear() <= 8 && mStudentCalendar.getSemester() == 1) ||
-                (day.getMonthOfYear() >= 9 && mStudentCalendar.getSemester() == 2)) {
+        if (isSummer(day)) {
             TextView view = (TextView) fragmentView.findViewById(R.id.textView);
             view.setText("Занятия не известны");
             view.setVisibility(View.VISIBLE);
@@ -58,19 +56,11 @@ public class FragmentScheduleOfDay extends Fragment {
                     Lesson lesson = (Lesson) mListOfLessons.getAdapter().getItem(i);
                     Note note = NoteDatabase.getInstance(getActivity().getApplicationContext())
                             .fetchNoteByLessonId(lesson.id);
-                    Intent intent = null;
                     if (note != null) {
-                        intent = new Intent(getActivity(), ActivityDetailNote.class);
-                        intent.putExtra("note_id", note.getId());
-                        intent.putExtra("lesson_id", lesson.id);
-                        intent.putExtra("REQUEST_CODE", ActivityEditNote.REQUEST_CODE_EDIT_NOTE);
+                        startActivity(createIntentForEditNote(lesson, note));
                     } else {
-                        intent = new Intent(getActivity(), ActivityEditNote.class);
-                        intent.putExtra("lesson_id", lesson.id);
-                        intent.putExtra("lesson_subject", lesson.fields.get("subject") + " " + lesson.fields.get("subjectType"));
-                        intent.putExtra("REQUEST_CODE", ActivityEditNote.REQUEST_CODE_ADD_NOTE);
+                        startActivity(createIntentForAddNote(lesson));
                     }
-                    startActivity(intent);
                 }
             });
         } else {
@@ -86,5 +76,26 @@ public class FragmentScheduleOfDay extends Fragment {
         super.onResume();
         mAdapterLessons.notifyDataSetChanged();
         mAdapterLessons.notifyDataSetInvalidated();
+    }
+
+    private Intent createIntentForAddNote(Lesson lesson) {
+        Intent intent = new Intent(getActivity(), ActivityEditNote.class);
+        intent.putExtra("lesson_id", lesson.id);
+        intent.putExtra("lesson_subject", lesson.fields.get("subject") + " " + lesson.fields.get("subjectType"));
+        intent.putExtra("REQUEST_CODE", ActivityEditNote.REQUEST_CODE_ADD_NOTE);
+        return intent;
+    }
+
+    private Intent createIntentForEditNote(Lesson lesson, Note note) {
+        Intent intent = new Intent(getActivity(), ActivityDetailNote.class);
+        intent.putExtra("note_id", note.getId());
+        intent.putExtra("lesson_id", lesson.id);
+        intent.putExtra("REQUEST_CODE", ActivityEditNote.REQUEST_CODE_EDIT_NOTE);
+        return intent;
+    }
+
+    private boolean isSummer(DateTime day) {
+        return (day.getMonthOfYear() <= 8 && mStudentCalendar.getSemester() == StudentCalendar.FIRST_SEMESTER) ||
+                (day.getMonthOfYear() >= 9 && mStudentCalendar.getSemester() == StudentCalendar.SECOND_SEMESTER);
     }
 }

@@ -51,8 +51,6 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 return null;
             }
-
-            // download the file
             input = connection.getInputStream();
             output = context.openFileOutput(TEMP_FILE_NAME, Context.MODE_PRIVATE);
 

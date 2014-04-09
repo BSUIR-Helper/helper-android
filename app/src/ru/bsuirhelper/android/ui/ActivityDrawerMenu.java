@@ -13,7 +13,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,8 +39,8 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     private ListView mDrawerList;
     private ActionBar mActionBar;
     private Runnable mPendingRunnable;
+    private Spinner mSpinnerGroups;
     private Handler mHandler;
-    private int selectedPosition = -1;
     private final String[] mMenuItems = new String[]{"Расписание", "Заметки", "Настройки"};
 
     @Override
@@ -66,6 +65,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                 }
             }
         };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerAdapter = new DrawerArrayAdapter(this, mMenuItems);
         mDrawerList.setAdapter(mDrawerAdapter);
@@ -80,18 +80,23 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mHandler = new Handler();
+
         FragmentManager fm = getSupportFragmentManager();
-        if (savedInstanceState == null || !savedInstanceState.getBoolean("selected", false)) {
-            selectedPosition = SCHEDULE_FRAGMENT;
-            Log.wtf(LOG_TAG, "Call replace");
+
+        mHandler = new Handler(); //For smooth closing drawer
+
+        String defaultGroup = ApplicationSettings.getInstance(this).getString("defaultgroup", null);
+        if (defaultGroup != null) {
             fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+        } else {
+            fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
         }
+
         if (ApplicationSettings.getInstance(this).getBoolean("isFirstShowDrawer", true)) {
             openDrawerMenu();
             ApplicationSettings.getInstance(this).putBoolean("isFirstShowDrawer", false);
         }
+
     }
 
     @Override
@@ -138,7 +143,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         Fragment fragment = null;
         Intent intent = new Intent();
         mActionBar.setSubtitle(null);
-        selectedPosition = position;
         switch (position) {
             case SCHEDULE_FRAGMENT:
                 fragment = new FragmentManagerGroups();
@@ -167,7 +171,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         };
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        closeDrawerMenu();
     }
 
     protected void openDrawerMenu() {
@@ -175,7 +179,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     }
 
     protected void closeDrawerMenu() {
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
     }
 
     class DrawerArrayAdapter extends ArrayAdapter<String> {

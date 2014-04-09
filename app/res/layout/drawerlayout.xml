@@ -12,11 +12,20 @@
 
     </FrameLayout>
     <!-- The navigation drawer -->
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/navigation_drawer"
+        android:layout_height="fill_parent"
         android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:background="#ff181818"/>
+        android:orientation="vertical"
+        android:background="#ff181818">
+
+        <ListView
+            android:id="@+id/left_drawer"
+            android:layout_width="280dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left"
+            android:choiceMode="singleChoice"
+            />
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -62,7 +62,6 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int position) {
-        Log.wtf(ActivityDrawerMenu.LOG_TAG, "Redraw listview");
         RemoteViews rView = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_view_lesson);
         Lesson lesson = mLessons[position];

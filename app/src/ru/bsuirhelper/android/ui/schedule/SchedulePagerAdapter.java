@@ -37,17 +37,16 @@ class SchedulePagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         String dateTime = "";
         DateTime day = StudentCalendar.convertToDefaultDateTime(position + 1);
-        String sDay;
+        String nameDayOfWeek;
         if (day.getDayOfYear() == DateTime.now().getDayOfYear()) {
-            sDay = "Сегодня";
+            nameDayOfWeek = "Сегодня";
         } else {
-            //UpperCase first character friday -> Friday
-            sDay = day.dayOfWeek().getAsText();
-            char firstCharacter = Character.toUpperCase(sDay.charAt(0));
-            sDay = firstCharacter + sDay.substring(1);
+            nameDayOfWeek = day.dayOfWeek().getAsText();
+            char firstCharacter = Character.toUpperCase(nameDayOfWeek.charAt(0));
+            nameDayOfWeek = firstCharacter + nameDayOfWeek.substring(1);
 
         }
-        dateTime += sDay;
+        dateTime += nameDayOfWeek;
         return dateTime;
     }
 

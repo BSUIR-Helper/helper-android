@@ -11,7 +11,7 @@
     <application
         android:label="BSUIR Helper"
         android:icon="@drawable/ic_launcher"
-        android:debuggable="false"
+        android:debuggable="true"
         android:theme="@style/Theme.AppCompat"
         >
         <!-- ACTIVITIES -->
@@ -42,9 +42,6 @@
         <activity
             android:name="ru.bsuirhelper.android.ui.ActivitySettings"
             android:label="Настройки"/>
-        <activity
-            android:name="ru.bsuirhelper.android.ui.schedule.ActivityEditLesson"
-            android:label="Добавить расписание"/>
 
         <!-- WIDGET -->
         <service

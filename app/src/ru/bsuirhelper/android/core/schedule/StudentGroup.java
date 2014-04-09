@@ -18,6 +18,11 @@ public class StudentGroup {
 
     }
 
+    @Override
+    public String toString() {
+        return groupId + " (" + faculty + ")";
+    }
+
     private String getFacultyName(int code) {
         if (code >= facultyNames.length) {
             return null;
