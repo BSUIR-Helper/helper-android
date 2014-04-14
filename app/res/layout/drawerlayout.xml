@@ -20,6 +20,13 @@
         android:orientation="vertical"
         android:background="#ff181818">
 
+        <Spinner
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_groups"
+            android:dropDownWidth="220dp">
+        </Spinner>
+
         <ListView
             android:id="@+id/left_drawer"
             android:layout_width="280dp"

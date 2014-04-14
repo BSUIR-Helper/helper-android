@@ -21,6 +21,7 @@ import android.widget.*;
 import com.google.analytics.tracking.android.EasyTracker;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.ui.notes.FragmentNotes;
 import ru.bsuirhelper.android.ui.schedule.FragmentManagerGroups;
 import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
@@ -39,21 +40,43 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     private ListView mDrawerList;
     private ActionBar mActionBar;
     private Runnable mPendingRunnable;
-    private Spinner mSpinnerGroups;
     private Handler mHandler;
+    private Spinner mSpinnerGroups;
     private final String[] mMenuItems = new String[]{"Расписание", "Заметки", "Настройки"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.drawerlayout);
+        drawerInitialize();
+        actionBarInitialize();
+        spinnerInitialize();
+        FragmentManager fm = getSupportFragmentManager();
+        String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
+
+        if (defaultGroup != null) {
+            fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+        } else {
+            fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
+        }
+
+        if (ApplicationSettings.getInstance(this).getBoolean("isFirstShowDrawer", true)) {
+            openDrawerMenu();
+            ApplicationSettings.getInstance(this).putBoolean("isFirstShowDrawer", false);
+        }
+
+    }
+
+
+    private void drawerInitialize() {
+        mHandler = new Handler();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
+                this,
+                mDrawerLayout,
+                R.drawable.ic_drawer,
+                R.string.drawer_open,
+                R.string.drawer_close
         ) {
             @Override
             public void onDrawerClosed(View view) {
@@ -77,26 +100,18 @@ public class ActivityDrawerMenu extends ActionBarActivity {
             }
         });
 
+    }
+
+    private void actionBarInitialize() {
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
+    }
 
-        FragmentManager fm = getSupportFragmentManager();
-
-        mHandler = new Handler(); //For smooth closing drawer
-
-        String defaultGroup = ApplicationSettings.getInstance(this).getString("defaultgroup", null);
-        if (defaultGroup != null) {
-            fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
-        } else {
-            fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
-        }
-
-        if (ApplicationSettings.getInstance(this).getBoolean("isFirstShowDrawer", true)) {
-            openDrawerMenu();
-            ApplicationSettings.getInstance(this).putBoolean("isFirstShowDrawer", false);
-        }
-
+    private void spinnerInitialize() {
+        mSpinnerGroups = (Spinner) findViewById(R.id.spinner_groups);
+        BaseAdapter groupsAdapter = new SpinnerGroupsAdapter(this, ScheduleManager.getInstance(this).getGroups());
+        mSpinnerGroups.setAdapter(groupsAdapter);
     }
 
     @Override
@@ -132,14 +147,8 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mDrawerAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("selected", true);
-    }
 
     private void selectItem(final int position) {
-        // Create a new fragment and specify the planet to show based on position
         Fragment fragment = null;
         Intent intent = new Intent();
         mActionBar.setSubtitle(null);
@@ -156,11 +165,11 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                 startActivity(intent.setClass(getApplicationContext(), ActivitySettings.class));
                 return;
         }
+
         final Fragment finalFragment = fragment;
         mPendingRunnable = new Runnable() {
             @Override
             public void run() {
-                // Insert the fragment by replacing any existing fragment
                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, finalFragment)
@@ -169,7 +178,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
             }
 
         };
-        // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         closeDrawerMenu();
     }

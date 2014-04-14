@@ -51,9 +51,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentContent = inflater.inflate(R.layout.activity_managerschedule, container, false);
         mTextViewNotification = (TextView) fragmentContent.findViewById(R.id.textview_groupsarenotadded);
         mListGroups = (ListView) fragmentContent.findViewById(R.id.listview_groups);
@@ -78,14 +76,10 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     @Override
     public void onResume() {
         super.onResume();
-        if (ApplicationSettings.getInstance(getActivity()).getBoolean("firststart", true)) {
-            //     openDrawerMenu();
-        }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu items for use in the action bar
         inflater.inflate(R.menu.menu_managergroups_fragment_actions, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
