@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.*;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 import ru.bsuirhelper.android.ui.DownloadScheduleTask;
 import ru.bsuirhelper.android.ui.RotationViewPager;
 
@@ -48,6 +50,28 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         mSettings = ApplicationSettings.getInstance(getActivity().getApplicationContext());
         mStudentCalendar = new StudentCalendar();
         setHasOptionsMenu(true);
+        mGroupId = getDefaultGroup();
+    }
+
+    private String getDefaultGroup() {
+        String defaultGroup = null;
+        try {
+            defaultGroup = (String) getArguments().get("groupId");
+        } catch (NullPointerException ex) {
+
+        }
+
+        if (defaultGroup == null) {
+            defaultGroup = mSettings.getString("defaultgroup", null);
+            //If get null, it's mean not set default group
+            if (defaultGroup == null) {
+                FragmentManager fm = getChildFragmentManager();
+                fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
+                mActionBar.setTitle(FragmentManagerGroups.TITLE);
+                return null;
+            }
+        }
+        return defaultGroup;
     }
 
     @Override
@@ -60,24 +84,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         if (Build.VERSION.SDK_INT > 10) {
             mPager.setPageTransformer(true, new RotationViewPager());
         }
-
-        try {
-            mGroupId = (String) getArguments().get("groupId");
-        } catch (NullPointerException ex) {
-
-        }
-
-        if (mGroupId == null) {
-            mGroupId = mSettings.getString("defaultgroup", null);
-            //If get null, it's mean not set default group
-            if (mGroupId == null) {
-                FragmentManager fm = getChildFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
-                mActionBar.setTitle(FragmentManagerGroups.TITLE);
-                return null;
-            }
-        }
-
         int subgroup = mSettings.getInt(mGroupId, 1);
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getChildFragmentManager(), mGroupId, subgroup);
         mPager.setAdapter(adapter);
@@ -131,11 +137,12 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        mGroupId = getDefaultGroup();
         inflater.inflate(R.menu.menu_schedule_activity_actions, menu);
         mSubgroup1 = menu.findItem(R.id.subgroup1);
         mSubgroup2 = menu.findItem(R.id.subgroup2);
         int subgroup = mSettings.getInt(mGroupId, 1);
-
+        Log.d(ActivityDrawerMenu.LOG_TAG, "Default group:" + mGroupId + " subgroup:" + subgroup);
         if (subgroup == 1) {
             mSubgroup1.setChecked(true);
         } else {
