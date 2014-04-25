@@ -34,4 +34,6 @@
         <item>3-я неделя</item>
         <item>4-я неделя</item>
     </string-array>
+    <!--GROUPS ADAPTER-->
+    <string name="active_group">АКТИВНО</string>
 </resources>

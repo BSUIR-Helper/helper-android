@@ -55,7 +55,6 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
         View fragmentContent = inflater.inflate(R.layout.activity_managerschedule, container, false);
         mTextViewNotification = (TextView) fragmentContent.findViewById(R.id.textview_groupsarenotadded);
         mListGroups = (ListView) fragmentContent.findViewById(R.id.listview_groups);
-        refreshListGroup();
         mListGroups.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -76,6 +75,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     @Override
     public void onResume() {
         super.onResume();
+        refreshListGroup();
     }
 
     @Override
@@ -135,14 +135,12 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
 
     class DialogFragmentAddGroup extends DialogFragment {
 
-
         @Override
         public void onDestroyView() {
             if (getDialog() != null && getRetainInstance())
                 getDialog().setOnDismissListener(null);
             super.onDestroyView();
         }
-
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -180,7 +178,6 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
                         }
                     });
             return builder.create();
-
         }
     }
 }

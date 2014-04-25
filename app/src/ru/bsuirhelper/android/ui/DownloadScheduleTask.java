@@ -53,7 +53,6 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
             }
             input = connection.getInputStream();
             output = context.openFileOutput(TEMP_FILE_NAME, Context.MODE_PRIVATE);
-
             byte data[] = new byte[4096];
             int count;
             while ((count = input.read(data)) != -1) {

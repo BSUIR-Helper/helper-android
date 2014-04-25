@@ -29,7 +29,6 @@ public class ActivitySettings extends PreferenceActivity {
                 return true;
             }
         });
-
     }
 
     @Override

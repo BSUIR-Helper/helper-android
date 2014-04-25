@@ -21,6 +21,7 @@ import android.widget.*;
 import com.google.analytics.tracking.android.EasyTracker;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.ui.notes.FragmentNotes;
 import ru.bsuirhelper.android.ui.schedule.FragmentManagerGroups;
 import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
@@ -108,11 +109,9 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     }
 
     private void spinnerInitialize() {
-        /*
         mSpinnerGroups = (Spinner) findViewById(R.id.spinner_groups);
         BaseAdapter groupsAdapter = new SpinnerGroupsAdapter(this, ScheduleManager.getInstance(this).getGroups());
         mSpinnerGroups.setAdapter(groupsAdapter);
-        */
     }
 
     @Override

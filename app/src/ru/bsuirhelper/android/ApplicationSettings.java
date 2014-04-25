@@ -46,4 +46,8 @@ public class ApplicationSettings {
     public boolean putBoolean(String varName, boolean value) {
         return settings.edit().putBoolean(varName, value).commit();
     }
+
+    public String getDefaultGroupOfSchedule() {
+        return getString(DEFAULT_GROUP_OF_SCHEDULE, null);
+    }
 }
