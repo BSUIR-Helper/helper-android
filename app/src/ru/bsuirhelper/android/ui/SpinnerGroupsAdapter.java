@@ -23,6 +23,8 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
 
     public SpinnerGroupsAdapter(Context context, ArrayList<StudentGroup> groups) {
         this.groups = groups;
+        //Need for last button in spinner
+        //groups.add(groups.size(), null);
         mContext = context;
         mSettings = ApplicationSettings.getInstance(mContext);
     }
@@ -43,34 +45,40 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.spinner_view_group, null);
             setViewHolder(view);
         }
         final ViewHolder vh = (ViewHolder) view.getTag();
-        vh.tvGroupName.setText(groups.get(i).toString());
+        vh.tvGroupName.setText(groups.get(position).toString());
+
         return view;
     }
 
     @Override
-    public View getDropDownView(int i, View view, ViewGroup viewGroup) {
-        if (view == null) {
+    public View getDropDownView(int position, View view, ViewGroup viewGroup) {
+        if (groups.size() - 1 == position) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.view_text_dropdown_spinner, null);
+            return view;
+        }
+
+        if (view == null || view.getTag() == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.view_dropdown_spinner, null);
             setViewHolderDropdown(view);
         }
-
+        Log.d(ActivityDrawerMenu.LOG_TAG, "Position:" + position);
         ViewHolderDropdown vh = (ViewHolderDropdown) view.getTag();
-        Log.d(ActivityDrawerMenu.LOG_TAG, vh.tvGroupName + " ");
-        vh.tvGroupName.setText(groups.get(i).groupId + " (" + groups.get(i).faculty + ")");
-        if (isActiveGroup(groups.get(i).groupId)) {
+        vh.tvGroupName.setText(groups.get(position).groupId + " (" + groups.get(position).faculty + ")");
+        if (isActiveGroup(groups.get(position).groupId)) {
             vh.tvIsActive.setText("АКТИВНО");
+            vh.tvIsActive.setVisibility(View.VISIBLE);
         } else {
-            vh.tvIsActive.setText("");
+            vh.tvIsActive.setVisibility(View.GONE);
         }
-
         return view;
     }
 

@@ -13,17 +13,18 @@
     </FrameLayout>
     <!-- The navigation drawer -->
     <LinearLayout
-        android:layout_width="wrap_content"
         android:id="@+id/navigation_drawer"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_gravity="start"
         android:orientation="vertical"
         android:background="#ff181818">
 
         <Spinner
+            android:id="@+id/spinner_groups"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner_groups"/>
+            android:dropDownWidth="wrap_content"/>
 
         <ListView
             android:id="@+id/left_drawer"

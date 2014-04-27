@@ -2,18 +2,22 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
+              android:layout_marginRight="0dp"
+              android:paddingRight="0dp"
               android:paddingTop="4dp"
               android:paddingLeft="9dp"
               android:paddingBottom="4dp"
               android:background="#ff181818"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="190dp">
+        android:layout_width="match_parent"
+        android:layout_weight="0.4"
+        android:gravity="center_vertical"
+        android:layout_height="40dp"
+        android:minWidth="160dp">
 
         <TextView
             android:id="@+id/textview_dropdown_groupname"
@@ -28,6 +32,8 @@
             android:id="@+id/textview_dropdown_group_default"
             android:layout_width="wrap_content"
             android:textSize="9sp"
+            android:visibility="visible"
+            android:textColor="@color/white"
             android:layout_marginTop="2dp"
             android:text="АКТИВНО"
             android:layout_height="wrap_content"/>
@@ -36,26 +42,29 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="right">
+        android:gravity="right"
+        android:clickable="true"
+        android:background="?selectableItemBackground"
+        >
 
         <ImageView
             android:layout_width="1px"
-            android:layout_marginRight="10dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
             android:background="@color/gray"
             />
 
-        <ImageButton
-            android:id="@+id/btn_dropdown_edit"
-            android:background="@drawable/ic_edit"
-            android:layout_width="28dp"
+        <ImageView
+            android:src="@drawable/ic_edit"
+            android:layout_width="30dp"
+            android:clickable="false"
             android:layout_marginTop="3dp"
-            android:layout_height="28dp"/>
+            android:layout_height="30dp"/>
 
         <ImageView
             android:layout_width="1px"
-            android:layout_marginLeft="10dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:background="@color/gray"
             />
     </LinearLayout>
@@ -63,15 +72,17 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="right">
+        android:id="@+id/btn_dropdown_delete"
+        android:clickable="true"
+        android:background="?selectableItemBackground">
 
-        <ImageButton
-            android:id="@+id/btn_dropdown_delete"
-            android:background="@drawable/ic_deletegroups"
-            android:layout_width="28dp"
+        <ImageView
+            android:src="@drawable/ic_deletegroups"
+            android:layout_width="30dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="3dp"
-            android:layout_height="28dp"
+            android:layout_height="30dp"
             />
     </LinearLayout>
 </LinearLayout>
