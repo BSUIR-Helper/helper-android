@@ -13,6 +13,7 @@ import ru.bsuirhelper.android.core.schedule.StudentGroup;
  * Created by Влад on 12.10.13.
  */
 class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
+    private static final UPDATED = "Обновлено: ";
     private final StudentGroup[] mValues;
     private final Context mContext;
     private final int mViewId;
@@ -41,7 +42,7 @@ class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
             faculty = "";
         }
         tvGroupId.setText(groupId + " " + faculty);
-        tvDateUpdate.setText("Обновлено: " + mValues[position].updatedTime);
+        tvDateUpdate.setText(UPDATED + mValues[position].updatedTime);
         return rowView;
     }
 }

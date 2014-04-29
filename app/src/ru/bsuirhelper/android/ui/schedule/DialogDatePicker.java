@@ -18,6 +18,7 @@ import static android.app.DatePickerDialog.OnDateSetListener;
  * Created by Влад on 07.11.13.
  */
 public abstract class DialogDatePicker extends DialogFragment implements OnDateSetListener {
+    private static final String SCHOOL_WEEK = "Учебная неделя ";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -38,12 +39,12 @@ public abstract class DialogDatePicker extends DialogFragment implements OnDateS
 
         public CustomDatePicker(Context context, OnDateSetListener callBack, int year, int month, int day) {
             super(context, callBack, year, month, day);
-            setTitle("Учебная неделя " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
+            setTitle(SCHOOL_WEEK + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
 
         @Override
         public void onDateChanged(DatePicker view, int year, int month, int day) {
-            setTitle("Учебная неделя " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
+            setTitle(SCHOOL_WEEK + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
     }
 }
