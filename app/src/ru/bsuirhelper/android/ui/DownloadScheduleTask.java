@@ -21,10 +21,17 @@ import java.util.ArrayList;
  * Created by Влад on 18.02.14.
  */
 public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
+    private static final String message = "Обновление расписания";
+    private static final String LIST_URL = "http://www.bsuir.by/psched/rest/";
+    private static final String TEMP_FILE_NAME = "schedule.xml";
+    private static final String ERROR_HAPPENED = "Произошла ошибка";
+    private static final String FRAGMENT_MESSAGE = "Fragment must implement CallBack Interface";
+    private static final String SUCCESS = "Success";
+    private static final String ERROR = "Error";
+
     private ProgressDialog mPogressDialog;
     private Fragment fragment;
     private Context context;
-    private String message = "Обновление расписания";
     private ScheduleManager scheduleManager;
 
     public static interface CallBack {
@@ -39,8 +46,6 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
     }
 
     private File downloadScheduleFromInternet(String groupId) {
-        final String LIST_URL = "http://www.bsuir.by/psched/rest/";
-        final String TEMP_FILE_NAME = "schedule.xml";
         InputStream input = null;
         OutputStream output = null;
         HttpURLConnection connection = null;
@@ -86,11 +91,11 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         String groupId = urls[0];
         File xmlFile = downloadScheduleFromInternet(groupId);
         if (xmlFile == null) {
-            return "Error";
+            return ERROR;
         }
         ArrayList<Lesson> lessons = ScheduleParser.parseXmlSchedule(xmlFile);
         scheduleManager.addSchedule(groupId, lessons);
-        return "Success";
+        return SUCCESS;
     }
 
     @Override
@@ -101,14 +106,14 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
     @Override
     public void onPostExecute(String result) {
         mPogressDialog.cancel();
-        if (result.equals("Error")) {
-            Toast.makeText(context.getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+        if (result.equals(ERROR)) {
+            Toast.makeText(context.getApplicationContext(), ERROR_HAPPENED, Toast.LENGTH_LONG).show();
         } else {
             try {
                 CallBack callBack = (CallBack) fragment;
                 callBack.onPostExecute();
             } catch (ClassCastException e) {
-                System.out.print("Fragment must implement CallBack Interface" + e.getMessage());
+                System.out.print(FRAGMENT_MESSAGE + e.getMessage());
             }
         }
     }
