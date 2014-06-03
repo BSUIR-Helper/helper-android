@@ -43,7 +43,7 @@ class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
             faculty = "";
         }
         tvGroupId.setText(groupId + " " + faculty);
-        tvDateUpdate.setText("Обновлено: " + values.get(position).updatedTime);
+        tvDateUpdate.setText(mContext.getString(R.string.updated) + ": " + values.get(position).updatedTime);
         return rowView;
     }
 

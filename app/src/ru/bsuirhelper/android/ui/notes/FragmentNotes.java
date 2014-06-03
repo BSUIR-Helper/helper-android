@@ -181,7 +181,7 @@ public class FragmentNotes extends Fragment {
             }
         }
         if (!someNoteChecked) {
-            Toast.makeText(getActivity().getApplicationContext(), "Не выбрана заметка для удаления", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), getString(R.string.not_selected_note), Toast.LENGTH_SHORT).show();
         }
         ApplicationSettings.getInstance(getActivity().getApplicationContext()).putInt("notes", mNoteDatabase.fetchAllNotes().length);
     }

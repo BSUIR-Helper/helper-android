@@ -1,7 +1,6 @@
 package ru.bsuirhelper.android.ui;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,11 +69,10 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.view_dropdown_spinner, null);
             setViewHolderDropdown(view);
         }
-        Log.d(ActivityDrawerMenu.LOG_TAG, "Position:" + position);
         ViewHolderDropdown vh = (ViewHolderDropdown) view.getTag();
         vh.tvGroupName.setText(groups.get(position).groupId + " (" + groups.get(position).faculty + ")");
         if (isActiveGroup(groups.get(position).groupId)) {
-            vh.tvIsActive.setText("АКТИВНО");
+            vh.tvIsActive.setText(mContext.getString(R.string.active_group));
             vh.tvIsActive.setVisibility(View.VISIBLE);
         } else {
             vh.tvIsActive.setVisibility(View.GONE);

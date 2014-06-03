@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.core.schedule.ScheduleParser;
@@ -24,7 +25,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
     private ProgressDialog mPogressDialog;
     private Fragment fragment;
     private Context context;
-    private String message = "Обновление расписания";
+    private String message;
     private ScheduleManager scheduleManager;
 
     public static interface CallBack {
@@ -35,6 +36,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         super();
         this.fragment = fragment;
         this.context = fragment.getActivity();
+        this.message = context.getString(R.string.updating_schedule);
         scheduleManager = ScheduleManager.getInstance(fragment.getActivity());
     }
 
@@ -104,7 +106,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         }
 
         if (result.equals("Error")) {
-            Toast.makeText(context.getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+            Toast.makeText(context.getApplicationContext(), fragment.getString(R.string.error), Toast.LENGTH_LONG).show();
         } else {
             try {
                 CallBack callBack = (CallBack) fragment;

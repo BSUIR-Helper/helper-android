@@ -43,7 +43,7 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
             setOnClickWidget(context, rv, i);
             if (defaultGroup == null) {
                 rv.setViewVisibility(R.id.widget_textView, View.VISIBLE);
-                rv.setTextViewText(R.id.widget_textView, "Загрузить расписание");
+                rv.setTextViewText(R.id.widget_textView, context.getText(R.string.load_schedule));
             } else {
                 DateTime lessonDay = DateTime.now();
                 if (scheduleManager.isLessonsEndToday(defaultGroup, subgroup)) {

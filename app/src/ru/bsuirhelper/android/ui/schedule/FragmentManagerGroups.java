@@ -92,12 +92,24 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
                 startActivity(intent);
                 return true;
             case R.id.action_addgroup:
-                DialogFragmentAddGroup dialog = new DialogFragmentAddGroup();
-                dialog.show(getActivity().getSupportFragmentManager(), "");
+                if (isInternetAvaialable()) {
+                    DialogFragmentAddGroup dialog = new DialogFragmentAddGroup();
+                    dialog.show(getActivity().getSupportFragmentManager(), "");
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean isInternetAvaialable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
     void refreshListGroup() {
@@ -121,7 +133,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
 
     @Override
     public void onPostExecute() {
-        Toast.makeText(context, "Расписание добавлено", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
         refreshListGroup();
     }
 
@@ -151,28 +163,18 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
             View contentView = inflater.inflate(R.layout.dialog_addgroup, null);
             builder.setView(contentView);
             final EditText etAddGroup = (EditText) contentView.findViewById(R.id.edittext_addgroup);
-            builder.setTitle("Добавить группу")
-                    .setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.add_group))
+                    .setPositiveButton(getString(R.string.add), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-                            boolean isConnected = activeNetwork != null &&
-                                    activeNetwork.isConnectedOrConnecting();
 
-                            if (!isConnected) {
-                                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                                alert.setTitle("Информация")
-                                        .setMessage("Интернет соединение отсуствует, проверьте подключение к интернету");
-                                alert.show();
-                            } else {
-                                String groupId = etAddGroup.getText().toString();
-                                DownloadScheduleTask downloadScheduleTask = new DownloadScheduleTask(FragmentManagerGroups.this);
-                                downloadScheduleTask.setPogressDialogMessage("Загрузка расписания");
-                                downloadScheduleTask.execute(groupId);
-                            }
+                            String groupId = etAddGroup.getText().toString();
+                            DownloadScheduleTask downloadScheduleTask = new DownloadScheduleTask(FragmentManagerGroups.this);
+                            downloadScheduleTask.setPogressDialogMessage(getActivity().getString(R.string.loading_schedule));
+                            downloadScheduleTask.execute(groupId);
                         }
+
                     })
-                    .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             DialogFragmentAddGroup.this.dismiss();
                         }

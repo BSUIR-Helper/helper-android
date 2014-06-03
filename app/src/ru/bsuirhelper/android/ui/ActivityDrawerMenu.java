@@ -42,12 +42,13 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     private Runnable mPendingRunnable;
     private Handler mHandler;
     private Spinner mSpinnerGroups;
-    private final String[] mMenuItems = new String[]{"Расписание", "Заметки", "Настройки"};
+    private String[] mMenuItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.drawerlayout);
+        mMenuItems = getResources().getStringArray(R.array.menu_items);
         drawerInitialize();
         actionBarInitialize();
         spinnerInitialize();

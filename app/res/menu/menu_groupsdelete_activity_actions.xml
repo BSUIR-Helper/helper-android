@@ -3,6 +3,6 @@
       xmlns:bsuihelper="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_deletegroup"
-        android:title="Удалить"
+        android:title="@string/delete"
         bsuihelper:showAsAction="ifRoom"/>
 </menu>

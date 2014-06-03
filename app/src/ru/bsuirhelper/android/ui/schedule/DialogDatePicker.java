@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
 
 import java.util.Calendar;
@@ -52,12 +53,12 @@ public abstract class DialogDatePicker extends DialogFragment implements OnDateS
 
         public CustomDatePicker(Context context, OnDateSetListener callBack, int year, int month, int day) {
             super(context, callBack, year, month, day);
-            setTitle("Учебная неделя " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
+            setTitle(getString(R.string.work_week) + " " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
 
         @Override
         public void onDateChanged(DatePicker view, int year, int month, int day) {
-            setTitle("Учебная неделя " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
+            setTitle(getActivity().getString(R.string.work_week) + " " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
     }
 }

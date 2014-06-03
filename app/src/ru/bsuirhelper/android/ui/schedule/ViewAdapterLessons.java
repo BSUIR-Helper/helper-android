@@ -61,7 +61,7 @@ class ViewAdapterLessons extends BaseAdapter {
         String teacher = lesson.fields.get("teacher");
         String subjectType = lesson.fields.get("subjectType");
 
-        if (!subjectType.equals("кч")) {
+        if (!subjectType.equals(mContext.getString(R.string.ab_curator_hour))) {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
                     convertView.getContext()).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
             if (isShowSubjectTypes && !subjectType.equals("")) {
@@ -73,7 +73,7 @@ class ViewAdapterLessons extends BaseAdapter {
                 vh.lessonSubject.setVisibility(View.GONE);
             }
         } else {
-            vh.lessonName.setText("КЧ");
+            vh.lessonName.setText(mContext.getString(R.string.ab_curator_hour).toUpperCase());
         }
         vh.lessonTime.setText(timePeriod);
         vh.lessonTeacher.setText(teacher);
@@ -85,11 +85,11 @@ class ViewAdapterLessons extends BaseAdapter {
         }
         vh.lessonAuditorium.setText(auditorium);
 
-        if (subjectType.equals("лр")) {
+        if (subjectType.equals(mContext.getString(R.string.ab_lab))) {
             vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.red));
-        } else if (subjectType.equals("пз")) {
+        } else if (subjectType.equals(mContext.getString(R.string.ab_work_lesson))) {
             vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.orange));
-        } else if (subjectType.equals("лк")) {
+        } else if (subjectType.equals(mContext.getString(R.string.ab_lecture))) {
             vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.green));
         } else {
             vh.lView.setBackgroundColor(Color.WHITE);

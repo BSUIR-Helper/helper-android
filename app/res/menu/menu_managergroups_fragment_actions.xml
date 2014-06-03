@@ -4,11 +4,11 @@
     <item
         android:id="@+id/action_addgroup"
         android:icon="@drawable/ic_addgroup"
-        android:title="Добавить группу"
+        android:title="@string/add_group"
         bsuirguide:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_startdeletegroups"
         android:icon="@drawable/ic_deletegroups"
-        android:title="Удалить группы"
+        android:title="@string/delete_groups"
         bsuirguide:showAsAction="ifRoom"/>
 </menu>

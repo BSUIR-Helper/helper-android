@@ -45,7 +45,7 @@ public class FragmentScheduleOfDay extends Fragment {
 
         if (isSummer(day)) {
             TextView view = (TextView) fragmentView.findViewById(R.id.textView);
-            view.setText("Занятия не известны");
+            view.setText(getString(R.string.lessons_are_not_known));
             view.setVisibility(View.VISIBLE);
         } else if (mAdapterLessons.getCount() != 0) {
             mListOfLessons = (ListView) fragmentView.findViewById(R.id.listView);

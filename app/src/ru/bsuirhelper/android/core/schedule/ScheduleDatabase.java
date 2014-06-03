@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
 
 import java.util.ArrayList;
@@ -23,10 +24,11 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
     private SQLiteDatabase db;
     private String _ID = "id";
     private boolean isDatabaseOpen = false;
+    private Context mContext;
 
     public ScheduleDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
-
+        mContext = context;
     }
 
     @Override
@@ -48,6 +50,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT*FROM " + scheduleGroup, null);
         ArrayList<Lesson> lessons = new ArrayList<Lesson>(c.getCount());
         while (c.moveToNext()) {
+
             Lesson lesson = new Lesson();
             createLessonFromCursor(lesson, c);
             lessons.add(lesson);
@@ -59,27 +62,28 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String sWeekDay = "";
         int weekDay = dayOfYear.getDayOfWeek();
         int workWeek = StudentCalendar.getWorkWeek(dayOfYear);
+        String[] weekDays = mContext.getResources().getStringArray(R.array.week_days);
         switch (weekDay) {
             case DateTimeConstants.MONDAY:
-                sWeekDay = "пн";
+                sWeekDay = weekDays[0];
                 break;
             case DateTimeConstants.TUESDAY:
-                sWeekDay = "вт";
+                sWeekDay = weekDays[1];
                 break;
             case DateTimeConstants.WEDNESDAY:
-                sWeekDay = "ср";
+                sWeekDay = weekDays[2];
                 break;
             case DateTimeConstants.THURSDAY:
-                sWeekDay = "чт";
+                sWeekDay = weekDays[3];
                 break;
             case DateTimeConstants.FRIDAY:
-                sWeekDay = "пт";
+                sWeekDay = weekDays[4];
                 break;
             case DateTimeConstants.SATURDAY:
-                sWeekDay = "сб";
+                sWeekDay = weekDays[5];
                 break;
             case DateTimeConstants.SUNDAY:
-                sWeekDay = "вс";
+                sWeekDay = weekDays[6];
                 break;
         }
         this.open();
@@ -140,6 +144,12 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         this.open();
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
 
+    }
+
+    public Cursor getCursorWithGroups() {
+        this.open();
+        Cursor tables = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        return tables;
     }
 
     public ArrayList<StudentGroup> getGroups() {
