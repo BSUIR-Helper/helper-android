@@ -17,12 +17,19 @@ public class StudentCalendar {
     public StudentCalendar() {
         mCurrentDateTime = new DateTime();
         mDaysOfYear = getDaysOfYear();
+        mSemester = getSemesterByDay(mCurrentDateTime);
 
-        if (mCurrentDateTime.getMonthOfYear() >= 9) {
-            mSemester = 1;
+    }
+
+    public int getSemesterByDay(DateTime day) {
+        int semester;
+        if (day.getMonthOfYear() >= 7) {
+            semester = 1;
         } else {
-            mSemester = 2;
+            semester = 2;
         }
+
+        return semester;
     }
 
     public int getDayOfYear() {
@@ -35,7 +42,7 @@ public class StudentCalendar {
             dayOfYear = new Interval(september, mCurrentDateTime).toPeriod(PeriodType.days()).getDays();
         }
 
-        return dayOfYear + 1;
+        return dayOfYear;
     }
 
     public int getDayOfYear(DateTime dateTime) {
@@ -71,11 +78,12 @@ public class StudentCalendar {
     public static int getWorkWeek(DateTime dateTime) {
         DateTime september;
 
-        if (dateTime.getMonthOfYear() <= 8) {
+        if (dateTime.getMonthOfYear() <= 7) {
             september = new DateTime(dateTime.getYear() - 1, 9, 1, 0, 0, 0);
         } else {
             september = new DateTime(dateTime.getYear(), 9, 1, 0, 0, 0);
         }
+
 
         Interval interval = new Interval(september, dateTime);
         int workWeek = (interval.toPeriod(PeriodType.weeks()).getWeeks() + 2) % 4;
@@ -86,7 +94,7 @@ public class StudentCalendar {
     public static DateTime convertToDefaultDateTime(int studentDay) {
         DateTime september;
         int currentMonth = DateTime.now().getMonthOfYear();
-        if (currentMonth <= 8) {
+        if (currentMonth <= 6) {
             september = new DateTime(DateTime.now().getYear() - 1, 9, 1, 0, 0, 0);
         } else {
             september = new DateTime(DateTime.now().getYear(), 9, 1, 0, 0, 0);
@@ -101,23 +109,30 @@ public class StudentCalendar {
     public static long getStartStudentYear() {
         DateTime september;
 
-        if (DateTime.now().getMonthOfYear() <= 8) {
+        if (DateTime.now().getMonthOfYear() <= 7) {
             september = new DateTime(DateTime.now().getYear() - 1, 9, 1, 0, 0, 0);
         } else {
-            september = new DateTime(DateTime.now().getYear(), 8, 31, 1, 0, 0);
+            september = new DateTime(DateTime.now().getYear(), 9, 1, 1, 0, 0);
         }
 
         return september.getMillis();
     }
 
     public static long getEndStudentYear() {
-        DateTime august;
-        if (DateTime.now().getMonthOfYear() <= 8) {
-            august = new DateTime(DateTime.now().getYear(), 8, 31, 1, 0, 0);
+        DateTime july;
+        if (DateTime.now().getMonthOfYear() <= 7) {
+            july = new DateTime(DateTime.now().getYear(), 7, 31, 1, 0, 0);
         } else {
-            august = new DateTime(DateTime.now().getYear() + 1, 8, 31, 1, 0, 0);
+            july = new DateTime(DateTime.now().getYear() + 1, 7, 31, 1, 0, 0);
         }
-        return august.getMillis();
+        return july.getMillis();
     }
 
+    public static boolean isHolidays() {
+        DateTime currentTime = DateTime.now();
+        if (currentTime.getMonthOfYear() >= 7 && currentTime.getMonthOfYear() <= 8) {
+            return true;
+        }
+        return false;
+    }
 }

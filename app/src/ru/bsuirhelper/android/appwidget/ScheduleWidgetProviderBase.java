@@ -14,6 +14,7 @@ import android.widget.RemoteViews;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
@@ -28,7 +29,8 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
-        notifyRecreateListView(context);
+        if (!StudentCalendar.isHolidays()) {
+            notifyRecreateListView(context);
         for (int i = 0; i < appWidgetIds.length; i++) {
             Intent intent = new Intent(context, ScheduleWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
@@ -65,6 +67,7 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
             }
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
+        }
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }

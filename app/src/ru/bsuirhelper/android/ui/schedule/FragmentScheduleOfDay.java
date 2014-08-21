@@ -43,7 +43,7 @@ public class FragmentScheduleOfDay extends Fragment {
         int subgroup = args.getInt("subgroup");
         mAdapterLessons = new ViewAdapterLessons(context, scheduleManager.getLessonsOfDay(groupId, day, subgroup));
 
-        if (isSummer(day)) {
+        if (isSummer(day) || isOtherSemester(day)) {
             TextView view = (TextView) fragmentView.findViewById(R.id.textView);
             view.setText(getString(R.string.lessons_are_not_known));
             view.setVisibility(View.VISIBLE);
@@ -95,7 +95,13 @@ public class FragmentScheduleOfDay extends Fragment {
     }
 
     private boolean isSummer(DateTime day) {
-        return (day.getMonthOfYear() <= 8 && mStudentCalendar.getSemester() == StudentCalendar.FIRST_SEMESTER) ||
-                (day.getMonthOfYear() >= 9 && mStudentCalendar.getSemester() == StudentCalendar.SECOND_SEMESTER);
+        return (day.getMonthOfYear() >= 7 && day.getMonthOfYear() <= 8);
+    }
+
+    private boolean isOtherSemester(DateTime day) {
+        if (mStudentCalendar.getSemester() != mStudentCalendar.getSemesterByDay(day)) {
+            return true;
+        }
+        return false;
     }
 }

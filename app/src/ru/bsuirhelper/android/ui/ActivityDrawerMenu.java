@@ -21,7 +21,6 @@ import android.widget.*;
 import com.google.analytics.tracking.android.EasyTracker;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.ui.notes.FragmentNotes;
 import ru.bsuirhelper.android.ui.schedule.FragmentManagerGroups;
 import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
@@ -51,7 +50,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mMenuItems = getResources().getStringArray(R.array.menu_items);
         drawerInitialize();
         actionBarInitialize();
-        spinnerInitialize();
+        //spinnerInitialize();
         FragmentManager fm = getSupportFragmentManager();
         String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
 
@@ -109,12 +108,13 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mActionBar.setHomeButtonEnabled(true);
     }
 
+    /*
     private void spinnerInitialize() {
-        mSpinnerGroups = (Spinner) findViewById(R.id.spinner_groups);
+       mSpinnerGroups = (Spinner) findViewById(R.id.spinner_groups);
         BaseAdapter groupsAdapter = new SpinnerGroupsAdapter(this, ScheduleManager.getInstance(this).getGroups());
         mSpinnerGroups.setAdapter(groupsAdapter);
     }
-
+     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

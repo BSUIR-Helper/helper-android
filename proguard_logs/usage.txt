@@ -8,11 +8,14 @@ android.support.v4.accessibilityservice.AccessibilityServiceInfoCompatJellyBeanM
 android.support.v4.app.ActionBarDrawerToggle:
     private static final float TOGGLE_DRAWABLE_OFFSET
     private static final int ID_HOME
-    245:254:public void setDrawerIndicatorEnabled(boolean)
-    261:261:public boolean isDrawerIndicatorEnabled()
+    268:277:public void setDrawerIndicatorEnabled(boolean)
+    284:284:public boolean isDrawerIndicatorEnabled()
 android.support.v4.app.ActionBarDrawerToggleHoneycomb:
     private static final java.lang.String TAG
-    39:92:ActionBarDrawerToggleHoneycomb()
+    40:98:ActionBarDrawerToggleHoneycomb()
+android.support.v4.app.ActionBarDrawerToggleJellybeanMR2:
+    private static final java.lang.String TAG
+    27:27:ActionBarDrawerToggleJellybeanMR2()
 android.support.v4.app.ActivityCompat:
     29:29:public ActivityCompat()
     88:93:public static void startActivity(android.app.Activity,android.content.Intent,android.os.Bundle)
@@ -89,7 +92,6 @@ android.support.v4.app.Fragment:
     579:579:public final android.support.v4.app.Fragment getTargetFragment()
     586:586:public final int getTargetRequestCode()
     613:613:public final java.lang.CharSequence getText(int)
-    623:623:public final java.lang.String getString(int)
     636:636:public final varargs java.lang.String getString(int,java.lang.Object[])
     678:678:public final android.support.v4.app.Fragment getParentFragment()
     703:703:public final boolean isRemoving()
@@ -131,8 +133,9 @@ android.support.v4.app.FragmentManager:
     public abstract void addOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
     public abstract void removeOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
     public abstract java.util.List getFragments()
+    public abstract boolean isDestroyed()
     public abstract void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[])
-    345:346:public static void enableDebugLogging(boolean)
+    351:352:public static void enableDebugLogging(boolean)
 android.support.v4.app.FragmentManager$BackStackEntry
 android.support.v4.app.FragmentManagerImpl:
     static final java.lang.String TAG
@@ -147,16 +150,17 @@ android.support.v4.app.FragmentManagerImpl:
     public static final int ANIM_STYLE_CLOSE_EXIT
     public static final int ANIM_STYLE_FADE_ENTER
     public static final int ANIM_STYLE_FADE_EXIT
-    477:482:public void popBackStack()
-    493:498:public void popBackStack(java.lang.String,int)
-    502:504:public boolean popBackStackImmediate(java.lang.String,int)
-    521:526:public boolean popBackStackImmediate(int,int)
-    531:531:public int getBackStackEntryCount()
-    536:536:public android.support.v4.app.FragmentManager$BackStackEntry getBackStackEntryAt(int)
-    541:545:public void addOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
-    549:552:public void removeOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
-    583:583:public java.util.List getFragments()
-    1330:1338:public android.support.v4.app.Fragment findFragmentByWho(java.lang.String)
+    483:488:public void popBackStack()
+    499:504:public void popBackStack(java.lang.String,int)
+    508:510:public boolean popBackStackImmediate(java.lang.String,int)
+    527:532:public boolean popBackStackImmediate(int,int)
+    537:537:public int getBackStackEntryCount()
+    542:542:public android.support.v4.app.FragmentManager$BackStackEntry getBackStackEntryAt(int)
+    547:551:public void addOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
+    555:558:public void removeOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
+    589:589:public java.util.List getFragments()
+    607:607:public boolean isDestroyed()
+    1341:1349:public android.support.v4.app.Fragment findFragmentByWho(java.lang.String)
 android.support.v4.app.FragmentManagerImpl$2
 android.support.v4.app.FragmentManagerImpl$3
 android.support.v4.app.FragmentPagerAdapter
@@ -239,10 +243,12 @@ android.support.v4.app.NotificationCompat$Builder
 android.support.v4.app.NotificationCompat$InboxStyle
 android.support.v4.app.NotificationCompat$NotificationCompatImpl
 android.support.v4.app.NotificationCompat$NotificationCompatImplBase
+android.support.v4.app.NotificationCompat$NotificationCompatImplGingerbread
 android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb
 android.support.v4.app.NotificationCompat$NotificationCompatImplIceCreamSandwich
 android.support.v4.app.NotificationCompat$NotificationCompatImplJellybean
 android.support.v4.app.NotificationCompat$Style
+android.support.v4.app.NotificationCompatGingerbread
 android.support.v4.app.NotificationCompatHoneycomb
 android.support.v4.app.NotificationCompatIceCreamSandwich
 android.support.v4.app.NotificationCompatJellybean
@@ -385,10 +391,8 @@ android.support.v4.internal.view.SupportMenuItem:
     public static final int SHOW_AS_ACTION_WITH_TEXT
     public static final int SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
     public abstract android.view.MenuItem setShowAsActionFlags(int)
-    public abstract android.view.View getActionView()
     public abstract android.support.v4.view.ActionProvider getSupportActionProvider()
     public abstract boolean collapseActionView()
-    public abstract boolean isActionViewExpanded()
     public abstract android.support.v4.internal.view.SupportMenuItem setSupportOnActionExpandListener(android.support.v4.view.MenuItemCompat$OnActionExpandListener)
 android.support.v4.media.TransportController
 android.support.v4.media.TransportMediator
@@ -575,40 +579,28 @@ android.support.v4.view.MenuItemCompat:
     public static final int SHOW_AS_ACTION_WITH_TEXT
     public static final int SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
     32:200:public MenuItemCompat()
-    322:325:public static android.view.View getActionView(android.view.MenuItem)
     361:367:public static android.support.v4.view.ActionProvider getActionProvider(android.view.MenuItem)
-    383:386:public static boolean expandActionView(android.view.MenuItem)
     402:405:public static boolean collapseActionView(android.view.MenuItem)
-    418:421:public static boolean isActionViewExpanded(android.view.MenuItem)
     435:438:public static android.view.MenuItem setOnActionExpandListener(android.view.MenuItem,android.support.v4.view.MenuItemCompat$OnActionExpandListener)
 android.support.v4.view.MenuItemCompat$BaseMenuVersionImpl:
-    131:131:public android.view.View getActionView(android.view.MenuItem)
-    136:136:public boolean expandActionView(android.view.MenuItem)
     141:141:public boolean collapseActionView(android.view.MenuItem)
-    146:146:public boolean isActionViewExpanded(android.view.MenuItem)
     151:151:public android.view.MenuItem setOnActionExpandListener(android.view.MenuItem,android.support.v4.view.MenuItemCompat$OnActionExpandListener)
 android.support.v4.view.MenuItemCompat$HoneycombMenuVersionImpl:
-    176:176:public android.view.View getActionView(android.view.MenuItem)
-    181:181:public boolean expandActionView(android.view.MenuItem)
     186:186:public boolean collapseActionView(android.view.MenuItem)
-    191:191:public boolean isActionViewExpanded(android.view.MenuItem)
     196:196:public android.view.MenuItem setOnActionExpandListener(android.view.MenuItem,android.support.v4.view.MenuItemCompat$OnActionExpandListener)
 android.support.v4.view.MenuItemCompat$IcsMenuVersionImpl:
-    203:203:public boolean expandActionView(android.view.MenuItem)
     208:208:public boolean collapseActionView(android.view.MenuItem)
-    213:213:public boolean isActionViewExpanded(android.view.MenuItem)
     219:227:public android.view.MenuItem setOnActionExpandListener(android.view.MenuItem,android.support.v4.view.MenuItemCompat$OnActionExpandListener)
 android.support.v4.view.MenuItemCompat$IcsMenuVersionImpl$1
 android.support.v4.view.MenuItemCompat$MenuVersionImpl:
-    public abstract android.view.View getActionView(android.view.MenuItem)
-    public abstract boolean expandActionView(android.view.MenuItem)
     public abstract boolean collapseActionView(android.view.MenuItem)
-    public abstract boolean isActionViewExpanded(android.view.MenuItem)
     public abstract android.view.MenuItem setOnActionExpandListener(android.view.MenuItem,android.support.v4.view.MenuItemCompat$OnActionExpandListener)
 android.support.v4.view.MenuItemCompatHoneycomb:
     25:25:MenuItemCompatHoneycomb()
-    39:39:public static android.view.View getActionView(android.view.MenuItem)
-android.support.v4.view.MenuItemCompatIcs
+android.support.v4.view.MenuItemCompatIcs:
+    22:51:MenuItemCompatIcs()
+    28:28:public static boolean collapseActionView(android.view.MenuItem)
+    37:37:public static android.view.MenuItem setOnActionExpandListener(android.view.MenuItem,android.support.v4.view.MenuItemCompatIcs$SupportActionExpandProxy)
 android.support.v4.view.MenuItemCompatIcs$OnActionExpandListenerWrapper
 android.support.v4.view.MenuItemCompatIcs$SupportActionExpandProxy
 android.support.v4.view.MotionEventCompat:
@@ -1254,6 +1246,7 @@ android.support.v4.widget.AutoScrollHelper
 android.support.v4.widget.AutoScrollHelper$1
 android.support.v4.widget.AutoScrollHelper$ClampedScroller
 android.support.v4.widget.AutoScrollHelper$ScrollAnimationRunnable
+android.support.v4.widget.BakedBezierInterpolator
 android.support.v4.widget.ContentLoadingProgressBar
 android.support.v4.widget.ContentLoadingProgressBar$1
 android.support.v4.widget.ContentLoadingProgressBar$2
@@ -1280,13 +1273,14 @@ android.support.v4.widget.DrawerLayout:
     private static final boolean ALLOW_EDGE_LOCK
     private static final boolean CHILDREN_DISALLOW_INTERCEPT
     private static final float TOUCH_SLOP_SENSITIVITY
-    265:275:public void setDrawerShadow(android.graphics.drawable.Drawable,int)
-    285:286:public void setDrawerShadow(int,int)
-    394:400:public void setDrawerLockMode(int,android.view.View)
-    410:417:public int getDrawerLockMode(int)
-    540:549:void moveDrawerToOffset(android.view.View,float)
+    270:280:public void setDrawerShadow(android.graphics.drawable.Drawable,int)
+    290:291:public void setDrawerShadow(int,int)
+    399:405:public void setDrawerLockMode(int,android.view.View)
+    415:422:public int getDrawerLockMode(int)
+    453:460:public void setDrawerTitle(int,java.lang.CharSequence)
+    593:602:void moveDrawerToOffset(android.view.View,float)
 android.support.v4.widget.DrawerLayout$LayoutParams:
-    1509:1511:public DrawerLayout$LayoutParams(int,int,int)
+    1562:1564:public DrawerLayout$LayoutParams(int,int,int)
 android.support.v4.widget.DrawerLayout$SimpleDrawerListener
 android.support.v4.widget.EdgeEffectCompat:
     204:204:public boolean onAbsorb(int)
@@ -1392,11 +1386,11 @@ android.support.v4.widget.SlidingPaneLayout:
     328:331:void dispatchOnPanelSlide(android.view.View)
     334:338:void dispatchOnPanelOpened(android.view.View)
     341:345:void dispatchOnPanelClosed(android.view.View)
-    848:849:public void smoothSlideOpen()
-    866:867:public void smoothSlideClosed()
-    895:895:public boolean canSlide()
-    909:922:private void onPanelDragged(int)
-    1103:1122:protected boolean canScroll(android.view.View,boolean,int,int,int)
+    850:851:public void smoothSlideOpen()
+    868:869:public void smoothSlideClosed()
+    897:897:public boolean canSlide()
+    911:930:private void onPanelDragged(int)
+    1111:1130:protected boolean canScroll(android.view.View,boolean,int,int,int)
     88:88:static synthetic boolean access$100(android.support.v4.widget.SlidingPaneLayout)
     88:88:static synthetic android.support.v4.widget.ViewDragHelper access$200(android.support.v4.widget.SlidingPaneLayout)
     88:88:static synthetic float access$300(android.support.v4.widget.SlidingPaneLayout)
@@ -1407,13 +1401,23 @@ android.support.v4.widget.SlidingPaneLayout:
 android.support.v4.widget.SlidingPaneLayout$AccessibilityDelegate
 android.support.v4.widget.SlidingPaneLayout$DragHelperCallback
 android.support.v4.widget.SlidingPaneLayout$LayoutParams:
-    1277:1278:public SlidingPaneLayout$LayoutParams(int,int)
-    1289:1291:public SlidingPaneLayout$LayoutParams(android.support.v4.widget.SlidingPaneLayout$LayoutParams)
+    1285:1286:public SlidingPaneLayout$LayoutParams(int,int)
+    1297:1299:public SlidingPaneLayout$LayoutParams(android.support.v4.widget.SlidingPaneLayout$LayoutParams)
 android.support.v4.widget.SlidingPaneLayout$PanelSlideListener:
     public abstract void onPanelSlide(android.view.View,float)
     public abstract void onPanelOpened(android.view.View)
     public abstract void onPanelClosed(android.view.View)
 android.support.v4.widget.SlidingPaneLayout$SimplePanelSlideListener
+android.support.v4.widget.SwipeProgressBar
+android.support.v4.widget.SwipeRefreshLayout
+android.support.v4.widget.SwipeRefreshLayout$1
+android.support.v4.widget.SwipeRefreshLayout$2
+android.support.v4.widget.SwipeRefreshLayout$3
+android.support.v4.widget.SwipeRefreshLayout$4
+android.support.v4.widget.SwipeRefreshLayout$5
+android.support.v4.widget.SwipeRefreshLayout$6
+android.support.v4.widget.SwipeRefreshLayout$BaseAnimationListener
+android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener
 android.support.v4.widget.ViewDragHelper:
     private static final java.lang.String TAG
     public static final int INVALID_POINTER
@@ -1490,12 +1494,14 @@ android.support.v7.app.ActionBar:
     public abstract boolean isShowing()
     public abstract void addOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
     public abstract void removeOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
+    703:703:public void setHomeAsUpIndicator(int)
+    722:722:public void setHomeActionContentDescription(java.lang.CharSequence)
 android.support.v7.app.ActionBar$Callback:
     public abstract android.support.v4.app.FragmentManager getSupportFragmentManager()
 android.support.v7.app.ActionBar$LayoutParams:
-    951:953:public ActionBar$LayoutParams(int,int)
-    965:968:public ActionBar$LayoutParams(android.support.v7.app.ActionBar$LayoutParams)
-    971:972:public ActionBar$LayoutParams(android.view.ViewGroup$LayoutParams)
+    1031:1033:public ActionBar$LayoutParams(int,int)
+    1045:1048:public ActionBar$LayoutParams(android.support.v7.app.ActionBar$LayoutParams)
+    1051:1052:public ActionBar$LayoutParams(android.view.ViewGroup$LayoutParams)
 android.support.v7.app.ActionBar$OnMenuVisibilityListener
 android.support.v7.app.ActionBar$Tab:
     public static final int INVALID_POSITION
@@ -1531,26 +1537,29 @@ android.support.v7.app.ActionBarActivityDelegate:
     abstract void setSupportProgress(int)
 android.support.v7.app.ActionBarActivityDelegateBase:
     private static final java.lang.String TAG
-    246:260:public boolean supportRequestWindowFeature(int)
-    364:382:public android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback)
-    476:478:void setSupportProgressBarVisibility(boolean)
-    482:484:void setSupportProgressBarIndeterminateVisibility(boolean)
-    488:490:void setSupportProgressBarIndeterminate(boolean)
-    494:495:void setSupportProgress(int)
-    506:542:private void updateProgressBars(int)
-    546:553:private void showProgressBars(android.support.v7.internal.widget.ProgressBarICS,android.support.v7.internal.widget.ProgressBarICS)
-    557:563:private void hideProgressBars(android.support.v7.internal.widget.ProgressBarICS,android.support.v7.internal.widget.ProgressBarICS)
-    566:570:private android.support.v7.internal.widget.ProgressBarICS getCircularProgressBar()
-    574:578:private android.support.v7.internal.widget.ProgressBarICS getHorizontalProgressBar()
-    43:43:static synthetic android.support.v7.view.ActionMode access$402(android.support.v7.app.ActionBarActivityDelegateBase,android.support.v7.view.ActionMode)
+    293:307:public boolean supportRequestWindowFeature(int)
+    383:401:public android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback)
+    483:485:void setSupportProgressBarVisibility(boolean)
+    489:491:void setSupportProgressBarIndeterminateVisibility(boolean)
+    495:497:void setSupportProgressBarIndeterminate(boolean)
+    501:502:void setSupportProgress(int)
+    513:549:private void updateProgressBars(int)
+    553:560:private void showProgressBars(android.support.v7.internal.widget.ProgressBarICS,android.support.v7.internal.widget.ProgressBarICS)
+    564:570:private void hideProgressBars(android.support.v7.internal.widget.ProgressBarICS,android.support.v7.internal.widget.ProgressBarICS)
+    573:577:private android.support.v7.internal.widget.ProgressBarICS getCircularProgressBar()
+    581:585:private android.support.v7.internal.widget.ProgressBarICS getHorizontalProgressBar()
+    48:48:static synthetic android.support.v7.view.ActionMode access$002(android.support.v7.app.ActionBarActivityDelegateBase,android.support.v7.view.ActionMode)
 android.support.v7.app.ActionBarActivityDelegateBase$ActionModeCallbackWrapper
 android.support.v7.app.ActionBarActivityDelegateICS:
-    132:132:public boolean supportRequestWindowFeature(int)
-    175:192:public android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback)
-    202:203:void setSupportProgressBarVisibility(boolean)
-    207:208:void setSupportProgressBarIndeterminateVisibility(boolean)
-    212:213:void setSupportProgressBarIndeterminate(boolean)
-    217:218:void setSupportProgress(int)
+    131:131:public boolean supportRequestWindowFeature(int)
+    174:191:public android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback)
+    201:202:void setSupportProgressBarVisibility(boolean)
+    206:207:void setSupportProgressBarIndeterminateVisibility(boolean)
+    211:212:void setSupportProgressBarIndeterminate(boolean)
+    216:217:void setSupportProgress(int)
+    241:241:android.support.v7.internal.view.ActionModeWrapper$CallbackWrapper createActionModeCallbackWrapper(android.content.Context,android.support.v7.view.ActionMode$Callback)
+android.support.v7.app.ActionBarActivityDelegateJB:
+    38:38:android.support.v7.internal.view.ActionModeWrapper$CallbackWrapper createActionModeCallbackWrapper(android.content.Context,android.support.v7.view.ActionMode$Callback)
 android.support.v7.app.ActionBarImplBase:
     private android.app.Dialog mDialog
     private android.view.View mContentView
@@ -1582,33 +1591,36 @@ android.support.v7.app.ActionBarImplBase:
     307:308:public void setDisplayShowHomeEnabled(boolean)
     322:323:public void setDisplayShowCustomEnabled(boolean)
     332:333:public void setBackgroundDrawable(android.graphics.drawable.Drawable)
-    337:337:public android.view.View getCustomView()
-    342:342:public java.lang.CharSequence getTitle()
-    347:347:public java.lang.CharSequence getSubtitle()
-    357:377:public void setNavigationMode(int)
-    386:386:public android.support.v7.app.ActionBar$Tab newTab()
-    391:392:public void addTab(android.support.v7.app.ActionBar$Tab)
-    396:402:public void addTab(android.support.v7.app.ActionBar$Tab,boolean)
-    406:407:public void addTab(android.support.v7.app.ActionBar$Tab,int)
-    411:417:public void addTab(android.support.v7.app.ActionBar$Tab,int,boolean)
-    421:422:public void removeTab(android.support.v7.app.ActionBar$Tab)
-    426:447:public void removeTabAt(int)
-    451:452:public void removeAllTabs()
-    456:483:public void selectTab(android.support.v7.app.ActionBar$Tab)
-    487:487:public android.support.v7.app.ActionBar$Tab getSelectedTab()
-    492:492:public android.support.v7.app.ActionBar$Tab getTabAt(int)
-    497:497:public int getTabCount()
-    519:519:public int getHeight()
-    524:528:public void show()
-    539:543:public void hide()
-    554:554:public boolean isShowing()
-    559:560:public void addOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
-    564:565:public void removeOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
-    568:587:public android.support.v7.view.ActionMode startActionMode(android.support.v7.view.ActionMode$Callback)
-    591:602:void animateToMode(boolean)
-    899:917:private void ensureTabsExist()
-    920:934:private void configureTab(android.support.v7.app.ActionBar$Tab,int)
-    937:945:private void cleanupTabs()
+    337:338:public void setStackedBackgroundDrawable(android.graphics.drawable.Drawable)
+    342:343:public void setSplitBackgroundDrawable(android.graphics.drawable.Drawable)
+    347:347:public android.view.View getCustomView()
+    352:352:public java.lang.CharSequence getTitle()
+    357:357:public java.lang.CharSequence getSubtitle()
+    367:387:public void setNavigationMode(int)
+    396:396:public android.support.v7.app.ActionBar$Tab newTab()
+    401:402:public void addTab(android.support.v7.app.ActionBar$Tab)
+    406:412:public void addTab(android.support.v7.app.ActionBar$Tab,boolean)
+    416:417:public void addTab(android.support.v7.app.ActionBar$Tab,int)
+    421:427:public void addTab(android.support.v7.app.ActionBar$Tab,int,boolean)
+    431:432:public void removeTab(android.support.v7.app.ActionBar$Tab)
+    436:457:public void removeTabAt(int)
+    461:462:public void removeAllTabs()
+    466:493:public void selectTab(android.support.v7.app.ActionBar$Tab)
+    497:497:public android.support.v7.app.ActionBar$Tab getSelectedTab()
+    502:502:public android.support.v7.app.ActionBar$Tab getTabAt(int)
+    507:507:public int getTabCount()
+    534:535:public void setHomeAsUpIndicator(int)
+    539:539:public int getHeight()
+    544:548:public void show()
+    559:563:public void hide()
+    574:574:public boolean isShowing()
+    579:580:public void addOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
+    584:585:public void removeOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
+    588:607:public android.support.v7.view.ActionMode startActionMode(android.support.v7.view.ActionMode$Callback)
+    611:622:void animateToMode(boolean)
+    919:937:private void ensureTabsExist()
+    940:954:private void configureTab(android.support.v7.app.ActionBar$Tab,int)
+    957:965:private void cleanupTabs()
     54:54:static synthetic android.support.v7.internal.widget.ScrollingTabContainerView access$000(android.support.v7.app.ActionBarImplBase)
     54:54:static synthetic android.content.Context access$100(android.support.v7.app.ActionBarImplBase)
     54:54:static synthetic boolean access$200(android.support.v7.app.ActionBarImplBase)
@@ -1623,51 +1635,54 @@ android.support.v7.app.ActionBarImplHC:
     60:64:public void hide()
 android.support.v7.app.ActionBarImplICS:
     android.support.v4.app.FragmentTransaction mActiveTransaction
-    60:69:private android.support.v7.app.ActionBarImplICS$OnMenuVisibilityListenerWrapper findAndRemoveMenuVisWrapper(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
-    74:75:public void setCustomView(android.view.View)
-    79:84:public void setCustomView(android.view.View,android.support.v7.app.ActionBar$LayoutParams)
-    88:89:public void setCustomView(int)
-    93:94:public void setIcon(int)
-    98:99:public void setIcon(android.graphics.drawable.Drawable)
-    103:104:public void setLogo(int)
-    108:109:public void setLogo(android.graphics.drawable.Drawable)
-    113:115:public void setListNavigationCallbacks(android.widget.SpinnerAdapter,android.support.v7.app.ActionBar$OnNavigationListener)
-    119:120:public void setSelectedNavigationItem(int)
-    124:124:public int getSelectedNavigationIndex()
-    129:129:public int getNavigationItemCount()
-    139:140:public void setTitle(int)
-    149:150:public void setSubtitle(int)
-    154:155:public void setDisplayOptions(int)
-    159:160:public void setDisplayOptions(int,int)
-    164:165:public void setDisplayUseLogoEnabled(boolean)
-    169:170:public void setDisplayShowHomeEnabled(boolean)
-    184:185:public void setDisplayShowCustomEnabled(boolean)
-    189:190:public void setBackgroundDrawable(android.graphics.drawable.Drawable)
-    194:194:public android.view.View getCustomView()
-    199:199:public java.lang.CharSequence getTitle()
-    204:204:public java.lang.CharSequence getSubtitle()
-    209:209:public int getNavigationMode()
-    214:215:public void setNavigationMode(int)
-    224:227:public android.support.v7.app.ActionBar$Tab newTab()
-    232:233:public void addTab(android.support.v7.app.ActionBar$Tab)
-    237:238:public void addTab(android.support.v7.app.ActionBar$Tab,boolean)
-    242:243:public void addTab(android.support.v7.app.ActionBar$Tab,int)
-    247:248:public void addTab(android.support.v7.app.ActionBar$Tab,int,boolean)
-    252:253:public void removeTab(android.support.v7.app.ActionBar$Tab)
-    257:258:public void removeTabAt(int)
-    262:263:public void removeAllTabs()
-    267:268:public void selectTab(android.support.v7.app.ActionBar$Tab)
-    272:272:public android.support.v7.app.ActionBar$Tab getSelectedTab()
-    277:277:public android.support.v7.app.ActionBar$Tab getTabAt(int)
-    282:282:public int getTabCount()
-    292:292:public int getHeight()
-    297:298:public void show()
-    302:303:public void hide()
-    307:307:public boolean isShowing()
-    312:317:public void addOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
-    321:323:public void removeOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
-    331:335:android.support.v4.app.FragmentTransaction getActiveTransaction()
-    339:343:void commitActiveTransaction()
+    65:74:private android.support.v7.app.ActionBarImplICS$OnMenuVisibilityListenerWrapper findAndRemoveMenuVisWrapper(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
+    79:80:public void setCustomView(android.view.View)
+    84:89:public void setCustomView(android.view.View,android.support.v7.app.ActionBar$LayoutParams)
+    93:94:public void setCustomView(int)
+    98:99:public void setIcon(int)
+    103:104:public void setIcon(android.graphics.drawable.Drawable)
+    108:109:public void setLogo(int)
+    113:114:public void setLogo(android.graphics.drawable.Drawable)
+    118:120:public void setListNavigationCallbacks(android.widget.SpinnerAdapter,android.support.v7.app.ActionBar$OnNavigationListener)
+    124:125:public void setSelectedNavigationItem(int)
+    129:129:public int getSelectedNavigationIndex()
+    134:134:public int getNavigationItemCount()
+    144:145:public void setTitle(int)
+    154:155:public void setSubtitle(int)
+    159:160:public void setDisplayOptions(int)
+    164:165:public void setDisplayOptions(int,int)
+    169:170:public void setDisplayUseLogoEnabled(boolean)
+    174:175:public void setDisplayShowHomeEnabled(boolean)
+    189:190:public void setDisplayShowCustomEnabled(boolean)
+    194:195:public void setBackgroundDrawable(android.graphics.drawable.Drawable)
+    199:200:public void setStackedBackgroundDrawable(android.graphics.drawable.Drawable)
+    204:205:public void setSplitBackgroundDrawable(android.graphics.drawable.Drawable)
+    209:209:public android.view.View getCustomView()
+    214:214:public java.lang.CharSequence getTitle()
+    219:219:public java.lang.CharSequence getSubtitle()
+    224:224:public int getNavigationMode()
+    229:230:public void setNavigationMode(int)
+    239:242:public android.support.v7.app.ActionBar$Tab newTab()
+    247:248:public void addTab(android.support.v7.app.ActionBar$Tab)
+    252:253:public void addTab(android.support.v7.app.ActionBar$Tab,boolean)
+    257:258:public void addTab(android.support.v7.app.ActionBar$Tab,int)
+    262:263:public void addTab(android.support.v7.app.ActionBar$Tab,int,boolean)
+    267:268:public void removeTab(android.support.v7.app.ActionBar$Tab)
+    272:273:public void removeTabAt(int)
+    277:278:public void removeAllTabs()
+    282:283:public void selectTab(android.support.v7.app.ActionBar$Tab)
+    287:287:public android.support.v7.app.ActionBar$Tab getSelectedTab()
+    292:292:public android.support.v7.app.ActionBar$Tab getTabAt(int)
+    297:297:public int getTabCount()
+    318:326:public void setHomeAsUpIndicator(int)
+    330:330:public int getHeight()
+    335:336:public void show()
+    340:341:public void hide()
+    345:345:public boolean isShowing()
+    350:355:public void addOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
+    359:361:public void removeOnMenuVisibilityListener(android.support.v7.app.ActionBar$OnMenuVisibilityListener)
+    369:373:android.support.v4.app.FragmentTransaction getActiveTransaction()
+    377:381:void commitActiveTransaction()
 android.support.v7.app.ActionBarImplICS$OnMenuVisibilityListenerWrapper
 android.support.v7.app.ActionBarImplICS$OnNavigationListenerWrapper
 android.support.v7.app.ActionBarImplICS$TabWrapper
@@ -1678,6 +1693,7 @@ android.support.v7.app.ActionBarImplJB:
     20:20:public bridge synthetic void hide()
     20:20:public bridge synthetic void show()
     20:20:public bridge synthetic int getHeight()
+    20:20:public bridge synthetic void setHomeAsUpIndicator(int)
     20:20:public bridge synthetic int getTabCount()
     20:20:public bridge synthetic android.support.v7.app.ActionBar$Tab getTabAt(int)
     20:20:public bridge synthetic android.support.v7.app.ActionBar$Tab getSelectedTab()
@@ -1695,6 +1711,8 @@ android.support.v7.app.ActionBarImplJB:
     20:20:public bridge synthetic java.lang.CharSequence getSubtitle()
     20:20:public bridge synthetic java.lang.CharSequence getTitle()
     20:20:public bridge synthetic android.view.View getCustomView()
+    20:20:public bridge synthetic void setSplitBackgroundDrawable(android.graphics.drawable.Drawable)
+    20:20:public bridge synthetic void setStackedBackgroundDrawable(android.graphics.drawable.Drawable)
     20:20:public bridge synthetic void setBackgroundDrawable(android.graphics.drawable.Drawable)
     20:20:public bridge synthetic void setDisplayShowCustomEnabled(boolean)
     20:20:public bridge synthetic void setDisplayShowHomeEnabled(boolean)
@@ -1714,49 +1732,54 @@ android.support.v7.app.ActionBarImplJB:
     20:20:public bridge synthetic void setCustomView(int)
     20:20:public bridge synthetic void setCustomView(android.view.View,android.support.v7.app.ActionBar$LayoutParams)
     20:20:public bridge synthetic void setCustomView(android.view.View)
+android.support.v7.app.ActionBarImplJBMR2:
+    34:35:public void setHomeAsUpIndicator(int)
+    39:40:public void setHomeActionContentDescription(java.lang.CharSequence)
 android.support.v7.appcompat.BuildConfig
 android.support.v7.appcompat.R:
-    9:487:public R()
+    9:504:public R()
 android.support.v7.appcompat.R$anim:
     10:10:public R$anim()
 android.support.v7.appcompat.R$attr:
     18:18:public R$attr()
 android.support.v7.appcompat.R$bool:
-    126:126:public R$bool()
+    130:130:public R$bool()
 android.support.v7.appcompat.R$color
 android.support.v7.appcompat.R$dimen:
-    140:140:public R$dimen()
+    144:144:public R$dimen()
 android.support.v7.appcompat.R$drawable
 android.support.v7.appcompat.R$id:
-    248:248:public R$id()
+    256:256:public R$id()
 android.support.v7.appcompat.R$integer:
-    310:310:public R$integer()
+    318:318:public R$integer()
 android.support.v7.appcompat.R$layout:
-    313:313:public R$layout()
+    321:321:public R$layout()
 android.support.v7.appcompat.R$string:
-    339:339:public R$string()
+    348:348:public R$string()
 android.support.v7.appcompat.R$style:
-    354:354:public R$style()
+    363:363:public R$style()
 android.support.v7.appcompat.R$styleable:
-    487:487:public R$styleable()
+    504:504:public R$styleable()
 android.support.v7.internal.view.ActionModeWrapper:
     41:41:public java.lang.Object getTag()
     46:47:public void setTag(java.lang.Object)
-    51:51:public boolean getTitleOptionalHint()
-    56:57:public void setTitleOptionalHint(boolean)
-    61:61:public boolean isTitleOptional()
-    66:67:public void setTitle(java.lang.CharSequence)
-    71:72:public void setSubtitle(java.lang.CharSequence)
-    76:77:public void invalidate()
-    86:86:public android.view.Menu getMenu()
-    91:91:public java.lang.CharSequence getTitle()
-    96:97:public void setTitle(int)
-    101:101:public java.lang.CharSequence getSubtitle()
-    106:107:public void setSubtitle(int)
-    111:111:public android.view.View getCustomView()
-    116:117:public void setCustomView(android.view.View)
-    121:121:public android.view.MenuInflater getMenuInflater()
+    51:52:public void setTitle(java.lang.CharSequence)
+    56:57:public void setSubtitle(java.lang.CharSequence)
+    61:62:public void invalidate()
+    71:71:public android.view.Menu getMenu()
+    76:76:public java.lang.CharSequence getTitle()
+    81:82:public void setTitle(int)
+    86:86:public java.lang.CharSequence getSubtitle()
+    91:92:public void setSubtitle(int)
+    96:96:public android.view.View getCustomView()
+    101:102:public void setCustomView(android.view.View)
+    106:106:public android.view.MenuInflater getMenuInflater()
 android.support.v7.internal.view.ActionModeWrapper$CallbackWrapper
+android.support.v7.internal.view.ActionModeWrapperJB:
+    33:33:public boolean getTitleOptionalHint()
+    38:39:public void setTitleOptionalHint(boolean)
+    43:43:public boolean isTitleOptional()
+android.support.v7.internal.view.ActionModeWrapperJB$CallbackWrapper
 android.support.v7.internal.view.SupportMenuInflater:
     private static final java.lang.String LOG_TAG
     private static final java.lang.String XML_MENU
@@ -1831,9 +1854,6 @@ android.support.v7.internal.view.menu.MenuBuilder:
     301:321:private void dispatchRestoreInstanceState(android.os.Bundle)
     324:325:public void savePresenterStates(android.os.Bundle)
     328:329:public void restorePresenterStates(android.os.Bundle)
-    332:356:public void saveActionViewStates(android.os.Bundle)
-    359:386:public void restoreActionViewStates(android.os.Bundle)
-    389:389:protected java.lang.String getActionViewStatesKey()
     533:534:public void removeItemAt(int)
     537:543:public void clearAll()
     747:753:public void setShortcutsVisible(boolean)
@@ -1891,14 +1911,12 @@ android.support.v7.internal.view.menu.MenuWrapperFactory:
     50:53:public static android.support.v4.internal.view.SupportMenu createSupportMenuWrapper(android.view.Menu)
 android.support.v7.internal.view.menu.SubMenuBuilder:
     56:57:public void setShortcutsVisible(boolean)
-    138:142:public java.lang.String getActionViewStatesKey()
 android.support.v7.internal.view.menu.SubMenuWrapperICS:
     32:32:public android.view.SubMenu getWrappedObject()
     25:25:public bridge synthetic java.lang.Object getWrappedObject()
 android.support.v7.internal.widget.AbsActionBarView:
     private static final int FADE_DURATION
     119:133:public void animateToVisibility(int)
-    176:179:public void dismissPopupMenus()
 android.support.v7.internal.widget.AbsSpinnerICS:
     private android.graphics.Rect mTouchFrame
     54:56:AbsSpinnerICS(android.content.Context)
@@ -1910,14 +1928,13 @@ android.support.v7.internal.widget.AbsSpinnerICS:
     327:343:public int pointToPosition(int,int)
     34:34:public bridge synthetic void setAdapter(android.widget.Adapter)
 android.support.v7.internal.widget.ActionBarContainer:
-    228:228:public android.support.v7.view.ActionMode startActionModeForChild(android.view.View,android.support.v7.view.ActionMode$Callback)
+    243:243:public android.support.v7.view.ActionMode startActionModeForChild(android.view.View,android.support.v7.view.ActionMode$Callback)
 android.support.v7.internal.widget.ActionBarContextView:
     private static final java.lang.String TAG
     194:238:public void initForMode(android.support.v7.view.ActionMode)
     241:245:public void closeMode()
     248:254:public void killMode()
     414:414:public boolean isTitleOptional()
-    37:37:public bridge synthetic void dismissPopupMenus()
     37:37:public bridge synthetic void animateToVisibility(int)
 android.support.v7.internal.widget.ActionBarContextView$1
 android.support.v7.internal.widget.ActionBarOverlayLayout:
@@ -1934,14 +1951,13 @@ android.support.v7.internal.widget.ActionBarView:
     private static final int DISPLAY_RELAYOUT_MASK
     private static final int DEFAULT_CUSTOM_GRAVITY
     373:373:public boolean hasEmbeddedTabs()
-    63:63:public bridge synthetic void dismissPopupMenus()
     63:63:public bridge synthetic void animateToVisibility(int)
 android.support.v7.internal.widget.ActionBarView$ExpandedActionViewMenuPresenter:
-    1392:1392:public android.support.v7.internal.view.menu.MenuView getMenuView(android.view.ViewGroup)
-    1421:1421:public void setCallback(android.support.v7.internal.view.menu.MenuPresenter$Callback)
-    1511:1511:public int getId()
-    1516:1516:public android.os.Parcelable onSaveInstanceState()
-    1521:1521:public void onRestoreInstanceState(android.os.Parcelable)
+    1393:1393:public android.support.v7.internal.view.menu.MenuView getMenuView(android.view.ViewGroup)
+    1422:1422:public void setCallback(android.support.v7.internal.view.menu.MenuPresenter$Callback)
+    1512:1512:public int getId()
+    1517:1517:public android.os.Parcelable onSaveInstanceState()
+    1522:1522:public void onRestoreInstanceState(android.os.Parcelable)
 android.support.v7.internal.widget.ActivityChooserModel
 android.support.v7.internal.widget.ActivityChooserModel$1
 android.support.v7.internal.widget.ActivityChooserModel$ActivityChooserModelClient
@@ -5825,6 +5841,7 @@ org.jsoup.select.StructuralEvaluator$Root
 ru.bsuirhelper.android.ApplicationSettings:
     private static final java.lang.String PREFS_NAME
     public static final java.lang.String DEFAULT_GROUP_OF_SCHEDULE
+    51:51:public java.lang.String getDefaultGroupOfSchedule()
 ru.bsuirhelper.android.BuildConfig
 ru.bsuirhelper.android.R
 ru.bsuirhelper.android.R$anim
@@ -5856,16 +5873,18 @@ ru.bsuirhelper.android.core.notes.NoteDatabase:
 ru.bsuirhelper.android.core.schedule.ScheduleDatabase:
     private static final java.lang.String DATABASE_NAME
     private static final int VERSION
+    150:152:public android.database.Cursor getCursorWithGroups()
 ru.bsuirhelper.android.core.schedule.ScheduleParser:
     13:13:public ScheduleParser()
 ru.bsuirhelper.android.ui.ActivityDrawerMenu:
     public static final java.lang.String LOG_TAG
     private android.widget.Spinner mSpinnerGroups
-    149:150:protected void updateDrawerMenu()
+    148:149:protected void updateDrawerMenu()
 ru.bsuirhelper.android.ui.ActivitySettings:
     public static final java.lang.String KEY_SHOW_SUBJECTS_TYPE
 ru.bsuirhelper.android.ui.SpinnerGroupsAdapter
 ru.bsuirhelper.android.ui.SpinnerGroupsAdapter$ViewHolder
+ru.bsuirhelper.android.ui.SpinnerGroupsAdapter$ViewHolderDropdown
 ru.bsuirhelper.android.ui.notes.ActivityEditNote:
     public static final int REQUEST_CODE_ADD_NOTE
     public static final int REQUEST_CODE_EDIT_NOTE

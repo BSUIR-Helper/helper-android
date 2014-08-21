@@ -84,7 +84,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... urls) {
         String groupId = urls[0];
         File xmlFile = downloadScheduleFromInternet(groupId);
-        if (xmlFile == null) {
+        if (xmlFile == null || xmlFile.length() == 0) {
             return "Error";
         }
         ArrayList<Lesson> lessons = ScheduleParser.parseXmlSchedule(xmlFile);

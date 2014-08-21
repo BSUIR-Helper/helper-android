@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.*;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import org.joda.time.DateTime;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 import ru.bsuirhelper.android.ui.DownloadScheduleTask;
 import ru.bsuirhelper.android.ui.RotationViewPager;
 
@@ -93,7 +95,8 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
 
             @Override
             public void onPageSelected(int i) {
-                mActionBar.setSubtitle(getActivity().getString(R.string.ab_work_week) + " " + mStudentCalendar.getWorkWeek(StudentCalendar.convertToDefaultDateTime(i)));
+                Log.d(ActivityDrawerMenu.LOG_TAG, StudentCalendar.convertToDefaultDateTime(i) + "");
+                mActionBar.setSubtitle(getActivity().getString(R.string.ab_work_week) + " " + mStudentCalendar.getWorkWeek(StudentCalendar.convertToDefaultDateTime(i + 1)));
             }
 
             @Override
@@ -103,7 +106,11 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         });
 
         mActionBar.setTitle(getActivity().getString(R.string.group) + " " + mGroupId);
-        mPager.setCurrentItem(mStudentCalendar.getDayOfYear() - 1);
+        if (DateTime.now().getMonthOfYear() >= 9 && DateTime.now().getMonthOfYear() <= 6) {
+            mPager.setCurrentItem(mStudentCalendar.getDayOfYear());
+        } else {
+            mPager.setCurrentItem(mStudentCalendar.getDayOfYear(new DateTime(DateTime.now().getYear(), 9, 1, 1, 1)));
+        }
         return fragmentContent;
     }
 

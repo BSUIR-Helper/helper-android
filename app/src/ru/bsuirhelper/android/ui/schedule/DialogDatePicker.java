@@ -6,12 +6,12 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.widget.DatePicker;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
-
-import java.util.Calendar;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 
 import static android.app.DatePickerDialog.OnDateSetListener;
 
@@ -30,11 +30,13 @@ public abstract class DialogDatePicker extends DialogFragment implements OnDateS
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        CustomDatePicker datePickerDialog = new CustomDatePicker(getActivity(), this, year, month, day);
+        DateTime time = null;
+        if (!StudentCalendar.isHolidays()) {
+            time = DateTime.now();
+        } else {
+            time = new DateTime(DateTime.now().getYear(), 9, 1, 1, 1);
+        }
+        CustomDatePicker datePickerDialog = new CustomDatePicker(getActivity(), this, time.getYear(), time.getMonthOfYear(), time.getDayOfMonth());
         if (Build.VERSION.SDK_INT > 10) {
             datePickerDialog.getDatePicker().setMinDate(StudentCalendar.getStartStudentYear());
             datePickerDialog.getDatePicker().setMaxDate(StudentCalendar.getEndStudentYear());
@@ -58,6 +60,7 @@ public abstract class DialogDatePicker extends DialogFragment implements OnDateS
 
         @Override
         public void onDateChanged(DatePicker view, int year, int month, int day) {
+            Log.d(ActivityDrawerMenu.LOG_TAG, "Date:" + year + "." + month + "." + day);
             setTitle(getActivity().getString(R.string.work_week) + " " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
     }
