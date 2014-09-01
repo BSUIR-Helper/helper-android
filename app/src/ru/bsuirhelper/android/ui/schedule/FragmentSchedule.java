@@ -70,6 +70,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
                 mActionBar.setTitle(FragmentManagerGroups.TITLE);
                 return null;
             }
+
         }
         return defaultGroup;
     }
@@ -214,9 +215,10 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
     }
 
     void refreshSchedule(int subgroup) {
-        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity(), getActivity().getSupportFragmentManager(), mGroupId, subgroup);
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity(), getActivity().getSupportFragmentManager(), getDefaultGroup(), subgroup);
         int position = mPager.getCurrentItem();
-        mPager.setAdapter(adapter);
+        ((SchedulePagerAdapter) mPager.getAdapter()).changeGroup(mGroupId, subgroup);
+        mPager.setAdapter(mPager.getAdapter());
         mPager.setCurrentItem(position);
     }
 

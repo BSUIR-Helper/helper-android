@@ -7225,6 +7225,7 @@ ru.bsuirhelper.android.core.StudentCalendar -> ru.bsuirhelper.android.a.a:
     int getSemester() -> c
     long getStartStudentYear() -> d
     long getEndStudentYear() -> e
+    boolean isHolidays() -> f
 ru.bsuirhelper.android.core.notes.Note -> ru.bsuirhelper.android.a.a.a:
     java.lang.String text -> a
     java.lang.String title -> b
@@ -7290,9 +7291,7 @@ ru.bsuirhelper.android.core.schedule.StudentGroup -> ru.bsuirhelper.android.a.b.
     java.lang.String faculty -> b
     java.lang.String updatedTime -> c
     boolean isChecked -> d
-    java.lang.String[] facultyNames -> e
     java.lang.String toString() -> toString
-    java.lang.String getFacultyName(int) -> a
 ru.bsuirhelper.android.ui.ActivityDrawerMenu -> ru.bsuirhelper.android.ui.ActivityDrawerMenu:
     int SCHEDULE_FRAGMENT -> o
     int NOTE_FRAGMENT -> p
@@ -7559,6 +7558,7 @@ ru.bsuirhelper.android.ui.schedule.SchedulePagerAdapter -> ru.bsuirhelper.androi
     android.support.v4.app.Fragment getItem(int) -> a
     java.lang.CharSequence getPageTitle(int) -> b
     int getCount() -> b
+    void changeGroup(java.lang.String,int) -> a
 ru.bsuirhelper.android.ui.schedule.ViewAdapterLessons -> ru.bsuirhelper.android.ui.schedule.p:
     android.content.Context mContext -> a
     ru.bsuirhelper.android.core.schedule.Lesson[] mValues -> b

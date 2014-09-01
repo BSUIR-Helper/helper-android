@@ -36,7 +36,7 @@ public abstract class DialogDatePicker extends DialogFragment implements OnDateS
         } else {
             time = new DateTime(DateTime.now().getYear(), 9, 1, 1, 1);
         }
-        CustomDatePicker datePickerDialog = new CustomDatePicker(getActivity(), this, time.getYear(), time.getMonthOfYear(), time.getDayOfMonth());
+        CustomDatePicker datePickerDialog = new CustomDatePicker(getActivity(), this, time.getYear(), time.getMonthOfYear() - 1, time.getDayOfMonth());
         if (Build.VERSION.SDK_INT > 10) {
             datePickerDialog.getDatePicker().setMinDate(StudentCalendar.getStartStudentYear());
             datePickerDialog.getDatePicker().setMaxDate(StudentCalendar.getEndStudentYear());

@@ -58,21 +58,8 @@ public class StudentCalendar {
     }
 
     public int getDaysOfYear() {
-        if (mDaysOfYear == 0) {
-            DateTime september;
-            DateTime august;
-
-            if (mCurrentDateTime.getMonthOfYear() <= 8) {
-                september = new DateTime(mCurrentDateTime.getYear() - 1, 9, 1, 0, 0, 0);
-                august = new DateTime(mCurrentDateTime.getYear(), 8, 31, 0, 0, 0);
-            } else {
-                september = new DateTime(mCurrentDateTime.getYear(), 8, 31, 0, 0, 0);
-                august = new DateTime(mCurrentDateTime.getYear() + 1, 8, 31, 0, 0, 0);
-            }
-
-            mDaysOfYear = new Interval(september, august).toPeriod(PeriodType.days()).getDays();
-        }
-        return mDaysOfYear;
+        mDaysOfYear = new Interval(getStartStudentYear(), getEndStudentYear()).toPeriod(PeriodType.days()).getDays();
+        return mDaysOfYear + 1;
     }
 
     public static int getWorkWeek(DateTime dateTime) {
@@ -83,10 +70,12 @@ public class StudentCalendar {
         } else {
             september = new DateTime(dateTime.getYear(), 9, 1, 0, 0, 0);
         }
-
-
+        /*
+        Log.d(ActivityDrawerMenu.LOG_TAG, "Date in arg:" + dateTime.getYear() + "." + dateTime.getMonthOfYear() + "." + dateTime.getDayOfMonth());
+        Log.d(ActivityDrawerMenu.LOG_TAG, "Date:" + september.getYear() + "." + september.getMonthOfYear() + "." + september.getDayOfMonth());
+        */
         Interval interval = new Interval(september, dateTime);
-        int workWeek = (interval.toPeriod(PeriodType.weeks()).getWeeks() + 2) % 4;
+        int workWeek = (interval.toPeriod(PeriodType.weeks()).getWeeks() + 1) % 4;
         workWeek = workWeek == 0 ? 4 : workWeek;
         return workWeek;
     }

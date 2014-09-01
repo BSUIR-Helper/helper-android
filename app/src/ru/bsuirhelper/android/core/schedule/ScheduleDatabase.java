@@ -106,7 +106,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String tableName = tablePrefix + groupId;
         this.open();
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
-        String createTableQuery = "CREATE table " + tablePrefix + groupId;
+        String createTableQuery = "CREATE table " + tableName;
         //Add column names and types in table
         createTableQuery += " ( " + _ID + " INT, updatedTime TEXT, ";
         Lesson lesson = new Lesson();
@@ -160,11 +160,12 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         if (tables.moveToPosition(1)) {
             while (!tables.isAfterLast()) {
                 String tableGroupName = tables.getString(tables.getColumnIndex("name"));
-                Cursor scheduleOfGroup = db.rawQuery("SELECT updatedTime FROM " + tableGroupName, null);
+                Cursor scheduleOfGroup = db.rawQuery("SELECT updatedTime, faculty FROM " + tableGroupName, null);
                 scheduleOfGroup.moveToFirst();
                 String updatedTime = scheduleOfGroup.getString(scheduleOfGroup.getColumnIndex("updatedTime"));
+                String faculty = scheduleOfGroup.getString(scheduleOfGroup.getColumnIndex("faculty"));
                 String groupId = tableGroupName.split("_")[1];
-                studentGroups.add(new StudentGroup(groupId, updatedTime));
+                studentGroups.add(new StudentGroup(groupId, faculty, updatedTime));
                 tables.moveToNext();
             }
         }

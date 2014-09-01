@@ -4367,7 +4367,6 @@ org.joda.time.Instant:
 org.joda.time.Interval:
     private static final long serialVersionUID
     69:69:public static org.joda.time.Interval parse(java.lang.String)
-    82:83:public Interval(long,long)
     96:97:public Interval(long,long,org.joda.time.DateTimeZone)
     109:110:public Interval(long,long,org.joda.time.Chronology)
     134:135:public Interval(org.joda.time.ReadableInstant,org.joda.time.ReadableDuration)
@@ -4827,7 +4826,6 @@ org.joda.time.base.BaseDateTime:
 org.joda.time.base.BaseDuration
 org.joda.time.base.BaseInterval:
     private static final long serialVersionUID
-    71:76:protected BaseInterval(long,long,org.joda.time.Chronology)
     107:113:protected BaseInterval(org.joda.time.ReadableInstant,org.joda.time.ReadableDuration)
     124:130:protected BaseInterval(org.joda.time.ReadableDuration,org.joda.time.ReadableInstant)
     144:154:protected BaseInterval(org.joda.time.ReadableInstant,org.joda.time.ReadablePeriod)
@@ -5861,7 +5859,7 @@ ru.bsuirhelper.android.R$styleable
 ru.bsuirhelper.android.R$xml
 ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBase:
     public static final java.lang.String UPDATE_ACTION
-    106:109:public void updateAppWidget(android.content.Context)
+    109:112:public void updateAppWidget(android.content.Context)
 ru.bsuirhelper.android.core.StudentCalendar:
     public static final int FIRST_SEMESTER
     public static final int SECOND_SEMESTER

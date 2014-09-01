@@ -8,13 +8,11 @@ public class StudentGroup {
     public final String faculty;
     public final String updatedTime;
     public boolean isChecked = false;
-    private final String[] facultyNames = new String[]{"ФКП", "ФИТиУ", "Военный", "ФРиЭ", "ФКСиС", "ФТК", "ИЭФ"};
 
-    public StudentGroup(String groupId, String updatedTime) {
+    public StudentGroup(String groupId, String faculty, String updatedTime) {
         this.groupId = groupId;
         this.updatedTime = updatedTime;
-        char code = groupId.charAt(1);
-        this.faculty = getFacultyName(Character.getNumericValue(code));
+        this.faculty = faculty;
 
     }
 
@@ -23,10 +21,4 @@ public class StudentGroup {
         return groupId + " (" + faculty + ")";
     }
 
-    private String getFacultyName(int code) {
-        if (code >= facultyNames.length) {
-            return null;
-        }
-        return facultyNames[code - 1];
-    }
 }

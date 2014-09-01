@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -16,7 +15,6 @@ import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
-import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 import ru.bsuirhelper.android.ui.ActivitySettings;
 
 /**
@@ -77,7 +75,6 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
         if (!subjectType.equals("кч")) {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
                     mContext).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
-            Log.wtf(ActivityDrawerMenu.LOG_TAG, "isSubjectType:" + isShowSubjectTypes);
             if (isShowSubjectTypes && !subjectType.equals("")) {
                 rView.setTextViewText(R.id.widget_lesson_name, lesson.fields.get("subject"));
                 rView.setViewVisibility(R.id.widget_subject_type, View.VISIBLE);
