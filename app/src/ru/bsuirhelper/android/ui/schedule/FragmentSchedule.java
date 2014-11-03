@@ -107,7 +107,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         });
 
         mActionBar.setTitle(getActivity().getString(R.string.group) + " " + mGroupId);
-        if (DateTime.now().getMonthOfYear() >= 9 && DateTime.now().getMonthOfYear() <= 6) {
+        if (DateTime.now().getMonthOfYear() >= 9 || DateTime.now().getMonthOfYear() <= 6) {
             mPager.setCurrentItem(mStudentCalendar.getDayOfYear());
         } else {
             mPager.setCurrentItem(mStudentCalendar.getDayOfYear(new DateTime(DateTime.now().getYear(), 9, 1, 1, 1)));

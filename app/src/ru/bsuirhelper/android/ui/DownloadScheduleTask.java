@@ -41,7 +41,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
     }
 
     private File downloadScheduleFromInternet(String groupId) {
-        final String LIST_URL = "http://www.bsuir.by/psched/rest/";
+        final String LIST_URL = "http://www.bsuir.by/schedule/rest/schedule/";
         final String TEMP_FILE_NAME = "schedule.xml";
         InputStream input = null;
         OutputStream output = null;
@@ -79,7 +79,6 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         return new File(context.getApplicationContext().getFilesDir() + "/" + TEMP_FILE_NAME);
     }
 
-
     @Override
     protected String doInBackground(String... urls) {
         String groupId = urls[0];
@@ -87,7 +86,13 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         if (xmlFile == null || xmlFile.length() == 0) {
             return "Error";
         }
-        ArrayList<Lesson> lessons = ScheduleParser.parseXmlSchedule(xmlFile);
+
+        ArrayList<Lesson> lessons = null;
+        try {
+            lessons = ScheduleParser.parseXmlSchedule(xmlFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         scheduleManager.addSchedule(groupId, lessons);
         return "Success";
     }

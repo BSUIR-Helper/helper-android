@@ -85,11 +85,11 @@ class ViewAdapterLessons extends BaseAdapter {
         }
         vh.lessonAuditorium.setText(auditorium);
 
-        if (subjectType.equals(mContext.getString(R.string.ab_lab))) {
+        if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lab_id))) {
             vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.red));
-        } else if (subjectType.equals(mContext.getString(R.string.ab_work_lesson))) {
+        } else if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_work_lesson_id))) {
             vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.orange));
-        } else if (subjectType.equals(mContext.getString(R.string.ab_lecture))) {
+        } else if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lecture_id))) {
             vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.green));
         } else {
             vh.lView.setBackgroundColor(Color.WHITE);

@@ -25,4 +25,12 @@ public class Lesson {
         fields.put("timePeriodStart", "");
         fields.put("timePeriodEnd", "");
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(String key: fields.keySet()) {
+            sb.append(key + ":" + fields.get(key) + "\n");
+        }
+        return sb.toString();
+    }
 }
