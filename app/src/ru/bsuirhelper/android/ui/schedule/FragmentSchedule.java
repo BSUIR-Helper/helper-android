@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -88,6 +89,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         int subgroup = mSettings.getInt(mGroupId, 1);
         SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity(), getChildFragmentManager(), mGroupId, subgroup);
         mPager.setAdapter(adapter);
+
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
@@ -96,7 +98,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
 
             @Override
             public void onPageSelected(int i) {
-                Log.d(ActivityDrawerMenu.LOG_TAG, StudentCalendar.convertToDefaultDateTime(i) + "");
                 mActionBar.setSubtitle(getActivity().getString(R.string.ab_work_week) + " " + mStudentCalendar.getWorkWeek(StudentCalendar.convertToDefaultDateTime(i + 1)));
             }
 
@@ -226,5 +227,4 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
     public void onPostExecute() {
         Toast.makeText(context, getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
     }
-
 }

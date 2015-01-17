@@ -6,13 +6,12 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="18"/>
+        android:targetSdkVersion="21"/>
 
     <application
         android:label="BSUIR Helper"
         android:icon="@drawable/ic_launcher"
-        android:debuggable="false"
-        android:theme="@style/Theme.AppCompat"
+        android:theme="@style/AppTheme"
         >
         <!-- ACTIVITIES -->
         <activity
@@ -21,7 +20,8 @@
 
         <activity
             android:name="ru.bsuirhelper.android.ui.ActivityDrawerMenu"
-            android:label="BSUIR Helper">
+            android:label="BSUIR Helper"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -31,6 +31,7 @@
         <activity
             android:name="ru.bsuirhelper.android.ui.schedule.ActivityDeleteGroups"
             android:label="Удаление групп"
+            android:theme="@style/AppTheme"
             >
         </activity>
 

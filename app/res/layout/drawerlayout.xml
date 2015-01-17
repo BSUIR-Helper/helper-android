@@ -18,8 +18,8 @@
         android:layout_height="fill_parent"
         android:layout_gravity="start"
         android:orientation="vertical"
-        android:background="#ff181818">
-        <!--
+        android:background="@android:color/white">
+        <!--1
         <Spinner
             android:id="@+id/spinner_groups"
             android:layout_width="280dp"

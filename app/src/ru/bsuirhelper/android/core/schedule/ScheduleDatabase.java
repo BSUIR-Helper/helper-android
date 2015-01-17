@@ -99,7 +99,6 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
             lesson.id = new String(dayOfYear.getDayOfYear() + lesson.fields.get("timePeriodStart") + lesson.fields.get("timePeriodEnd") + lesson.fields.get("teacher")).hashCode();
             lessons[cursor.getPosition()] = lesson;
         }
-        Log.wtf(ActivityDrawerMenu.LOG_TAG, "" + lessons.length);
         return lessons;
     }
 
@@ -121,7 +120,6 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         createTableQuery += ");";
         db.execSQL(createTableQuery);
         //tableValue - переменная которая будет содержать всё расписание для создания новой таблицы
-        Log.wtf(ActivityDrawerMenu.LOG_TAG,"Add schedule:" + list.size());
         ArrayList<ContentValues> tableValues = new ArrayList<ContentValues>();
         for (int i = 0; i < list.size(); i++) {
             ContentValues contentValues = new ContentValues();

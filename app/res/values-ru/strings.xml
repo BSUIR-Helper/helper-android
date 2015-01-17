@@ -37,15 +37,6 @@
     <!--GROUPS ADAPTER-->
     <string name="active_group">АКТИВНО</string>
     <string name="load_schedule">Загрузить расписание</string>
-    <string-array name="week_days">
-        <item>пн</item>
-        <item>вт</item>
-        <item>ср</item>
-        <item>чт</item>
-        <item>пт</item>
-        <item>сб</item>
-        <item>вс</item>
-    </string-array>
     <string-array name="not_selected_note">Не выбрана заметка для удаления</string-array>
     <string name="work_week">Учебная неделя</string>
     <string name="cancel">Отмена</string>

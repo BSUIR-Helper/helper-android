@@ -2,6 +2,12 @@ package ru.bsuirhelper.android.ui.schedule;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,18 +91,20 @@ class ViewAdapterLessons extends BaseAdapter {
         }
         vh.lessonAuditorium.setText(auditorium);
 
+        GradientDrawable typeOfSubject = (GradientDrawable) vh.lView.getBackground();
+
         if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lab_id))) {
-            vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.red));
+            typeOfSubject.setColor(mContext.getResources().getColor(R.color.red));
         } else if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_work_lesson_id))) {
-            vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.orange));
+            typeOfSubject.setColor(mContext.getResources().getColor(R.color.orange));
         } else if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lecture_id))) {
-            vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.green));
+            typeOfSubject.setColor(mContext.getResources().getColor(R.color.green));
         } else {
-            vh.lView.setBackgroundColor(Color.WHITE);
+            typeOfSubject.setColor(mContext.getResources().getColor(R.color.white));
         }
 
         View verticalLine = convertView.findViewById(R.id.customview);
-        verticalLine.setBackgroundColor(Color.WHITE);
+        verticalLine.setBackgroundColor(Color.BLACK);
         return convertView;
     }
 
@@ -104,7 +112,6 @@ class ViewAdapterLessons extends BaseAdapter {
     public boolean isEnabled(int position) {
         return true;
     }
-
 
     public void setViewHolder(View rowView) {
         ViewHolder vh = new ViewHolder();

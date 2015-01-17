@@ -36,13 +36,7 @@ class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
         TextView tvGroupId = (TextView) rowView.findViewById(R.id.textview_groupid);
         TextView tvDateUpdate = (TextView) rowView.findViewById(R.id.textview_dateupdated);
         String groupId = values.get(position).groupId;
-        String faculty = values.get(position).faculty;
-        if (faculty != null) {
-            faculty = "(" + faculty + ")";
-        } else {
-            faculty = "";
-        }
-        tvGroupId.setText(groupId + " " + faculty);
+        tvGroupId.setText(groupId);
         tvDateUpdate.setText(mContext.getString(R.string.updated) + ": " + values.get(position).updatedTime);
         return rowView;
     }

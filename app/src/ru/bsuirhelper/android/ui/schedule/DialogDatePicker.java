@@ -60,7 +60,6 @@ public abstract class DialogDatePicker extends DialogFragment implements OnDateS
 
         @Override
         public void onDateChanged(DatePicker view, int year, int month, int day) {
-            Log.d(ActivityDrawerMenu.LOG_TAG, "Date:" + year + "." + month + "." + day);
             setTitle(getActivity().getString(R.string.work_week) + " " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
     }
