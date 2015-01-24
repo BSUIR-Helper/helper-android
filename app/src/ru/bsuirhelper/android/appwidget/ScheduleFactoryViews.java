@@ -6,13 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import org.joda.time.DateTime;
+
+import java.util.Arrays;
+
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
+import ru.bsuirhelper.android.ui.ActivitySettings;
 
 /**
  * Created by Влад on 15.10.13.
@@ -60,29 +68,45 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
         RemoteViews rView = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_view_lesson);
         Lesson lesson = mLessons[position];
-        rView.setTextViewText(R.id.widget_lesson_name, lesson.fields.get("subject"));
-        rView.setTextViewText(R.id.widget_lesson_time, lesson.fields.get("timePeriod"));
-        rView.setTextViewText(R.id.widget_lesson_teacher, lesson.fields.get("teacher"));
+        rView.setTextViewText(R.id.lesson_time, lesson.fields.get("timePeriod"));
+        rView.setTextViewText(R.id.lesson_teacher, lesson.fields.get("teacher"));
 
         if (!lesson.fields.get("auditorium").equals("")) {
-            rView.setTextViewText(R.id.widget_lesson_auditorium, lesson.fields.get("auditorium"));
+            rView.setTextViewText(R.id.lesson_auditorium, lesson.fields.get("auditorium"));
         }
 
-        String lessonType = lesson.fields.get("subjectType");
+        String subjectType = lesson.fields.get("subjectType");
 
-        if (lessonType.equals("лр")) {
-            rView.setInt(R.id.widget_lesson_type_color, "setBackgroundColor", (Color.parseColor("#FF4444")));
-        } else if (lessonType.equals("пз")) {
-            rView.setInt(R.id.widget_lesson_type_color, "setBackgroundColor", (Color.parseColor("#FFBB33")));
-        } else if (lessonType.equals("лк")) {
-            rView.setInt(R.id.widget_lesson_type_color, "setBackgroundColor", (Color.parseColor("#99CC00")));
+        if (!subjectType.equals("кч")) {
+            boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
+                    mContext).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
+            if (isShowSubjectTypes && !subjectType.equals("")) {
+                rView.setTextViewText(R.id.lesson_name, lesson.fields.get("subject"));
+                rView.setViewVisibility(R.id.lesson_subject_type, View.VISIBLE);
+                rView.setTextViewText(R.id.lesson_subject_type, " (" + subjectType + ")");
+            } else {
+                rView.setTextViewText(R.id.lesson_name, lesson.fields.get("subject"));
+                rView.setViewVisibility(R.id.lesson_subject_type, View.GONE);
+            }
         } else {
-            rView.setInt(R.id.widget_lesson_type_color, "setBackgroundColor", (Color.WHITE));
+            rView.setTextViewText(R.id.lesson_name, "КЧ");
         }
 
-        rView.setInt(R.id.widget_separateline, "setBackgroundColor", Color.WHITE);
+        if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lab_id))) {
+            rView.setInt(R.id.lesson_type_color, "setBackgroundColor", mContext.getResources().getColor(R.color.red));
+        } else if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_work_lesson_id))) {
+            rView.setInt(R.id.lesson_type_color, "setBackgroundColor", mContext.getResources().getColor(R.color.orange));
+        } else if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lecture_id))) {
+            rView.setInt(R.id.lesson_type_color, "setBackgroundColor", mContext.getResources().getColor(R.color.green));
+        } else {
+            rView.setInt(R.id.lesson_type_color, "setBackgroundColor", mContext.getResources().getColor(R.color.white));
+        }
 
+        //rView.setInt(R.id.separateline, "setBackgroundColor", Color.WHITE);
+        Intent startMainActivity = new Intent();
+        rView.setOnClickFillInIntent(R.id.widget_lesson_container, startMainActivity);
         return rView;
+
 
     }
 
@@ -116,4 +140,5 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
         }
         mLessonCount = mLessons.length;
     }
+
 }

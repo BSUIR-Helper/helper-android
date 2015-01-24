@@ -20,6 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000000"
             android:text="Лабораторная работа"
             android:textSize="17sp"
             android:layout_marginLeft="10dp"/>
@@ -39,6 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000000"
             android:text="Практическое занятие"
             android:textSize="17sp"
             android:layout_marginLeft="10dp"/>
@@ -59,11 +61,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Лекция"
+            android:textColor="#000000"
             android:textSize="17sp"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,5 +84,5 @@
             android:textSize="17sp"
             android:layout_marginLeft="10dp"
             android:paddingBottom="10dp"/>
-    </LinearLayout>
+    </LinearLayout>-->
 </LinearLayout>

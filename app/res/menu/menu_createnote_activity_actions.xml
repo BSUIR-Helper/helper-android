@@ -5,11 +5,11 @@
     <item
         android:id="@+id/action_cancelcreatenote"
         android:icon="@drawable/ic_cancel"
-        android:title="Отмена"
+        android:title="@string/cancel"
         bsuirguide:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_createnote"
-        android:title="Создать заметку"
+        android:title="@string/create_note"
         android:icon="@drawable/ic_accept"
         bsuirguide:showAsAction="always"/>
 </menu>

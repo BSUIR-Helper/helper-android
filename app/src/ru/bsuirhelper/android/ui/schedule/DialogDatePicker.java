@@ -6,11 +6,12 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.widget.DatePicker;
 import org.joda.time.DateTime;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
-
-import java.util.Calendar;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 
 import static android.app.DatePickerDialog.OnDateSetListener;
 
@@ -18,16 +19,24 @@ import static android.app.DatePickerDialog.OnDateSetListener;
  * Created by Влад on 07.11.13.
  */
 public abstract class DialogDatePicker extends DialogFragment implements OnDateSetListener {
-    private static final String SCHOOL_WEEK = "Учебная неделя ";
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        CustomDatePicker datePickerDialog = new CustomDatePicker(getActivity(), this, year, month, day);
+        DateTime time = null;
+        if (!StudentCalendar.isHolidays()) {
+            time = DateTime.now();
+        } else {
+            time = new DateTime(DateTime.now().getYear(), 9, 1, 1, 1);
+        }
+        CustomDatePicker datePickerDialog = new CustomDatePicker(getActivity(), this, time.getYear(), time.getMonthOfYear() - 1, time.getDayOfMonth());
         if (Build.VERSION.SDK_INT > 10) {
             datePickerDialog.getDatePicker().setMinDate(StudentCalendar.getStartStudentYear());
             datePickerDialog.getDatePicker().setMaxDate(StudentCalendar.getEndStudentYear());
@@ -35,16 +44,23 @@ public abstract class DialogDatePicker extends DialogFragment implements OnDateS
         return datePickerDialog;
     }
 
+    @Override
+    public void onDestroyView() {
+        if (getDialog() != null && getRetainInstance())
+            getDialog().setOnDismissListener(null);
+        super.onDestroyView();
+    }
+
     class CustomDatePicker extends DatePickerDialog {
 
         public CustomDatePicker(Context context, OnDateSetListener callBack, int year, int month, int day) {
             super(context, callBack, year, month, day);
-            setTitle(SCHOOL_WEEK + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
+            setTitle(getString(R.string.work_week) + " " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
 
         @Override
         public void onDateChanged(DatePicker view, int year, int month, int day) {
-            setTitle(SCHOOL_WEEK + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
+            setTitle(getActivity().getString(R.string.work_week) + " " + StudentCalendar.getWorkWeek(new DateTime(year, month + 1, day, 1, 1)));
         }
     }
 }

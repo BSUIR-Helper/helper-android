@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.schedule.Lesson;
 import ru.bsuirhelper.android.core.schedule.ScheduleManager;
 import ru.bsuirhelper.android.core.schedule.ScheduleParser;
@@ -21,17 +22,10 @@ import java.util.ArrayList;
  * Created by Влад on 18.02.14.
  */
 public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
-    private static final String message = "Обновление расписания";
-    private static final String LIST_URL = "http://www.bsuir.by/psched/rest/";
-    private static final String TEMP_FILE_NAME = "schedule.xml";
-    private static final String ERROR_HAPPENED = "Произошла ошибка";
-    private static final String FRAGMENT_MESSAGE = "Fragment must implement CallBack Interface";
-    private static final String SUCCESS = "Success";
-    private static final String ERROR = "Error";
-
     private ProgressDialog mPogressDialog;
     private Fragment fragment;
     private Context context;
+    private String message;
     private ScheduleManager scheduleManager;
 
     public static interface CallBack {
@@ -42,10 +36,13 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         super();
         this.fragment = fragment;
         this.context = fragment.getActivity();
+        this.message = context.getString(R.string.updating_schedule);
         scheduleManager = ScheduleManager.getInstance(fragment.getActivity());
     }
 
     private File downloadScheduleFromInternet(String groupId) {
+        final String LIST_URL = "http://www.bsuir.by/schedule/rest/schedule/";
+        final String TEMP_FILE_NAME = "schedule.xml";
         InputStream input = null;
         OutputStream output = null;
         HttpURLConnection connection = null;
@@ -56,11 +53,8 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 return null;
             }
-
-            // download the file
             input = connection.getInputStream();
             output = context.openFileOutput(TEMP_FILE_NAME, Context.MODE_PRIVATE);
-
             byte data[] = new byte[4096];
             int count;
             while ((count = input.read(data)) != -1) {
@@ -85,17 +79,22 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         return new File(context.getApplicationContext().getFilesDir() + "/" + TEMP_FILE_NAME);
     }
 
-
     @Override
     protected String doInBackground(String... urls) {
         String groupId = urls[0];
         File xmlFile = downloadScheduleFromInternet(groupId);
-        if (xmlFile == null) {
-            return ERROR;
+        if (xmlFile == null || xmlFile.length() == 0) {
+            return "Error";
         }
-        ArrayList<Lesson> lessons = ScheduleParser.parseXmlSchedule(xmlFile);
+
+        ArrayList<Lesson> lessons = null;
+        try {
+            lessons = ScheduleParser.parseXmlSchedule(xmlFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         scheduleManager.addSchedule(groupId, lessons);
-        return SUCCESS;
+        return "Success";
     }
 
     @Override
@@ -105,17 +104,23 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
 
     @Override
     public void onPostExecute(String result) {
-        mPogressDialog.cancel();
-        if (result.equals(ERROR)) {
-            Toast.makeText(context.getApplicationContext(), ERROR_HAPPENED, Toast.LENGTH_LONG).show();
+
+        try {
+            if (mPogressDialog.isShowing()) mPogressDialog.cancel();
+        } catch (Exception exception) {
+        }
+
+        if (result.equals("Error")) {
+            Toast.makeText(context.getApplicationContext(), fragment.getString(R.string.error), Toast.LENGTH_LONG).show();
         } else {
             try {
                 CallBack callBack = (CallBack) fragment;
                 callBack.onPostExecute();
             } catch (ClassCastException e) {
-                System.out.print(FRAGMENT_MESSAGE + e.getMessage());
+                System.out.print("Fragment must implement CallBack Interface" + e.getMessage());
             }
         }
+
     }
 
     private void showProgressDialog() {

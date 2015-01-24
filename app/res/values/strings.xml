@@ -1,24 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Расписание</string>
-    <string name="activity_schedule">Расписание</string>
-    <string name="activity_managergroups">Список групп</string>
-    <string name="drawer_open">Открыть меню</string>
-    <string name="drawer_close">Закрыть меню</string>
-    <string name="add_note">Добавить заметку</string>
+    <string name="app_name">Schedule</string>
+    <string name="activity_schedule">Schedule</string>
+    <string name="activity_managergroups">List of groups</string>
+    <string name="drawer_open">Open menu</string>
+    <string name="drawer_close">Close menu</string>
+    <string name="add_note">Add note</string>
     <!--Settings -->
-    <string name="settings_subject_type">Отображать тип занятия текстом</string>
+    <string name="settings_subject_type">Show the type of subjects</string>
     <string-array name="action_selectsubgroup_values">
-        <item>Подгруппа 1</item>
-        <item>Подгруппа 2</item>
+        <item>Subgroup 1</item>
+        <item>Subgroup 2</item>
     </string-array>
     <string-array name="lessons_types">
-        <item>Лекция</item>
-        <item>Практическое занятия</item>
-        <item>Лабараторная работа</item>
-        <item>Другое</item>
+        <item>Lecture</item>
+        <item>Practical lesson</item>
+        <item>Lab</item>
+        <item>Other</item>
     </string-array>
     <string-array name="week_days">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="work_weeks">
+        <item>1 week</item>
+        <item>2 week</item>
+        <item>3 week</item>
+        <item>4 week</item>
+    </string-array>
+    <!--GROUPS ADAPTER-->
+    <string name="active_group">ACTIVE</string>
+
+    <string name="load_schedule">Load schedule</string>
+    <string name="not_selected_note">Not selected note for deleting</string>
+    <string name="work_week">Work week</string>
+    <string name="cancel">Cancel</string>
+    <string name="loading_schedule">Loading schedule..</string>
+    <string name="information">Information</string>
+    <string name="internet_is_not_available">Internet is not available</string>
+    <string name="add_group">Add group</string>
+    <string name="add">Add</string>
+    <string name="ab_work_week">work week</string>
+    <string name="group">Group</string>
+    <string name="lessons_are_not_known">Lessons are not known</string>
+    <string name="types_of_lessons">Types of lessons</string>
+    <string name="ok">Ok</string>
+    <string name="schedule_is_updated">Schedule is updated</string>
+    <string name="updated">Updated</string>
+    <string name="today">Today</string>
+    <string name="ab_work_lesson">p.l.</string>
+    <string name="ab_lecture">le.</string>
+    <string name="ab_lab">lb</string>
+    <string name="ab_curator_hour">c.h.</string>
+    <string-array name="menu_items">
+        <item>Schedule</item>
+        <!--<item>Notes</item>-->
+        <item>Settings</item>
+    </string-array>
+    <string name="error">Error</string>
+    <string name="updating_schedule">Updating schedule..</string>
+    <string name="edit">Edit</string>
+    <string name="create_note">Create note</string>
+    <string name="delete">Delete</string>
+    <string name="delete_groups">Delete groups</string>
+    <string name="delete_note">Delete note</string>
+    <string name="update_schedule">Update schedule</string>
+    <string name="subgroup">Subgroup</string>
+    <string name="help_info">Info</string>
+    <string name="no_lessons">No lessons</string>
+
+    <string-array name="week_days_id">
         <item>Понедельник</item>
         <item>Вторник</item>
         <item>Среда</item>
@@ -28,10 +84,8 @@
         <item>Воскресенье</item>
     </string-array>
 
-    <string-array name="work_weeks">
-        <item>1-я неделя</item>
-        <item>2-я неделя</item>
-        <item>3-я неделя</item>
-        <item>4-я неделя</item>
-    </string-array>
+    <string name="ab_work_lesson_id">пз</string>
+    <string name="ab_lecture_id">лк</string>
+    <string name="ab_lab_id">лр</string>
+    <string name="ab_curator_hour_id">кч</string>
 </resources>

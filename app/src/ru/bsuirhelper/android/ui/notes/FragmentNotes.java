@@ -44,7 +44,7 @@ public class FragmentNotes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View fragmentContent = inflater.inflate(R.layout.activity_notes, container, false);
+        View fragmentContent = inflater.inflate(R.layout.fragment_notes, container, false);
         mListView = (ListView) fragmentContent.findViewById(R.id.listview_notes);
         mNoteDatabase = NoteDatabase.getInstance(getActivity().getApplicationContext());
         mNotesForDelete = new ArrayList<View>();
@@ -76,7 +76,7 @@ public class FragmentNotes extends Fragment {
     public void onStart() {
         super.onStart();
         EasyTracker tracker = EasyTracker.getInstance(getActivity());
-        tracker.set(Fields.SCREEN_NAME, "Fragment notes");
+        tracker.set(Fields.SCREEN_NAME, "Окно списка заметок");
         tracker.send(MapBuilder.createAppView().build());
     }
 
@@ -181,7 +181,7 @@ public class FragmentNotes extends Fragment {
             }
         }
         if (!someNoteChecked) {
-            Toast.makeText(getActivity().getApplicationContext(), "Не выбрана заметка для удаления", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), getString(R.string.not_selected_note), Toast.LENGTH_SHORT).show();
         }
         ApplicationSettings.getInstance(getActivity().getApplicationContext()).putInt("notes", mNoteDatabase.fetchAllNotes().length);
     }

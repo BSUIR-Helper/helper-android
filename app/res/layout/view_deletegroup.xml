@@ -15,7 +15,6 @@
         android:id="@+id/textview_groupid"
         android:layout_gravity="left|center_vertical"
         android:textSize="30dp"
-        android:textColor="#faffff"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="30dp"/>

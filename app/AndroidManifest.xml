@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="ru.bsuirhelper.android"
-          android:versionCode="3"
-          android:versionName="0.3">
+          android:versionCode="11"
+          android:versionName="0.4">
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="18"/>
+        android:targetSdkVersion="21"/>
 
     <application
         android:label="BSUIR Helper"
         android:icon="@drawable/ic_launcher"
-        android:theme="@style/Theme.AppCompat"
+        android:theme="@style/AppTheme"
         >
         <!-- ACTIVITIES -->
         <activity
@@ -20,7 +20,8 @@
 
         <activity
             android:name="ru.bsuirhelper.android.ui.ActivityDrawerMenu"
-            android:label="BSUIR Helper">
+            android:label="BSUIR Helper"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -30,6 +31,7 @@
         <activity
             android:name="ru.bsuirhelper.android.ui.schedule.ActivityDeleteGroups"
             android:label="Удаление групп"
+            android:theme="@style/AppTheme"
             >
         </activity>
 
@@ -41,9 +43,6 @@
         <activity
             android:name="ru.bsuirhelper.android.ui.ActivitySettings"
             android:label="Настройки"/>
-        <activity
-            android:name="ru.bsuirhelper.android.ui.schedule.ActivityEditLesson"
-            android:label="Добавить расписание"/>
 
         <!-- WIDGET -->
         <service
@@ -57,7 +56,7 @@
             android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день (большое)">
             <intent-filter>
-            <action
+                <action
                     android:name="android.appwidget.action.APPWIDGET_UPDATE">
                 </action>
             </intent-filter>
@@ -72,7 +71,7 @@
             android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день (среднее)">
             <intent-filter>
-            <action
+                <action
                     android:name="android.appwidget.action.APPWIDGET_UPDATE">
                 </action>
             </intent-filter>

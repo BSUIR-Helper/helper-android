@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:layout_marginLeft="12dp"
         android:src="@drawable/ic_notes"
         />
@@ -37,8 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:gravity="center_vertical"
-        android:layout_marginLeft="12dp"
-        android:textColor="#fff"
+        android:layout_marginLeft="16dp"
         />
 
     <TextView
@@ -48,10 +48,9 @@
         android:background="@drawable/rectangle"
         android:layout_gravity="center"
         android:text="12"
-        android:visibility="invisible"
-        android:layout_marginRight="8dp"
+        android:visibility="visible"
+        android:layout_marginRight="30dp"
         android:gravity="center"
-        android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold"
         ></TextView>

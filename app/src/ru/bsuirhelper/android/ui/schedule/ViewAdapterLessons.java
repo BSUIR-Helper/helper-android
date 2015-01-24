@@ -2,6 +2,12 @@ package ru.bsuirhelper.android.ui.schedule;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,8 +67,7 @@ class ViewAdapterLessons extends BaseAdapter {
         String teacher = lesson.fields.get("teacher");
         String subjectType = lesson.fields.get("subjectType");
 
-
-        if (!subjectType.equals("кч")) {
+        if (!subjectType.equals(mContext.getString(R.string.ab_curator_hour))) {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
                     convertView.getContext()).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
             if (isShowSubjectTypes && !subjectType.equals("")) {
@@ -74,7 +79,7 @@ class ViewAdapterLessons extends BaseAdapter {
                 vh.lessonSubject.setVisibility(View.GONE);
             }
         } else {
-            vh.lessonName.setText("КЧ");
+            vh.lessonName.setText(mContext.getString(R.string.ab_curator_hour).toUpperCase());
         }
         vh.lessonTime.setText(timePeriod);
         vh.lessonTeacher.setText(teacher);
@@ -86,18 +91,20 @@ class ViewAdapterLessons extends BaseAdapter {
         }
         vh.lessonAuditorium.setText(auditorium);
 
-        if (subjectType.equals("лр")) {
-            vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.red));
-        } else if (subjectType.equals("пз")) {
-            vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.orange));
-        } else if (subjectType.equals("лк")) {
-            vh.lView.setBackgroundColor(mContext.getResources().getColor(R.color.green));
+        GradientDrawable typeOfSubject = (GradientDrawable) vh.lView.getBackground();
+
+        if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lab_id))) {
+            typeOfSubject.setColor(mContext.getResources().getColor(R.color.red));
+        } else if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_work_lesson_id))) {
+            typeOfSubject.setColor(mContext.getResources().getColor(R.color.orange));
+        } else if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lecture_id))) {
+            typeOfSubject.setColor(mContext.getResources().getColor(R.color.green));
         } else {
-            vh.lView.setBackgroundColor(Color.WHITE);
+            typeOfSubject.setColor(mContext.getResources().getColor(R.color.white));
         }
 
         View verticalLine = convertView.findViewById(R.id.customview);
-        verticalLine.setBackgroundColor(Color.WHITE);
+        verticalLine.setBackgroundColor(Color.BLACK);
         return convertView;
     }
 
@@ -105,7 +112,6 @@ class ViewAdapterLessons extends BaseAdapter {
     public boolean isEnabled(int position) {
         return true;
     }
-
 
     public void setViewHolder(View rowView) {
         ViewHolder vh = new ViewHolder();

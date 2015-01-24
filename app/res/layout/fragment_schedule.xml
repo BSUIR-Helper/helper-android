@@ -10,16 +10,14 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:gravity="center"
+        android:text="TEST"
         android:id="@+id/date"
-        android:background="#ff222224"
         android:padding="4dp"
-        android:layout_gravity="center_horizontal|top"
+        android:gravity="center"
         android:textSize="15dp"
         android:textColor="#faffff"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
     <ListView
         android:layout_width="wrap_content"
@@ -32,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Занятий нет"
+        android:text="@string/no_lessons"
         android:id="@+id/textView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"

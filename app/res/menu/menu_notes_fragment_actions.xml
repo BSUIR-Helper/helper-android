@@ -5,11 +5,11 @@
     <item
         android:id="@+id/action_addnote"
         android:icon="@drawable/ic_addgroup"
-        android:title="Создать заметку"
+        android:title="@string/create_note"
         bsuirguide:showAsAction="always"/>
     <item
         android:id="@+id/action_deletenotes"
         android:icon="@drawable/ic_deletegroups"
-        android:title="Удалить заметку"
+        android:title="@string/delete_note"
         bsuirguide:showAsAction="always"/>
 </menu>

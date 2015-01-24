@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.notes.Note;
@@ -91,7 +93,9 @@ public class ActivityEditNote extends ActionBarActivity {
     @Override
     public void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
+        EasyTracker tracker = EasyTracker.getInstance(this);
+        tracker.set(Fields.SCREEN_NAME, "Окно редактирования заметки");
+        tracker.send(MapBuilder.createAppView().build());
     }
 
     @Override

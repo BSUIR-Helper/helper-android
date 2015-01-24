@@ -5,11 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
+import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,10 +25,12 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private SQLiteDatabase db;
     private String _ID = "id";
+    private boolean isDatabaseOpen = false;
+    private Context mContext;
 
     public ScheduleDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
-
+        mContext = context;
     }
 
     @Override
@@ -46,14 +51,12 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String scheduleGroup = "schedule_" + groupId;
         Cursor c = db.rawQuery("SELECT*FROM " + scheduleGroup, null);
         ArrayList<Lesson> lessons = new ArrayList<Lesson>(c.getCount());
-
         while (c.moveToNext()) {
+
             Lesson lesson = new Lesson();
-            setDataFromCursor(lesson, c);
+            createLessonFromCursor(lesson, c);
             lessons.add(lesson);
         }
-
-        this.close();
         return lessons;
     }
 
@@ -61,41 +64,41 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String sWeekDay = "";
         int weekDay = dayOfYear.getDayOfWeek();
         int workWeek = StudentCalendar.getWorkWeek(dayOfYear);
+        String[] weekDays = mContext.getResources().getStringArray(R.array.week_days_id);
         switch (weekDay) {
             case DateTimeConstants.MONDAY:
-                sWeekDay = "пн";
+                sWeekDay = weekDays[0];
                 break;
             case DateTimeConstants.TUESDAY:
-                sWeekDay = "вт";
+                sWeekDay = weekDays[1];
                 break;
             case DateTimeConstants.WEDNESDAY:
-                sWeekDay = "ср";
+                sWeekDay = weekDays[2];
                 break;
             case DateTimeConstants.THURSDAY:
-                sWeekDay = "чт";
+                sWeekDay = weekDays[3];
                 break;
             case DateTimeConstants.FRIDAY:
-                sWeekDay = "пт";
+                sWeekDay = weekDays[4];
                 break;
             case DateTimeConstants.SATURDAY:
-                sWeekDay = "сб";
+                sWeekDay = weekDays[5];
                 break;
             case DateTimeConstants.SUNDAY:
-                sWeekDay = "вс";
+                sWeekDay = weekDays[6];
                 break;
         }
         this.open();
         String scheduleGroup = "schedule_" + groupID;
-        String query = "SELECT*FROM " + scheduleGroup + " WHERE (weekDay=?) AND ((weekList LIKE ?) OR (weekList LIKE '')) AND ((subgroup LIKE ?) OR (subgroup LIKE ''))  ORDER BY timePeriodStart";
-        Cursor cursor = db.rawQuery(query, new String[]{sWeekDay, "%" + workWeek + "%", "%" + subgroup + "%"});
+        String query = "SELECT*FROM " + scheduleGroup + " WHERE (weekDay=?) AND ((weekList LIKE ?) OR (weekList LIKE '')) AND ((subgroup LIKE ?) OR (subgroup LIKE '0'))  ORDER BY timePeriod";
+        Cursor cursor = db.rawQuery(query, new String[]{sWeekDay, "%"+workWeek+"%", "%" + subgroup + "%"});
         Lesson[] lessons = new Lesson[cursor.getCount()];
         while (cursor.moveToNext()) {
             Lesson lesson = new Lesson();
-            setDataFromCursor(lesson, cursor);
+            createLessonFromCursor(lesson, cursor);
             lesson.id = new String(dayOfYear.getDayOfYear() + lesson.fields.get("timePeriodStart") + lesson.fields.get("timePeriodEnd") + lesson.fields.get("teacher")).hashCode();
             lessons[cursor.getPosition()] = lesson;
         }
-        this.close();
         return lessons;
     }
 
@@ -105,7 +108,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String tableName = tablePrefix + groupId;
         this.open();
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
-        String createTableQuery = "CREATE table " + tablePrefix + groupId;
+        String createTableQuery = "CREATE table " + tableName;
         //Add column names and types in table
         createTableQuery += " ( " + _ID + " INT, updatedTime TEXT, ";
         Lesson lesson = new Lesson();
@@ -128,7 +131,6 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
             for (String columnName : columns.keySet()) {
                 contentValues.put(columnName, lesson.fields.get(columnName));
             }
-
             tableValues.add(contentValues);
         }
 
@@ -136,15 +138,19 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         for (ContentValues cv : tableValues) {
             db.insert(tableName, null, cv);
         }
-        this.close();
     }
 
     public void deleteSchedule(String groupId) {
         String tableName = "schedule_" + groupId;
         this.open();
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
-        this.close();
 
+    }
+
+    public Cursor getCursorWithGroups() {
+        this.open();
+        Cursor tables = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        return tables;
     }
 
     public ArrayList<StudentGroup> getGroups() {
@@ -155,33 +161,26 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         if (tables.moveToPosition(1)) {
             while (!tables.isAfterLast()) {
                 String tableGroupName = tables.getString(tables.getColumnIndex("name"));
-                Cursor scheduleOfGroup = db.rawQuery("SELECT updatedTime FROM " + tableGroupName, null);
+                Cursor scheduleOfGroup = db.rawQuery("SELECT updatedTime, faculty FROM " + tableGroupName, null);
                 scheduleOfGroup.moveToFirst();
                 String updatedTime = scheduleOfGroup.getString(scheduleOfGroup.getColumnIndex("updatedTime"));
+                String faculty = scheduleOfGroup.getString(scheduleOfGroup.getColumnIndex("faculty"));
                 String groupId = tableGroupName.split("_")[1];
-                studentGroups.add(new StudentGroup(groupId, updatedTime));
+                studentGroups.add(new StudentGroup(groupId, faculty, updatedTime));
                 tables.moveToNext();
             }
         }
-        this.close();
         return studentGroups;
     }
 
-    private boolean isOpen = false;
-
     void open() {
-        if (!isOpen) {
+        if (!isDatabaseOpen) {
             db = this.getWritableDatabase();
-            isOpen = true;
+            isDatabaseOpen = true;
         }
     }
 
-    public void close() {
-
-    }
-
-
-    private void setDataFromCursor(Lesson lesson, Cursor cursor) {
+    private void createLessonFromCursor(Lesson lesson, Cursor cursor) {
         for (String key : lesson.fields.keySet()) {
             lesson.fields.put(key, cursor.getString(cursor.getColumnIndex(key)));
         }

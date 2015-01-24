@@ -10,6 +10,7 @@ public class ApplicationSettings {
     private static ApplicationSettings instance;
     private static SharedPreferences settings;
     private static final String PREFS_NAME = "settings.txt";
+    public static final String DEFAULT_GROUP_OF_SCHEDULE = "defaultgroup";
 
     private ApplicationSettings(Context context) {
         settings = context.getSharedPreferences(PREFS_NAME, 1);
@@ -44,5 +45,9 @@ public class ApplicationSettings {
 
     public boolean putBoolean(String varName, boolean value) {
         return settings.edit().putBoolean(varName, value).commit();
+    }
+
+    public String getDefaultGroupOfSchedule() {
+        return getString(DEFAULT_GROUP_OF_SCHEDULE, null);
     }
 }

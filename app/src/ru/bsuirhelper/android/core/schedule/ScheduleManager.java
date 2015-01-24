@@ -49,7 +49,6 @@ public class ScheduleManager {
         Lesson[] lessons = mScheduleDatabase.getLessonsOfDay(groupId, DateTime.now(), subgroup);
         if (lessons.length > 0) {
             Lesson lesson = lessons[lessons.length - 1];
-
             DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm");
             DateTime dt = formatter.parseDateTime(getFinishTimeOfLesson(lesson));
             if (currentTime.getHourOfDay() + 1 > dt.getHourOfDay()) {
