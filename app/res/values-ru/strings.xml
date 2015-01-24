@@ -59,7 +59,7 @@
     <string name="ab_curator_hour">кч</string>
     <string-array name="menu_items">
         <item>Расписание</item>
-        <item>Заметки</item>
+        <!--<item>Заметки</item>-->
         <item>Настройки</item>
     </string-array>
     <string name="error">Произошла ошибка</string>

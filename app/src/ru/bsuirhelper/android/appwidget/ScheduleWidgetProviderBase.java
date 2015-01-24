@@ -9,9 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import org.joda.time.DateTime;
+
+import java.util.Arrays;
+
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
@@ -48,15 +52,19 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
                 rv.setTextViewText(R.id.widget_textView, context.getText(R.string.load_schedule));
             } else {
                 DateTime lessonDay = DateTime.now();
-                if (scheduleManager.isLessonsEndToday(defaultGroup, subgroup)) {
-                    rv.setTextViewText(R.id.widget_date, "Расписание на завтра");
-                    lessonDay = lessonDay.plusDays(1);
-                } else {
-                    rv.setTextViewText(R.id.widget_date, "Расписание на сегодня");
-                }
-
+                lessonDay = lessonDay.plusDays(1);
                 Lesson[] lessons = scheduleManager.getLessonsOfDay(defaultGroup, lessonDay,
                         ApplicationSettings.getInstance(context).getInt(defaultGroup, subgroup));
+                int color = getMostColor(lessons, context);
+                if (scheduleManager.isLessonsEndToday(defaultGroup, subgroup)) {
+                    rv.setTextViewText(R.id.widget_date, "Расписание на завтра");
+                    rv.setInt(R.id.widget_date, "setBackgroundColor", color);
+                } else {
+                    rv.setTextViewText(R.id.widget_date, "Расписание на сегодня");
+                    rv.setInt(R.id.widget_date, "setBackgroundColor", color);
+                }
+
+
                 if (lessons.length > 0) {
                     rv.setViewVisibility(R.id.widget_textView, View.INVISIBLE);
                     rv.setRemoteAdapter(R.id.widget_listView, intent);
@@ -122,6 +130,37 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
         if (appWidgetIdsBig.length > 0) {
             new ScheduleWidgetProviderMedium().onUpdate(context, appWidgetManager, appWidgetIdsMedium);
         }
+    }
+
+    public int getMostColor(Lesson[] lessons, Context context) {
+        int type[][] = new int[2][3];
+        type[0][0] = context.getResources().getColor(R.color.red);
+        type[0][1] = context.getResources().getColor(R.color.orange);
+        type[0][2] = context.getResources().getColor(R.color.green);
+        for (int i = 0; i < lessons.length; i++) {
+            Lesson lesson =  lessons[i];
+            String subjectType = lesson.fields.get("subjectType").toLowerCase();
+
+            Log.d(ActivityDrawerMenu.LOG_TAG, subjectType);
+            if (subjectType.equals("лк")) {
+                type[1][2] += 1;
+            } else if (subjectType.equals("лр")) {
+                type[1][0] += 1;
+            } else {
+                type[1][1] += 1;
+            }
+        }
+
+        int max = type[1][2];
+        int color = type[0][2];
+        for (int i = 0; i < 3; i++) {
+            if (max < type[1][i]) {
+                max = type[1][i];
+                color = type[0][i];
+            }
+        }
+        Log.d(ActivityDrawerMenu.LOG_TAG, Arrays.deepToString(type));
+        return color;
     }
 
     abstract Class getWidgetClass();

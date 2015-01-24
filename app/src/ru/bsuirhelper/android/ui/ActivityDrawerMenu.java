@@ -31,8 +31,8 @@ import ru.bsuirhelper.android.ui.schedule.FragmentSchedule;
 public class ActivityDrawerMenu extends ActionBarActivity {
     public static final String LOG_TAG = "BSUIR_DEBUG";
     private final int SCHEDULE_FRAGMENT = 0;
-    private final int NOTE_FRAGMENT = 1;
-    private final int ACTIVITY_SETTINGS = 2;
+    // private final int NOTE_FRAGMENT = 1;
+    private final int ACTIVITY_SETTINGS = 1;
     private DrawerLayout mDrawerLayout;
     private DrawerArrayAdapter mDrawerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -158,10 +158,10 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                 fragment = new FragmentManagerGroups();
                 mActionBar.setTitle(FragmentManagerGroups.TITLE);
                 break;
-            case NOTE_FRAGMENT:
+           /* case NOTE_FRAGMENT:
                 fragment = new FragmentNotes();
                 mActionBar.setTitle(FragmentNotes.TITLE);
-                break;
+                break;*/
             case ACTIVITY_SETTINGS:
                 startActivity(intent.setClass(getApplicationContext(), ActivitySettings.class));
                 return;
@@ -213,11 +213,11 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                     vh.icon.setImageResource(R.drawable.ic_calendar);
                     counterOfNotes.setVisibility(View.INVISIBLE);
                     break;
-                case NOTE_FRAGMENT:
+               /* case NOTE_FRAGMENT:
                     counterOfNotes.setVisibility(View.VISIBLE);
                     counterOfNotes.setText(ApplicationSettings.getInstance(ActivityDrawerMenu.this).getInt("notes", 0) + "");
                     vh.icon.setImageResource(R.drawable.ic_notes);
-                    break;
+                    break;*/
                 case ACTIVITY_SETTINGS:
                     vh.icon.setImageResource(R.drawable.ic_settings);
                     counterOfNotes.setVisibility(View.INVISIBLE);

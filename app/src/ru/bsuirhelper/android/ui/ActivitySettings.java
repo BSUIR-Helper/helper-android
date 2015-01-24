@@ -19,8 +19,8 @@ public class ActivitySettings extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
         if (Build.VERSION.SDK_INT > 10) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-            getActionBar().setHomeButtonEnabled(true);
+            //getActionBar().setDisplayHomeAsUpEnabled(true);
+            //getActionBar().setHomeButtonEnabled(true);
         }
         Preference myPref = (Preference) findPreference("show_subject_type");
         myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

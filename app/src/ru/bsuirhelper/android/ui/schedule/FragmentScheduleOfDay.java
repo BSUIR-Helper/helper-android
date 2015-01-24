@@ -55,7 +55,7 @@ public class FragmentScheduleOfDay extends Fragment {
         } else if (mAdapterLessons.getCount() != 0) {
             mListOfLessons = (ListView) fragmentView.findViewById(R.id.listView);
             mListOfLessons.setAdapter(mAdapterLessons);
-            mListOfLessons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*    mListOfLessons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Lesson lesson = (Lesson) mListOfLessons.getAdapter().getItem(i);
@@ -67,7 +67,7 @@ public class FragmentScheduleOfDay extends Fragment {
                         startActivity(createIntentForAddNote(lesson));
                     }
                 }
-            });
+            });*/
         } else {
             TextView view = (TextView) fragmentView.findViewById(R.id.textView);
             view.setVisibility(View.VISIBLE);
