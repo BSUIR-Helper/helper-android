@@ -2,60 +2,46 @@
 <items version="2" >
 
     <item
-        jar="/home/vladislav/workspace/helper-android-gradle/app/libs/joda-time-2.5-sources.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2bd5124dfb9198af70cad30eb9ccbfa9cd670163">
-        <dex dex="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/pre-dexed/debug/joda-time-2.5-sources-40ff17698bee415d4c53e92d27a0428a336ee65d.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android-gradle/app/libs/joda-time-2.5.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="c73038a3688525aad5cf33409df483178290cd64">
-        <dex dex="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/pre-dexed/debug/joda-time-2.5-f6ea7096fdffa3c03c62c52ea91d699384df974f.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android-gradle/app/libs/joda-time-2.5-javadoc.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="d7960ccf277a18d02d40755e242605411d037fc3">
-        <dex dex="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/pre-dexed/debug/joda-time-2.5-javadoc-3529efe8bf95487da177baf7a3e50e6a11660faa.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/pre-dexed/debug/classes-08d1f3bc576af2934b28f87e3afe3d641e9359ad.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-46e26fcae538bc56d079350d4dd88f1e2253f5da.jar" />
+        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-f5c470365e48806ac7670901ee9ab375592e319a.jar" />
     </item>
     <item
-        jar="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/pre-dexed/debug/classes-cf24a043424380dcfdd4b9d72832e299ffcc3e45.jar" />
+        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-23bf45ffb09c13e6c72d28cc3fbb01c753c39d5a.jar" />
+    </item>
+    <item
+        jar="/home/vladislav/workspace/helper-android/app/libs/joda-time-2.5.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c73038a3688525aad5cf33409df483178290cd64">
+        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/joda-time-2.5-58be80edcf2804192439b581ca74c593c519dc28.jar" />
+    </item>
+    <item
+        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-b812cb1934da9fee098f6dc6dcc6301cd89e9bf4.jar" />
     </item>
     <item
         jar="/home/vladislav/Development/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-dc17c702ecab9a340cb64637f0dafd7bd296e221.jar" />
+        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-dc17c702ecab9a340cb64637f0dafd7bd296e221.jar" />
     </item>
     <item
-        jar="/home/vladislav/workspace/helper-android-gradle/app/libs/libGoogleAnalyticsServices.jar"
+        jar="/home/vladislav/workspace/helper-android/app/libs/libGoogleAnalyticsServices.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="db1e65d9e3ee616f871cb23120fbea8f18ad3e4c">
-        <dex dex="/home/vladislav/workspace/helper-android-gradle/app/build/intermediates/pre-dexed/debug/libGoogleAnalyticsServices-e647f205541ca59f4aafe7eae275f9403e4faec4.jar" />
+        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/libGoogleAnalyticsServices-894489c24ad1a5016d82d9ff237d9b8a5b603481.jar" />
     </item>
 
 </items>

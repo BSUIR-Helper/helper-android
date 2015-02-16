@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.ui.schedule;
+package ru.bsuirhelper.android.ui.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -6,19 +6,17 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.widget.DatePicker;
 import org.joda.time.DateTime;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.ui.ActivityDrawerMenu;
 
 import static android.app.DatePickerDialog.OnDateSetListener;
 
 /**
  * Created by Влад on 07.11.13.
  */
-public abstract class DialogDatePicker extends DialogFragment implements OnDateSetListener {
+public abstract class FragmentDialogDatePicker extends DialogFragment implements OnDateSetListener {
 
 
     @Override

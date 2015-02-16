@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.ui.notes;
+package ru.bsuirhelper.android.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +14,10 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.notes.Note;
-import ru.bsuirhelper.android.core.notes.NoteDatabase;
+import ru.bsuirhelper.android.core.models.Note;
+import ru.bsuirhelper.android.core.database.NoteDatabase;
+import ru.bsuirhelper.android.ui.activity.ActivityDetailNote;
+import ru.bsuirhelper.android.ui.activity.ActivityEditNote;
 
 import java.util.ArrayList;
 import java.util.Arrays;

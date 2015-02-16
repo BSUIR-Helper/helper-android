@@ -10,6 +10,7 @@ import android.widget.RemoteViewsService;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ScheduleWidgetService extends RemoteViewsService {
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new ScheduleFactoryViews(getApplicationContext(), intent);

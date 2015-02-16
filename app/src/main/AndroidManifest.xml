@@ -15,11 +15,11 @@
         >
         <!-- ACTIVITIES -->
         <activity
-            android:name="ru.bsuirhelper.android.ui.notes.ActivityEditNote"
+            android:name=".ui.activity.ActivityEditNote"
             android:label="Создать заметку"/>
 
         <activity
-            android:name="ru.bsuirhelper.android.ui.ActivityDrawerMenu"
+            android:name=".ui.activity.ActivityDrawerMenu"
             android:label="BSUIR Helper"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -29,19 +29,19 @@
         </activity>
 
         <activity
-            android:name="ru.bsuirhelper.android.ui.schedule.ActivityDeleteGroups"
+            android:name=".ui.activity.ActivityDeleteGroups"
             android:label="Удаление групп"
             android:theme="@style/AppTheme"
             >
         </activity>
 
         <activity
-            android:name="ru.bsuirhelper.android.ui.notes.ActivityDetailNote"
+            android:name=".ui.activity.ActivityDetailNote"
             android:label="Заметка"
             >
         </activity>
         <activity
-            android:name="ru.bsuirhelper.android.ui.ActivitySettings"
+            android:name=".ui.activity.ActivitySettings"
             android:label="Настройки"/>
 
         <!-- WIDGET -->

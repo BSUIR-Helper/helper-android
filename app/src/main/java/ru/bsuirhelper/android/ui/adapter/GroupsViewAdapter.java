@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.ui.schedule;
+package ru.bsuirhelper.android.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.schedule.StudentGroup;
+import ru.bsuirhelper.android.core.models.StudentGroup;
 
 import java.util.List;
 
 /**
  * Created by Влад on 12.10.13.
  */
-class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
+public class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
     public List<StudentGroup> values;
     private final Context mContext;
     private final int mViewId;
