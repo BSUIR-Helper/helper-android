@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                tools:ignore="Orientation"
+                android:paddingLeft="3dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp">
+
+    <ImageView
+        android:id="@+id/widget_lesson_type_color"
+        android:layout_width="8dp"
+        android:layout_height="60dp"
+        android:background="#fffaffff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/widget_lesson_name"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text=""
+        android:textSize="24sp"
+        android:padding="0dp"
+        android:paddingLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/widget_lesson_type_color"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/widget_lesson_teacher"
+        android:textColor="#faffff"
+        android:layout_toLeftOf="@+id/widget_subject_type"/>
+
+    <TextView
+        android:id="@+id/widget_lesson_teacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:singleLine="true"
+        android:textSize="12sp"
+        android:layout_below="@+id/widget_lesson_time"
+        android:layout_alignLeft="@+id/widget_lesson_name"
+        android:layout_alignRight="@+id/widget_lesson_name"/>
+
+
+    <TextView
+        android:id="@+id/widget_lesson_time"
+        android:layout_width="121dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        android:textColor="#faffff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="2dp"/>
+
+    <TextView
+        android:id="@+id/widget_lesson_auditorium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:paddingRight="8dp"
+        android:layout_below="@+id/widget_lesson_time"
+        android:layout_alignLeft="@+id/widget_lesson_time"
+        android:layout_marginTop="2dp"/>
+
+    <ImageView
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:background="#faffff"
+        android:layout_marginRight="15dp"
+        android:layout_alignBottom="@+id/widget_lesson_type_color"
+        android:layout_toLeftOf="@+id/widget_lesson_time"
+        android:padding="0dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/widget_separateline"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/widget_subject_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:text=""
+        android:textSize="24sp"
+        android:padding="0dp"
+        android:paddingLeft="0dp"
+        android:textColor="#faffff"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/widget_separateline"/>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/widget_lesson_container"
+        android:layout_alignBottom="@+id/widget_lesson_type_color"/>
+
+</RelativeLayout>

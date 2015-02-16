@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Расписание</string>
+    <string name="activity_schedule">Расписание</string>
+    <string name="activity_managergroups">Список групп</string>
+    <string name="drawer_open">Открыть меню</string>
+    <string name="drawer_close">Закрыть меню</string>
+    <string name="add_note">Добавить заметку</string>
+    <!--Settings -->
+    <string name="settings_subject_type">Отображать тип занятия текстом</string>
+    <string-array name="action_selectsubgroup_values">
+        <item>Подгруппа 1</item>
+        <item>Подгруппа 2</item>
+    </string-array>
+    <string-array name="lessons_types">
+        <item>Лекция</item>
+        <item>Практическое занятия</item>
+        <item>Лабараторная работа</item>
+        <item>Другое</item>
+    </string-array>
+    <string-array name="week_days">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресенье</item>
+    </string-array>
+
+    <string-array name="work_weeks">
+        <item>1-я неделя</item>
+        <item>2-я неделя</item>
+        <item>3-я неделя</item>
+        <item>4-я неделя</item>
+    </string-array>
+    <!--GROUPS ADAPTER-->
+    <string name="active_group">АКТИВНО</string>
+    <string name="load_schedule">Загрузить расписание</string>
+    <string-array name="not_selected_note">Не выбрана заметка для удаления</string-array>
+    <string name="work_week">Учебная неделя</string>
+    <string name="cancel">Отмена</string>
+    <string name="loading_schedule">Загрузка расписания..</string>
+    <string name="information">Информация</string>
+    <string name="internet_is_not_available">Интернет не доступен</string>
+    <string name="add_group">Добавить группу</string>
+    <string name="add">Добавить</string>
+    <string name="ab_work_week">уч.неделя</string>
+    <string name="group">Группа</string>
+    <string name="lessons_are_not_known">Занятия не известны</string>
+    <string name="types_of_lessons">Типы пар</string>
+    <string name="ok">Ок</string>
+    <string name="schedule_is_updated">Расписание обновлено</string>
+    <string name="updated">Обновлено</string>
+    <string name="today">Сегодня</string>
+    <string name="ab_work_lesson">пз</string>
+    <string name="ab_lecture">лк</string>
+    <string name="ab_lab">лр</string>
+    <string name="ab_curator_hour">кч</string>
+    <string-array name="menu_items">
+        <item>Расписание</item>
+        <item>Заметки</item>
+        <item>Настройки</item>
+    </string-array>
+    <string name="error">Произошла ошибка</string>
+    <string name="updating_schedule">Обновление расписания</string>
+    <string name="edit">Редактировать</string>
+    <string name="create_note">Создать заметку</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_groups">Удалить группы</string>
+    <string name="delete_note">Удалить заметку</string>
+    <string name="update_schedule">Обновить расписание</string>
+    <string name="subgroup">Подгруппа</string>
+    <string name="help_info">Справка</string>
+    <string name="no_lessons">Занятий нет</string>
+</resources>

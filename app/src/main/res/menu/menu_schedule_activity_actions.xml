@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:bsuirguide="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_selecttoday"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/today"
+        bsuirguide:showAsAction="always"/>
+    <item
+        android:id="@+id/action_updateschedule"
+        android:icon="@drawable/ic_updateschedule"
+        android:title="@string/update_schedule"
+        bsuirguide:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_selectsubgroup"
+        android:icon="@drawable/ic_subgroup"
+        android:title="@string/subgroup"
+        bsuirguide:showAsAction="always">
+        <menu>
+            <group
+                android:id="@+id/menu_nav_group"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/subgroup1"
+                    android:title="Подгруппа 1"/>
+
+                <item
+                    android:id="@+id/subgroup2"
+                    android:title="Подгруппа 2"/>
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_help"
+        android:title="@string/help_info"/>
+
+</menu>

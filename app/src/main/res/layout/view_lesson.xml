@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="Orientation"
+                android:id="@+id/widget_lesson_container"
+                android:paddingLeft="3dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp">
+
+    <View
+        android:id="@+id/lesson_type_color"
+        android:layout_width="8dp"
+        android:layout_height="60dp"
+        android:background="@drawable/rounded_rec"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/lesson_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Математика"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/lesson_type_color"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/lesson_teacher"
+        android:layout_toLeftOf="@+id/lesson_subject_type"/>
+
+    <TextView
+        android:id="@+id/lesson_teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:textSize="12sp"
+        android:singleLine="true"
+        android:layout_below="@+id/lesson_time"
+        android:layout_alignLeft="@+id/lesson_name"
+        android:layout_alignRight="@+id/lesson_name"/>
+
+    <TextView
+        android:id="@+id/lesson_time"
+        android:layout_width="121dp"
+        android:layout_height="wrap_content"
+        android:text="13:00-16:00"
+        android:textSize="20sp"
+        android:paddingTop="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:tag=""/>
+
+    <TextView
+        android:id="@+id/lesson_auditorium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="420-2"
+        android:textSize="16sp"
+        android:paddingRight="8dp"
+        android:layout_below="@+id/lesson_time"
+        android:layout_alignLeft="@+id/lesson_time"/>
+
+    <ImageView
+        android:id="@+id/customview"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:background="@android:color/black"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/lesson_time"
+        android:padding="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/lesson_teacher"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageview_note"
+        android:visibility="invisible"
+        android:src="@drawable/ic_notes"
+        android:layout_alignBottom="@+id/lesson_type_color"
+        android:layout_alignRight="@+id/customview"
+        android:tag="1"/>
+
+    <TextView
+        android:id="@+id/lesson_subject_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:text=""
+        android:textSize="24sp"
+        android:textColor="#faffff"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/customview"/>
+
+</RelativeLayout>

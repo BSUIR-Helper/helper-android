@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:bsuirguide="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_cancelcreatenote"
+        android:icon="@drawable/ic_cancel"
+        android:title="@string/cancel"
+        bsuirguide:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_createnote"
+        android:title="@string/create_note"
+        android:icon="@drawable/ic_accept"
+        bsuirguide:showAsAction="always"/>
+</menu>

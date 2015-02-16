@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- customize the color palette -->
+        <item name="colorPrimary">@color/material_blue_500</item>
+        <item name="actionBarStyle">@style/ActionBarCompat</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:textColorSecondary">@color/secondary_text_default_material_light</item>
+        <item name="android:textColor">@color/primary_text_default_material_light</item>
+        <item name="android:textColorPrimaryInverse">@color/primary_text_default_material_light</item>
+        <item name="android:textViewStyle">@android:style/TextAppearance</item>
+        <item name="actionOverflowButtonStyle">@style/OptionsButton</item>
+    </style>
+
+    <!-- ACTIONBAR STYLE -->
+    <style name="ActionBarCompat" parent="Widget.AppCompat.ActionBar">
+        <item name="titleTextStyle">@style/titleStyle</item>
+        <item name="subtitleTextStyle">@style/subtitleStyle</item>
+        <item name="background">@color/material_blue_500</item>
+    </style>
+
+    <style name="titleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="subtitleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="OptionsButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vert_white_24dp</item>
+    </style>
+</resources>
