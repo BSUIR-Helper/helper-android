@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,12 +12,21 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.google.analytics.tracking.android.EasyTracker;
+
 import ru.bsuirhelper.android.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ui.fragment.FragmentManagerGroups;
@@ -41,12 +49,15 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     private Handler mHandler;
     private Spinner mSpinnerGroups;
     private String[] mMenuItems;
+    private Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.drawerlayout);
         mMenuItems = getResources().getStringArray(R.array.menu_items);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         drawerInitialize();
         actionBarInitialize();
         //spinnerInitialize();
@@ -63,7 +74,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
             openDrawerMenu();
             ApplicationSettings.getInstance(this).putBoolean("isFirstShowDrawer", false);
         }
-
     }
 
 
@@ -73,7 +83,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
-                R.drawable.ic_menu_white_24dp,
+                mToolbar,
                 R.string.drawer_open,
                 R.string.drawer_close
         ) {
