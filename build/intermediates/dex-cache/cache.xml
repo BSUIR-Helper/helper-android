@@ -2,20 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-f5c470365e48806ac7670901ee9ab375592e319a.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-23bf45ffb09c13e6c72d28cc3fbb01c753c39d5a.jar" />
-    </item>
-    <item
         jar="/home/vladislav/workspace/helper-android/app/libs/joda-time-2.5.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -42,6 +28,20 @@
         revision="21.1.2"
         sha1="db1e65d9e3ee616f871cb23120fbea8f18ad3e4c">
         <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/libGoogleAnalyticsServices-894489c24ad1a5016d82d9ff237d9b8a5b603481.jar" />
+    </item>
+    <item
+        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-f5c470365e48806ac7670901ee9ab375592e319a.jar" />
+    </item>
+    <item
+        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-23bf45ffb09c13e6c72d28cc3fbb01c753c39d5a.jar" />
     </item>
 
 </items>
