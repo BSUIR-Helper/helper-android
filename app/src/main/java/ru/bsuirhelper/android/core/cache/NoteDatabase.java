@@ -100,7 +100,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
         return note;
     }
 
-    public Note fetchNoteByLessonId(int lessonId) {
+    public Note fetchNoteByLessonId(long lessonId) {
         this.open();
         Cursor c = db.rawQuery("SELECT*FROM notes WHERE " + COLUMN_NAME_LESSOND_ID + "=" + lessonId, null);
         Note note = null;

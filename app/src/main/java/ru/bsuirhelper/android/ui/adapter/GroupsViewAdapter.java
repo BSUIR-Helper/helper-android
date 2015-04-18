@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.models.StudentGroup;
 
 import java.util.List;
+
+import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.models.StudentGroup;
 
 /**
  * Created by Влад on 12.10.13.
@@ -35,9 +36,10 @@ public class GroupsViewAdapter extends ArrayAdapter<StudentGroup> {
         View rowView = inflater.inflate(mViewId, null);
         TextView tvGroupId = (TextView) rowView.findViewById(R.id.textview_groupid);
         TextView tvDateUpdate = (TextView) rowView.findViewById(R.id.textview_dateupdated);
-        String groupId = values.get(position).groupId;
+        String groupId = values.get(position).getGroupNumber();
         tvGroupId.setText(groupId);
-        tvDateUpdate.setText(mContext.getString(R.string.updated) + ": " + values.get(position).updatedTime);
+        //TODO add or not?
+        //tvDateUpdate.setText(mContext.getString(R.string.updated) + ": " + values.get(position).updatedTime);
         return rowView;
     }
 

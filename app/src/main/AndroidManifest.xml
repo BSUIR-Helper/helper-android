@@ -43,12 +43,12 @@
 
         <!-- WIDGET -->
         <service
-            android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetService"
+            android:name=".ui.appwidget.ScheduleWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
 
         <receiver
-            android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBig"
+            android:name=".ui.appwidget.ScheduleWidgetProviderBig"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день (большое)">
@@ -63,7 +63,7 @@
             </meta-data>
         </receiver>
         <receiver
-            android:name="ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderMedium"
+            android:name=".ui.appwidget.ScheduleWidgetProviderMedium"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день (среднее)">
@@ -77,6 +77,13 @@
                 android:resource="@xml/widget_schedule_info_medium">
             </meta-data>
         </receiver>
+
+        <provider
+            android:authorities="ru.bsuirhelper.android.core.database.cache"
+            android:name=".core.cache.CacheContentProvider"
+            android:enabled="true"
+            android:exported="false" />>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e5be378183c6362c108dae73987b2ecc18b39712" />

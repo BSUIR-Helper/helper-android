@@ -6,7 +6,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBase;
+import ru.bsuirhelper.android.ui.appwidget.ScheduleWidgetProviderBase;
 
 /**
  * Created by Влад on 15.02.14.

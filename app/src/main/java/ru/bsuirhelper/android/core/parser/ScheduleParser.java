@@ -1,24 +1,31 @@
 package ru.bsuirhelper.android.core.parser;
 
-import android.util.Log;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
-
-import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.ui.activity.ActivityDrawerMenu;
 
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
+
+import ru.bsuirhelper.android.core.models.Lesson;
+import ru.bsuirhelper.android.core.models.StudentGroup;
 
 /**
  * Created by Влад on 10.10.13.
  */
 public class ScheduleParser {
 
-    public static ArrayList<Lesson> parseXmlSchedule(File xmlFile) throws Exception {
-        ArrayList<Lesson> lessons = new ArrayList<Lesson>();
+    public static List<Lesson> parseXmlSchedule(File xmlFile) throws Exception {
+        List<Lesson> lessons = new ArrayList<>();
+        ArrayList<String> weekDays = new ArrayList<>(7);
+        weekDays.add("понедельник");
+        weekDays.add("вторник");
+        weekDays.add("среда");
+        weekDays.add("четверг");
+        weekDays.add("пятница");
+        weekDays.add("суббота");
+        weekDays.add("воскресенье");
         XmlPullParser xpp = XmlPullParserFactory.newInstance().newPullParser();
         xpp.setInput(new FileReader(xmlFile));
         int eventType = xpp.getEventType();
@@ -26,10 +33,7 @@ public class ScheduleParser {
         String startTag = null;
         String endTag = null;
 
-        String weekDay = "Понедельник";
-        String teacherFirstName = null;
-        String teacherLastName = null;
-        String teacherSecondName = null;
+        int weekDay = 1;
 
         int counter = 0;
         while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -43,49 +47,55 @@ public class ScheduleParser {
             } else if (eventType == XmlPullParser.END_TAG) {
                 endTag = xpp.getName();
                 if (endTag.equals("schedule")) {
-                    lesson.fields.put("weekDay", weekDay);
-                    lessons.add(lesson);
-                } else if(endTag.equals("weekDay")) {
-                    for(int i = counter; i < lessons.size(); i++) {
-                        lessons.get(i).fields.put("weekDay", weekDay);
+                    if(lesson != null) {
+                        lesson.setWeekDay(weekDay);
+                        lessons.add(lesson);
+                    }
+                } else if (endTag.equals("weekDay")) {
+                    for (int i = counter; i < lessons.size(); i++) {
+                        lessons.get(i).setWeekDay(weekDay);
                     }
                     counter = lessons.size();
                 }
-            } else if (eventType == XmlPullParser.TEXT) {
+            } else if (eventType == XmlPullParser.TEXT && startTag != null) {
                 String text = xpp.getText();
-
-                if (startTag.equals("auditory")) {
-                    lesson.fields.put("auditorium", text);
-                } else if (startTag.equals("lessonTime")) {
-                    lesson.fields.put("timePeriod", text);
-                } else if (startTag.equals("lessonType")) {
-                    lesson.fields.put("subjectType", text);
-                } else if (startTag.equals("numSubgroup")) {
-                    lesson.fields.put("subgroup", text);
-                } else if (startTag.equals("studentGroup")) {
-                    lesson.fields.put("s_group", text);
-                } else if (startTag.equals("subject")) {
-                    lesson.fields.put("subject", text);
-                } else if (startTag.equals("weekNumber")) {
-                    String weekList = lesson.fields.get("weekList") == null ? text : lesson.fields.get("weekList") + " " + text;
-                    lesson.fields.put("weekList", weekList);
-                    //Make teacher name, example: "Метельский В.М"
-                } else if (startTag.equals("firstName")) {
-                    teacherFirstName = text.substring(0, 1);
-                } else if (startTag.equals("lastName")) {
-                    teacherLastName = text;
-                } else if (startTag.equals("weekDay")) {
-                    weekDay = text;
-                } else if (startTag.equals("middleName")) {
-                    teacherSecondName = text.substring(0, 1);
-                    lesson.fields.put("teacher", teacherLastName + " " + teacherFirstName + "." + teacherSecondName);
+                if(lesson != null) {
+                    if (startTag.equals("auditory")) {
+                        lesson.setAuditory(text);
+                    } else if (startTag.equals("lessonTime")) {
+                        lesson.setLessonTime(text);
+                    } else if (startTag.equals("lessonType")) {
+                        lesson.setType(text);
+                    } else if (startTag.equals("numSubgroup")) {
+                        lesson.setSubgroup(Integer.parseInt(text));
+                    } else if (startTag.equals("studentGroup")) {
+                        lesson.setStudentGroup(new StudentGroup(-1, text, text));
+                    } else if (startTag.equals("subject")) {
+                        lesson.setSubjectName(text);
+                    } else if (startTag.equals("weekNumber")) {
+                        lesson.getWeekNumbers().add(Integer.parseInt(text));
+                        //Make teacher name, example: "Метельский В.М"
+                    } else if (startTag.equals("firstName")) {
+                        lesson.getTeacher().setFirstName(text);
+                    } else if (startTag.equals("lastName")) {
+                        lesson.getTeacher().setLastName(text);
+                    } else if (startTag.equals("weekDay")) {
+                        int pos = weekDays.indexOf(text.toLowerCase()) + 1;
+                        weekDay = pos;
+                        lesson.setWeekDay(pos);
+                    } else if (startTag.equals("middleName")) {
+                        lesson.getTeacher().setMiddleName(text);
+                    } else if(startTag.equals("id")) {
+                        lesson.getTeacher().setId(Long.parseLong(text));
+                    } else if(startTag.equals("academicDepartment")) {
+                        lesson.getTeacher().getAcademicDepartments().add(text);
+                    }
                 }
             }
             eventType = xpp.next();
         }
-        for(Lesson les : lessons) {
-            Log.d(ActivityDrawerMenu.LOG_TAG, les.toString());
-            Log.d(ActivityDrawerMenu.LOG_TAG, "--------------------");
+        for (Lesson les : lessons) {
+       //    Logger.i(les.toString());
         }
         return lessons;
     }

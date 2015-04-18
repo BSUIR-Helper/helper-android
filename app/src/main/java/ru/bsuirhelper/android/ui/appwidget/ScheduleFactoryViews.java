@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.appwidget;
+package ru.bsuirhelper.android.ui.appwidget;
 
 import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
@@ -12,8 +12,10 @@ import android.widget.RemoteViewsService;
 
 import org.joda.time.DateTime;
 
-import ru.bsuirhelper.android.core.ApplicationSettings;
+import java.util.List;
+
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.Lesson;
 import ru.bsuirhelper.android.ui.activity.ActivitySettings;
@@ -24,7 +26,7 @@ import ru.bsuirhelper.android.ui.activity.ActivitySettings;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     private final ScheduleManager mScheduleManager;
-    private Lesson[] mLessons;
+    private List<Lesson> mLessons;
     private final Context mContext;
     private final Intent mIntent;
     private final int mWidgetId;
@@ -63,21 +65,21 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         RemoteViews rView = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_view_lesson);
-        Lesson lesson = mLessons[position];
-        rView.setTextViewText(R.id.lesson_time, lesson.fields.get("timePeriod"));
-        rView.setTextViewText(R.id.lesson_teacher, lesson.fields.get("teacher"));
+        Lesson lesson = mLessons.get(position);
+        rView.setTextViewText(R.id.lesson_time, lesson.getLessonTime());
+        rView.setTextViewText(R.id.lesson_teacher, lesson.getTeacher().getFullShortName());
 
-        if (!lesson.fields.get("auditorium").equals("")) {
-            rView.setTextViewText(R.id.lesson_auditorium, lesson.fields.get("auditorium"));
+        if (!lesson.getAuditory().equals("")) {
+            rView.setTextViewText(R.id.lesson_auditorium, lesson.getAuditory());
         }
 
-        String subjectType = lesson.fields.get("subjectType");
+        String subjectType = lesson.getType();
 
         if (!subjectType.equals(mContext.getString(R.string.ab_curator_hour))) {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
                     mContext).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
             /*if (isShowSubjectTypes && !subjectType.equals("")) {
-            */    rView.setTextViewText(R.id.lesson_name, lesson.fields.get("subject"));
+            */    rView.setTextViewText(R.id.lesson_name, lesson.getSubjectName());
                 rView.setViewVisibility(R.id.lesson_subject_type, View.VISIBLE);
                 rView.setTextViewText(R.id.lesson_subject_type, " (" + subjectType + ")");
           /*  } else {
@@ -129,12 +131,12 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     public void updateLessons() {
         String groupId = mSettings.getString("defaultgroup", null);
         int subgroup = mSettings.getInt(groupId, 1);
-        if (!mScheduleManager.isLessonsEndToday(groupId, subgroup)) {
-            mLessons = mScheduleManager.getLessonsOfDay(groupId, DateTime.now(), subgroup);
+        if (!mScheduleManager.isLessonsFinishedToday(mContext, groupId, subgroup)) {
+            mLessons = mScheduleManager.getLessonsOfDay(mContext, groupId, DateTime.now(), subgroup);
         } else {
-            mLessons = mScheduleManager.getLessonsOfDay(groupId, new DateTime().plusDays(1), subgroup);
+            mLessons = mScheduleManager.getLessonsOfDay(mContext, groupId, new DateTime().plusDays(1), subgroup);
         }
-        mLessonCount = mLessons.length;
+        mLessonCount = mLessons.size();
     }
 
 }

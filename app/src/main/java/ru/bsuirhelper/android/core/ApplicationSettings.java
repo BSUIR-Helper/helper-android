@@ -47,7 +47,7 @@ public class ApplicationSettings {
         return settings.edit().putBoolean(varName, value).commit();
     }
 
-    public String getDefaultGroupOfSchedule() {
-        return getString(DEFAULT_GROUP_OF_SCHEDULE, null);
+    public int getDefaultGroupOfSchedule() {
+        return getInt(DEFAULT_GROUP_OF_SCHEDULE, -1);
     }
 }

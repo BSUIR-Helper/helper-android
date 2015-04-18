@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.appwidget;
+package ru.bsuirhelper.android.ui.appwidget;
 
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -12,15 +12,17 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
+
 import org.joda.time.DateTime;
 
 import java.util.Arrays;
+import java.util.List;
 
-import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.core.models.Lesson;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
+import ru.bsuirhelper.android.core.models.Lesson;
 import ru.bsuirhelper.android.ui.activity.ActivityDrawerMenu;
 
 /**
@@ -53,10 +55,10 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
             } else {
                 DateTime lessonDay = DateTime.now();
                 lessonDay = lessonDay.plusDays(1);
-                Lesson[] lessons = scheduleManager.getLessonsOfDay(defaultGroup, lessonDay,
+                List<Lesson> lessons = scheduleManager.getLessonsOfDay(context,defaultGroup, lessonDay,
                         ApplicationSettings.getInstance(context).getInt(defaultGroup, subgroup));
                 int color = getMostColor(lessons, context);
-                if (scheduleManager.isLessonsEndToday(defaultGroup, subgroup)) {
+                if (scheduleManager.isLessonsFinishedToday(context, defaultGroup, subgroup)) {
                     rv.setTextViewText(R.id.widget_date, "Расписание на завтра");
                     rv.setInt(R.id.widget_date, "setBackgroundColor", color);
                 } else {
@@ -65,7 +67,7 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
                 }
 
 
-                if (lessons.length > 0) {
+                if (lessons.size() > 0) {
                     rv.setViewVisibility(R.id.widget_textView, View.INVISIBLE);
                     rv.setRemoteAdapter(R.id.widget_listView, intent);
                 } else {
@@ -132,14 +134,13 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
         }
     }
 
-    public int getMostColor(Lesson[] lessons, Context context) {
+    public int getMostColor(List<Lesson> lessons, Context context) {
         int type[][] = new int[2][3];
         type[0][0] = context.getResources().getColor(R.color.red);
         type[0][1] = context.getResources().getColor(R.color.orange);
         type[0][2] = context.getResources().getColor(R.color.green);
-        for (int i = 0; i < lessons.length; i++) {
-            Lesson lesson =  lessons[i];
-            String subjectType = lesson.fields.get("subjectType").toLowerCase();
+        for(Lesson lesson: lessons) {
+            String subjectType = lesson.getType().toLowerCase();
 
             Log.d(ActivityDrawerMenu.LOG_TAG, subjectType);
             if (subjectType.equals("лк")) {

@@ -127,7 +127,7 @@ public class ActivityEditNote extends ActionBarActivity {
             Set<String> subjects = new HashSet<String>(lessons.size());
             ArrayList<String> list = new ArrayList<String>(subjects);
             for (Lesson lesson : lessons) {
-                subjects.add(lesson.fields.get("subject") + " " + lesson.fields.get("subjectType"));
+                subjects.add(lesson.getSubjectName() + " " + lesson.getType());
             }
             list.addAll(subjects);
             ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);

@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.cache.NoteDatabase;
 import ru.bsuirhelper.android.core.models.Lesson;
@@ -21,22 +23,22 @@ import ru.bsuirhelper.android.ui.activity.ActivitySettings;
  */
 public class ViewAdapterLessons extends BaseAdapter {
     private final Context mContext;
-    private final Lesson[] mValues;
+    private final List<Lesson> mValues;
     public static final int TAG_KEY_DAY = 0;
 
-    public ViewAdapterLessons(Context context, Lesson[] values) {
+    public ViewAdapterLessons(Context context, List<Lesson> values) {
         this.mContext = context;
         this.mValues = values;
     }
 
     @Override
     public int getCount() {
-        return mValues.length;
+        return mValues == null ? 0 : mValues.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return mValues[i];
+        return mValues.get(i);
     }
 
     @Override
@@ -55,12 +57,12 @@ public class ViewAdapterLessons extends BaseAdapter {
         }
         final ViewHolder vh = (ViewHolder) convertView.getTag();
 
-        Lesson lesson = mValues[position];
-        String subject = lesson.fields.get("subject");
-        String timePeriod = lesson.fields.get("timePeriod");
-        String auditorium = lesson.fields.get("auditorium");
-        String teacher = lesson.fields.get("teacher");
-        String subjectType = lesson.fields.get("subjectType");
+        Lesson lesson = mValues.get(position);
+        String subject = lesson.getSubjectName();
+        String timePeriod = lesson.getLessonTime();
+        String auditorium = lesson.getAuditory();
+        String teacher = lesson.getTeacher().getFullShortName();
+        String subjectType = lesson.getType();
 
         if (!subjectType.equals(mContext.getString(R.string.ab_curator_hour))) {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
@@ -78,7 +80,7 @@ public class ViewAdapterLessons extends BaseAdapter {
         }
         vh.lessonTime.setText(timePeriod);
         vh.lessonTeacher.setText(teacher);
-        Note note = NoteDatabase.getInstance(convertView.getContext()).fetchNoteByLessonId(lesson.id);
+        Note note = NoteDatabase.getInstance(convertView.getContext()).fetchNoteByLessonId(lesson.getId());
         if (note != null) {
             vh.ivNote.setVisibility(View.VISIBLE);
         } else {

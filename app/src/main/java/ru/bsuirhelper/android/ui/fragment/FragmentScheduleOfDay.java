@@ -1,7 +1,6 @@
 package ru.bsuirhelper.android.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,18 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import org.joda.time.DateTime;
-import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.core.models.Note;
-import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.core.cache.ScheduleManager;
-import ru.bsuirhelper.android.ui.activity.ActivityDrawerMenu;
-import ru.bsuirhelper.android.ui.activity.ActivityDetailNote;
-import ru.bsuirhelper.android.ui.activity.ActivityEditNote;
-import ru.bsuirhelper.android.ui.adapter.ViewAdapterLessons;
 
 import java.util.Arrays;
+
+import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.StudentCalendar;
+import ru.bsuirhelper.android.core.cache.ScheduleManager;
+import ru.bsuirhelper.android.core.models.Lesson;
+import ru.bsuirhelper.android.ui.activity.ActivityDrawerMenu;
+import ru.bsuirhelper.android.ui.adapter.ViewAdapterLessons;
 
 /**
  * Created by Влад on 10.10.13.
@@ -45,7 +43,7 @@ public class FragmentScheduleOfDay extends Fragment {
 
         String groupId = args.getString("groupId");
         int subgroup = args.getInt("subgroup");
-        mAdapterLessons = new ViewAdapterLessons(context, scheduleManager.getLessonsOfDay(groupId, day, subgroup));
+        mAdapterLessons = new ViewAdapterLessons(context, scheduleManager.getLessonsOfDay(context, groupId, day, subgroup));
         dateInText.setBackgroundColor(getMostColor());
         if (isSummer(day) || isOtherSemester(day)) {
             TextView view = (TextView) fragmentView.findViewById(R.id.textView);
@@ -81,6 +79,8 @@ public class FragmentScheduleOfDay extends Fragment {
         mAdapterLessons.notifyDataSetInvalidated();
     }
 
+
+    /*
     private Intent createIntentForAddNote(Lesson lesson) {
         Intent intent = new Intent(getActivity(), ActivityEditNote.class);
         intent.putExtra("lesson_id", lesson.id);
@@ -96,7 +96,7 @@ public class FragmentScheduleOfDay extends Fragment {
         intent.putExtra("REQUEST_CODE", ActivityEditNote.REQUEST_CODE_EDIT_NOTE);
         return intent;
     }
-
+*/
     private boolean isSummer(DateTime day) {
         return (day.getMonthOfYear() >= 7 && day.getMonthOfYear() <= 8);
     }
@@ -112,12 +112,12 @@ public class FragmentScheduleOfDay extends Fragment {
         type[0][2] = getResources().getColor(R.color.green);
         for (int i = 0; i < mAdapterLessons.getCount(); i++) {
             Lesson lesson = (Lesson) mAdapterLessons.getItem(i);
-            String subjectType = lesson.fields.get("subjectType").toLowerCase();
+            String lessonType = lesson.getType();
 
-            Log.d(ActivityDrawerMenu.LOG_TAG, subjectType);
-            if (subjectType.equals("лк")) {
+            Log.d(ActivityDrawerMenu.LOG_TAG, lessonType);
+            if (lessonType.equals("лк")) {
                 type[1][2] += 1;
-            } else if (subjectType.equals("лр")) {
+            } else if (lessonType.equals("лр")) {
                 type[1][0] += 1;
             } else {
                 type[1][1] += 1;

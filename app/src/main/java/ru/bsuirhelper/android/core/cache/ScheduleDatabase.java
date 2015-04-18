@@ -1,6 +1,5 @@
 package ru.bsuirhelper.android.core.cache;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,11 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
@@ -98,13 +94,15 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             Lesson lesson = new Lesson();
             createLessonFromCursor(lesson, cursor);
-            lesson.id = new String(dayOfYear.getDayOfYear() + lesson.fields.get("timePeriodStart") + lesson.fields.get("timePeriodEnd") + lesson.fields.get("teacher")).hashCode();
+            //Для заметок
+            //lesson.id = new String(dayOfYear.getDayOfYear() + lesson.fields.get("timePeriodStart") + lesson.fields.get("timePeriodEnd") + lesson.fields.get("teacher")).hashCode();
             lessons[cursor.getPosition()] = lesson;
         }
         return lessons;
     }
 
     public void addSchedule(ArrayList<Lesson> list, String groupId) {
+        /*
         final String tablePrefix = "schedule_";
         //Create table
         String tableName = tablePrefix + groupId;
@@ -140,6 +138,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         for (ContentValues cv : tableValues) {
             db.insert(tableName, null, cv);
         }
+        */
     }
 
     public void deleteSchedule(String groupId) {
@@ -156,7 +155,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
     }
 
     public ArrayList<StudentGroup> getGroups() {
-        this.open();
+ /*       this.open();
         Cursor tables = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
         //Move to position 1, because on 0 position exist android_metadata table
         ArrayList<StudentGroup> studentGroups = new ArrayList<StudentGroup>();
@@ -172,7 +171,8 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 tables.moveToNext();
             }
         }
-        return studentGroups;
+        return studentGroups;*/
+        return null;
     }
 
     void open() {
@@ -183,9 +183,9 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
     }
 
     private void createLessonFromCursor(Lesson lesson, Cursor cursor) {
-        for (String key : lesson.fields.keySet()) {
+      /*  for (String key : lesson.fields.keySet()) {
             lesson.fields.put(key, cursor.getString(cursor.getColumnIndex(key)));
-        }
+        }*/
     }
 
 }

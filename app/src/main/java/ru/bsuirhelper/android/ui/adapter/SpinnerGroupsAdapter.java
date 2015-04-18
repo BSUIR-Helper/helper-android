@@ -6,11 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import ru.bsuirhelper.android.core.ApplicationSettings;
-import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.models.StudentGroup;
 
 import java.util.ArrayList;
+
+import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.ApplicationSettings;
+import ru.bsuirhelper.android.core.models.StudentGroup;
 
 /**
  * Created by Влад on 19.03.14.
@@ -70,8 +71,8 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
             setViewHolderDropdown(view);
         }
         ViewHolderDropdown vh = (ViewHolderDropdown) view.getTag();
-        vh.tvGroupName.setText(groups.get(position).groupId + " (" + groups.get(position).faculty + ")");
-        if (isActiveGroup(groups.get(position).groupId)) {
+        vh.tvGroupName.setText(groups.get(position).getGroupName());
+        if (isActiveGroup(groups.get(position).getId())) {
             vh.tvIsActive.setText(mContext.getString(R.string.active_group));
             vh.tvIsActive.setVisibility(View.VISIBLE);
         } else {
@@ -80,9 +81,9 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
         return view;
     }
 
-    private boolean isActiveGroup(String groupName) {
-        String defaultGroupName = mSettings.getDefaultGroupOfSchedule();
-        return groupName.equals(defaultGroupName);
+    private boolean isActiveGroup(long groupId) {
+        int defaultGroupName = mSettings.getDefaultGroupOfSchedule();
+        return defaultGroupName != -1;
     }
 
     private void setViewHolder(View view) {

@@ -4,21 +4,39 @@ package ru.bsuirhelper.android.core.models;
  * Created by Влад on 12.10.13.
  */
 public class StudentGroup {
-    public final String groupId;
-    public final String faculty;
-    public final String updatedTime;
-    public boolean isChecked = false;
+    private long id;
+    private String groupNumber;
+    private String groupName;
 
-    public StudentGroup(String groupId, String faculty, String updatedTime) {
-        this.groupId = groupId;
-        this.updatedTime = updatedTime;
-        this.faculty = faculty;
+    public StudentGroup() {}
 
+    public StudentGroup(long id, String groupName, String groupNumber) {
+        this.id = id;
+        this.groupName = groupName;
+        this.groupNumber = groupNumber;
     }
 
-    @Override
-    public String toString() {
-        return groupId + " (" + faculty + ")";
+    public void setId(long id) {
+        this.id = id;
     }
 
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public String getGroupNumber() {
+        return groupNumber;
+    }
+
+    public void setGroupNumber(String groupNumber) {
+        this.groupNumber = groupNumber;
+    }
 }

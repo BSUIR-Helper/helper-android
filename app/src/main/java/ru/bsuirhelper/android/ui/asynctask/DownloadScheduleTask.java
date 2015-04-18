@@ -5,10 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
-import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.core.cache.ScheduleManager;
-import ru.bsuirhelper.android.core.parser.ScheduleParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +12,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
+
+import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.cache.ScheduleManager;
+import ru.bsuirhelper.android.core.models.Lesson;
+import ru.bsuirhelper.android.core.models.StudentGroup;
+import ru.bsuirhelper.android.core.parser.ScheduleParser;
 
 /**
  * Created by Влад on 18.02.14.
@@ -87,13 +89,13 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
             return "Error";
         }
 
-        ArrayList<Lesson> lessons = null;
+        List<Lesson> lessons = null;
         try {
             lessons = ScheduleParser.parseXmlSchedule(xmlFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        scheduleManager.addSchedule(groupId, lessons);
+        scheduleManager.addSchedule(fragment.getActivity(), new StudentGroup(-1, groupId,groupId), lessons);
         return "Success";
     }
 

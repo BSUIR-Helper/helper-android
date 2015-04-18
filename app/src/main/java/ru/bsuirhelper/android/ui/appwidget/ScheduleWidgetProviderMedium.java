@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.appwidget;
+package ru.bsuirhelper.android.ui.appwidget;
 
 /**
  * Created by Влад on 04.02.14.

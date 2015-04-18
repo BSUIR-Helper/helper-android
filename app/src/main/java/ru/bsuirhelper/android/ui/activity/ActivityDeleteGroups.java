@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.ApplicationSettings;
@@ -31,7 +31,7 @@ public class ActivityDeleteGroups extends ActionBarActivity {
         mListView = (ListView) findViewById(R.id.listview_groups);
         mScheduleManager = ScheduleManager.getInstance(this);
         mSettings = ApplicationSettings.getInstance(this);
-        ArrayList<StudentGroup> groups = mScheduleManager.getGroups();
+        List<StudentGroup> groups = mScheduleManager.getGroups(this);
         final GroupsViewAdapter vaGroups = new GroupsViewAdapter(this, groups, R.layout.view_deletegroup);
         if (vaGroups.getCount() != 0) {
             mListView.setAdapter(vaGroups);
@@ -63,10 +63,10 @@ public class ActivityDeleteGroups extends ActionBarActivity {
         for (int position = 0; position < listView.getCount(); position++) {
             CheckBox checkBox = (CheckBox) listView.getChildAt(position).findViewById(R.id.checkbox_fordelete);
             if (checkBox.isChecked()) {
-                mScheduleManager.deleteSchedule(adapter.getItem(position).groupId);
+                mScheduleManager.deleteSchedule(this, adapter.getItem(position).getId());
                 String defaultGroup = mSettings.getString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
                 if (!(defaultGroup == null)) {
-                    if (defaultGroup.equals(adapter.getItem(position).groupId)) {
+                    if (defaultGroup.equals(adapter.getItem(position).getId())) {
                         mSettings.putString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
                     }
                 }

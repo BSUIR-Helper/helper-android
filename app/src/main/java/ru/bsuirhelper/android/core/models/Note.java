@@ -7,7 +7,7 @@ public class Note {
     public String text;
     public String title;
     public String subject;
-    public int lesson_id = NO_LESSON;
+    public long lesson_id = NO_LESSON;
     public long dateCreated;
     public int id;
     public static final int NO_LESSON = -1;

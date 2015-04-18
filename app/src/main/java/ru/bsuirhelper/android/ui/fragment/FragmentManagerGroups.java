@@ -1,6 +1,5 @@
 package ru.bsuirhelper.android.ui.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -24,15 +23,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBase;
 import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.StudentGroup;
 import ru.bsuirhelper.android.ui.activity.ActivityDeleteGroups;
 import ru.bsuirhelper.android.ui.adapter.GroupsViewAdapter;
+import ru.bsuirhelper.android.ui.appwidget.ScheduleWidgetProviderBase;
 import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
 
 /**
@@ -42,15 +41,8 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     private ScheduleManager mScheduleManager;
     private ListView mListGroups;
     private TextView mTextViewNotification;
-    private Context context;
     private GroupsViewAdapter mGroupsAdapter;
     public static final String TITLE = "Расписание";
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        context = activity;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,10 +60,10 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 StudentGroup group = (StudentGroup) mListGroups.getAdapter().getItem(position);
-                ApplicationSettings.getInstance(view.getContext()).putString("defaultgroup", group.groupId);
+                ApplicationSettings.getInstance(view.getContext()).putString("defaultgroup", group.getGroupNumber());
                 ScheduleWidgetProviderBase.updateAllWidgets(getActivity().getApplicationContext());
                 Bundle args = new Bundle();
-                args.putString("groupId", group.groupId);
+                args.putString("groupId", group.getGroupNumber());
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 Fragment fragmentSchedule = new FragmentSchedule();
                 fragmentSchedule.setArguments(args);
@@ -84,7 +76,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     @Override
     public void onResume() {
         super.onResume();
-        refreshListGroup();
+//        refreshListGroup();
     }
 
     @Override
@@ -122,7 +114,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     }
 
     void refreshListGroup() {
-        ArrayList<StudentGroup> groups = mScheduleManager.getGroups();
+        List<StudentGroup> groups = mScheduleManager.getGroups(getActivity());
         if (mGroupsAdapter == null) {
             mGroupsAdapter = new GroupsViewAdapter(getActivity(), groups, R.layout.view_group);
         } else {
@@ -142,8 +134,8 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
 
     @Override
     public void onPostExecute() {
-        Toast.makeText(context, getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
-        refreshListGroup();
+        Toast.makeText(getActivity(), getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
+//        refreshListGroup();
     }
 
     class DialogFragmentAddGroup extends DialogFragment {
