@@ -1,43 +1,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:showDividers="middle"
-                android:id="@+id/widget_schedule"
-                android:divider="?android:attr/listDivider">
+    android:id="@+id/widget_schedule"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:divider="?android:attr/listDivider"
+    android:orientation="vertical"
+    android:showDividers="middle">
 
 
     <TextView
+        android:id="@+id/widget_date"
+        style="@style/AppTheme"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Расписание на сегодня"
-        android:gravity="center"
-        android:id="@+id/widget_date"
-        android:background="#ff222224"
-        android:padding="4dp"
         android:layout_gravity="center_horizontal|top"
-        android:textSize="15dp"
-        android:textColor="#faffff"
         android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"/>
+        android:layout_marginRight="1dp"
+        android:background="#ff222224"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="Расписание на сегодня"
+        android:textColor="#faffff"
+        android:textSize="15dp" />
 
     <ListView
+        android:id="@+id/widget_listView"
+        style="@style/AppTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ff000000"
-        android:clickable="false"
-        android:id="@+id/widget_listView"
+        android:layout_below="@+id/widget_date"
         android:layout_gravity="center"
-        android:layout_below="@+id/widget_date"/>
+        android:clickable="false"
+        android:divider="@color/divider_gray"
+        android:dividerHeight="1dp" />
 
     <TextView
+        android:id="@+id/widget_textView"
+        style="@style/AppTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Занятий нет"
-        android:id="@+id/widget_textView"
-        android:visibility="visible"
-        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:text="Занятий нет"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20dp"
+        android:visibility="visible" />
 </RelativeLayout>

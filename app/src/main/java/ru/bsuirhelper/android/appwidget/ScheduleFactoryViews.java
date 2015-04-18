@@ -9,12 +9,13 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
 import org.joda.time.DateTime;
 
-import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.core.database.ScheduleManager;
 import ru.bsuirhelper.android.ui.activity.ActivitySettings;
 
 /**
@@ -72,19 +73,19 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
 
         String subjectType = lesson.fields.get("subjectType");
 
-        if (!subjectType.equals("кч")) {
+        if (!subjectType.equals(mContext.getString(R.string.ab_curator_hour))) {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
                     mContext).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
-            if (isShowSubjectTypes && !subjectType.equals("")) {
-                rView.setTextViewText(R.id.lesson_name, lesson.fields.get("subject"));
+            /*if (isShowSubjectTypes && !subjectType.equals("")) {
+            */    rView.setTextViewText(R.id.lesson_name, lesson.fields.get("subject"));
                 rView.setViewVisibility(R.id.lesson_subject_type, View.VISIBLE);
                 rView.setTextViewText(R.id.lesson_subject_type, " (" + subjectType + ")");
-            } else {
+          /*  } else {
                 rView.setTextViewText(R.id.lesson_name, lesson.fields.get("subject"));
                 rView.setViewVisibility(R.id.lesson_subject_type, View.GONE);
-            }
+            }*/
         } else {
-            rView.setTextViewText(R.id.lesson_name, "КЧ");
+            rView.setTextViewText(R.id.lesson_name, mContext.getString(R.string.ab_curator_hour).toUpperCase());
         }
 
         if (subjectType.toLowerCase().equals(mContext.getString(R.string.ab_lab_id))) {

@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
-            android:text="Лабораторная работа"
+            android:text="@string/lab"
             android:textSize="17sp"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
-            android:text="Практическое занятие"
+            android:text="@string/practical_lesson"
             android:textSize="17sp"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
@@ -60,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Лекция"
+            android:text="@string/lecture"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_marginLeft="10dp"/>

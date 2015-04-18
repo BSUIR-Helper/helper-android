@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android;
+package ru.bsuirhelper.android.core;
 
 import android.content.Context;
 import android.content.SharedPreferences;

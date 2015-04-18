@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="ru.bsuirhelper.android"
-          android:versionCode="9"
-          android:versionName="0.3.2">
+    >
 
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="21"/>
 
     <application
         android:label="BSUIR Helper"
+        android:name=".App"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme"
         >
@@ -80,6 +77,9 @@
                 android:resource="@xml/widget_schedule_info_medium">
             </meta-data>
         </receiver>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e5be378183c6362c108dae73987b2ecc18b39712" />
     </application>
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>

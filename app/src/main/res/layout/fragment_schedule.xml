@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="TEST"
+        android:text="Loading..."
         android:id="@+id/date"
         android:padding="4dp"
         android:gravity="center"
@@ -32,6 +32,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/no_lessons"
         android:id="@+id/textView"
+        android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"

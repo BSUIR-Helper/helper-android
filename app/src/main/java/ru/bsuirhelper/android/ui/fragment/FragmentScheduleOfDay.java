@@ -15,7 +15,7 @@ import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.models.Note;
 import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.core.database.ScheduleManager;
+import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.ui.activity.ActivityDrawerMenu;
 import ru.bsuirhelper.android.ui.activity.ActivityDetailNote;
 import ru.bsuirhelper.android.ui.activity.ActivityEditNote;

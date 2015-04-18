@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.core.database;
+package ru.bsuirhelper.android.core.cache;
 
 import android.content.ContentValues;
 import android.content.Context;

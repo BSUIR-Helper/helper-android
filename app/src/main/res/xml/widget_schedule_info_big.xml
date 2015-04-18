@@ -4,5 +4,7 @@
     android:initialLayout="@layout/fragment_schedule"
     android:minHeight="300dp"
     android:minWidth="300dp"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen|keyguard"
     android:updatePeriodMillis="2400000">
 </appwidget-provider>

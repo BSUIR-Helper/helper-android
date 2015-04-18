@@ -7,12 +7,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.models.Note;
-import ru.bsuirhelper.android.core.database.NoteDatabase;
+import ru.bsuirhelper.android.core.cache.NoteDatabase;
 
 /**
  * Created by Влад on 02.02.14.
@@ -74,13 +71,5 @@ public class ActivityDetailNote extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker tracker = EasyTracker.getInstance(this);
-        tracker.set(Fields.SCREEN_NAME, "Окно информации о заметке");
-        tracker.send(MapBuilder.createAppView().build());
     }
 }

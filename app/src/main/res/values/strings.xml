@@ -12,12 +12,10 @@
         <item>Subgroup 1</item>
         <item>Subgroup 2</item>
     </string-array>
-    <string-array name="lessons_types">
-        <item>Lecture</item>
-        <item>Practical lesson</item>
-        <item>Lab</item>
-        <item>Other</item>
-    </string-array>
+    <string name="lecture">Lecture</string>
+    <string name="practical_lesson">Practical lesson</string>
+    <string name="lab">Lab</string>
+    <string name="other">Other</string>
     <string-array name="week_days">
         <item>Monday</item>
         <item>Tuesday</item>
@@ -88,4 +86,7 @@
     <string name="ab_lecture_id">лк</string>
     <string name="ab_lab_id">лр</string>
     <string name="ab_curator_hour_id">кч</string>
+
+    <string name="subgroup1">Subgroup 1</string>
+    <string name="subgroup2">Subgroup 2</string>
 </resources>

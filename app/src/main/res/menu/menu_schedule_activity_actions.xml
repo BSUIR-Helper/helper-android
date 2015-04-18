@@ -21,11 +21,11 @@
                 android:checkableBehavior="single">
                 <item
                     android:id="@+id/subgroup1"
-                    android:title="Подгруппа 1"/>
+                    android:title="@string/subgroup1"/>
 
                 <item
                     android:id="@+id/subgroup2"
-                    android:title="Подгруппа 2"/>
+                    android:title="@string/subgroup2"/>
             </group>
         </menu>
     </item>

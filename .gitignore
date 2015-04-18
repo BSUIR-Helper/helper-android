@@ -29,3 +29,5 @@ proguard/
 .idea/
 
 build/intermediates
+app/fabric.properties
+app/build

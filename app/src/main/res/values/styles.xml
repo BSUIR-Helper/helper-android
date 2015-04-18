@@ -3,23 +3,24 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- customize the color palette -->
-        <item name="colorPrimary">@color/material_blue_500</item>
+        <item name="colorPrimary">@color/material_blue_800</item>
+        <item name="colorPrimaryDark">@color/material_blue_900</item>
 <!--        <item name="actionBarStyle">@style/ActionBarCompat</item>-->
-        <item name="colorAccent">@color/accent</item><!--
-        <item name="android:textColorSecondary">@color/secondary_text_default_material_light</item>
+        <item name="colorAccent">@color/accent</item>
+<!--        <item name="android:textColorSecondary">@color/secondary_text_default_material_light</item>
         <item name="android:textColor">@color/primary_text_default_material_light</item>
         <item name="android:textColorPrimaryInverse">@color/primary_text_default_material_light
         </item>
         <item name="android:textViewStyle">@android:style/TextAppearance</item>
-&lt;!&ndash;        <item name="actionOverflowButtonStyle">@style/OptionsButton</item>-->
+       <item name="actionOverflowButtonStyle">@style/OptionsButton</item>-->
         <item name="actionMenuTextColor">@color/white</item>-->
     </style>
 
-<!--    &lt;!&ndash; ACTIONBAR STYLE &ndash;&gt;
+    <!-- ACTIONBAR STYLE -->
     <style name="ActionBarCompat" parent="Widget.AppCompat.ActionBar">
         <item name="titleTextStyle">@style/titleStyle</item>
         <item name="subtitleTextStyle">@style/subtitleStyle</item>
-        <item name="background">@color/material_blue_500</item>
+        <item name="background">@color/material_blue_800</item>
     </style>
 
     <style name="titleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
@@ -36,6 +37,6 @@
 
     <style name="OptionsButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_more_vert_white_24dp</item>
-    </style>-->
+    </style>
 
 </resources>

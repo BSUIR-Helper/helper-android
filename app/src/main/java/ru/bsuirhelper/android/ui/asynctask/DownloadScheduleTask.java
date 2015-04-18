@@ -1,4 +1,4 @@
-package ru.bsuirhelper.android.core.asynctask;
+package ru.bsuirhelper.android.ui.asynctask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.widget.Toast;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.core.database.ScheduleManager;
+import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.parser.ScheduleParser;
 
 import java.io.File;

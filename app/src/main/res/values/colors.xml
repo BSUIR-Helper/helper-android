@@ -6,6 +6,7 @@
     <color name="gray">#474949</color>
     <color name="white">#FFFFFF</color>
     <color name="accent">#64B5F6</color>
-    <color name="material_blue_500">#1565C0</color>
-
+    <color name="material_blue_900">#0d47a1</color>
+    <color name="material_blue_800">#1565C0</color>
+    <color name="divider_gray">#bdbdbd</color>
 </resources>

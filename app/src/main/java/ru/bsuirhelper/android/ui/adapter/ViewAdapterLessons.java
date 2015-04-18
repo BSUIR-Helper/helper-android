@@ -1,7 +1,6 @@
 package ru.bsuirhelper.android.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -10,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.models.Note;
-import ru.bsuirhelper.android.core.database.NoteDatabase;
+import ru.bsuirhelper.android.core.cache.NoteDatabase;
 import ru.bsuirhelper.android.core.models.Lesson;
+import ru.bsuirhelper.android.core.models.Note;
 import ru.bsuirhelper.android.ui.activity.ActivitySettings;
 
 /**
@@ -99,7 +99,7 @@ public class ViewAdapterLessons extends BaseAdapter {
         }
 
         View verticalLine = convertView.findViewById(R.id.customview);
-        verticalLine.setBackgroundColor(Color.BLACK);
+        verticalLine.setBackgroundColor(parent.getContext().getResources().getColor(R.color.divider_gray));
         return convertView;
     }
 

@@ -24,10 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.google.analytics.tracking.android.EasyTracker;
-
-import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ui.fragment.FragmentManagerGroups;
 import ru.bsuirhelper.android.ui.fragment.FragmentSchedule;
@@ -54,7 +51,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.drawerlayout);
+       setContentView(R.layout.drawerlayout);
         mMenuItems = getResources().getStringArray(R.array.menu_items);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -130,13 +127,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         if (mDrawerToggle != null) {
             mDrawerToggle.syncState();
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
-
     }
 
     @Override

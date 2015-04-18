@@ -10,19 +10,17 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
-import ru.bsuirhelper.android.ApplicationSettings;
-import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.models.Note;
-import ru.bsuirhelper.android.core.database.NoteDatabase;
-import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.core.database.ScheduleDatabase;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
+import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.ApplicationSettings;
+import ru.bsuirhelper.android.core.cache.NoteDatabase;
+import ru.bsuirhelper.android.core.cache.ScheduleDatabase;
+import ru.bsuirhelper.android.core.models.Lesson;
+import ru.bsuirhelper.android.core.models.Note;
 
 /**
  * Created by Влад on 01.11.13.
@@ -87,21 +85,6 @@ public class ActivityEditNote extends ActionBarActivity {
     public void onResume() {
         super.onResume();
 
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker tracker = EasyTracker.getInstance(this);
-        tracker.set(Fields.SCREEN_NAME, "Окно редактирования заметки");
-        tracker.send(MapBuilder.createAppView().build());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override

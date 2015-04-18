@@ -1,97 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="Orientation"
-                android:paddingLeft="3dp"
-                android:paddingTop="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp"
+    tools:ignore="Orientation">
 
-    <View
+    <ImageView
         android:id="@+id/lesson_type_color"
         android:layout_width="8dp"
         android:layout_height="60dp"
-        android:background="@drawable/rounded_rec"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
+        android:background="@drawable/rounded_rec" />
 
-    <TextView
-        android:id="@+id/lesson_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Математика"
-        android:textSize="24sp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/lesson_type_color"
+        android:layout_alignEnd="@+id/imageview_note"
+        android:layout_alignRight="@+id/imageview_note"
         android:layout_marginLeft="10dp"
-        android:layout_above="@+id/lesson_teacher"
-        android:layout_toLeftOf="@+id/lesson_subject_type"/>
+        android:layout_toRightOf="@+id/lesson_type_color">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shrinkColumns="0">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/lesson_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:text="Математика"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/lesson_subject_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollHorizontally="false"
+                    android:singleLine="true"
+                    android:text="(ПЗ)"
+                    android:textSize="24sp"
+                    android:visibility="visible" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/lesson_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
-        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:layout_alignLeft="@+id/ll_name"
+        android:layout_alignStart="@+id/ll_name"
+        android:layout_alignTop="@+id/imageview_note"
         android:singleLine="true"
-        android:layout_below="@+id/lesson_time"
-        android:layout_alignLeft="@+id/lesson_name"
-        android:layout_alignRight="@+id/lesson_name"/>
+        android:text="Test"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/lesson_time"
         android:layout_width="121dp"
         android:layout_height="wrap_content"
-        android:text="13:00-16:00"
-        android:textSize="20sp"
-        android:paddingTop="8dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:tag=""/>
+        android:layout_alignParentTop="true"
+
+        android:tag=""
+        android:text="13:00-16:00"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/lesson_auditorium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="420-2"
-        android:textSize="16sp"
-        android:paddingRight="8dp"
+        android:layout_alignLeft="@+id/lesson_time"
         android:layout_below="@+id/lesson_time"
-        android:layout_alignLeft="@+id/lesson_time"/>
+        android:paddingRight="8dp"
+        android:text="420-2"
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/customview"
         android:layout_width="1dp"
         android:layout_height="40dp"
-        android:background="@android:color/black"
+        android:layout_alignBottom="@+id/lesson_teacher"
         android:layout_marginRight="15dp"
         android:layout_toLeftOf="@+id/lesson_time"
-        android:padding="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_alignBottom="@+id/lesson_teacher"
-        />
+        android:background="@color/divider_gray" />
 
     <ImageView
+        android:id="@+id/imageview_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageview_note"
-        android:visibility="invisible"
-        android:src="@drawable/ic_notes"
         android:layout_alignBottom="@+id/lesson_type_color"
         android:layout_alignRight="@+id/customview"
-        android:tag="1"/>
+        android:src="@drawable/ic_notes"
+        android:tag="1"
+        android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/lesson_subject_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:text=""
-        android:textSize="24sp"
-        android:textColor="#faffff"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/customview"/>
 
 </RelativeLayout>

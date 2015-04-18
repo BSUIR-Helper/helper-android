@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.models.StudentGroup;
 

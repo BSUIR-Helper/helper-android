@@ -5,23 +5,32 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import android.widget.*;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
-import ru.bsuirhelper.android.ApplicationSettings;
-import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.core.models.Note;
-import ru.bsuirhelper.android.core.database.NoteDatabase;
-import ru.bsuirhelper.android.ui.activity.ActivityDetailNote;
-import ru.bsuirhelper.android.ui.activity.ActivityEditNote;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.ApplicationSettings;
+import ru.bsuirhelper.android.core.cache.NoteDatabase;
+import ru.bsuirhelper.android.core.models.Note;
+import ru.bsuirhelper.android.ui.activity.ActivityDetailNote;
+import ru.bsuirhelper.android.ui.activity.ActivityEditNote;
 
 /**
  * Created by Влад on 02.11.13.
@@ -72,20 +81,6 @@ public class FragmentNotes extends Fragment {
             });
         }
 
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker tracker = EasyTracker.getInstance(getActivity());
-        tracker.set(Fields.SCREEN_NAME, "Окно списка заметок");
-        tracker.send(MapBuilder.createAppView().build());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance(getActivity().getApplicationContext()).activityStop(getActivity());
     }
 
     @Override

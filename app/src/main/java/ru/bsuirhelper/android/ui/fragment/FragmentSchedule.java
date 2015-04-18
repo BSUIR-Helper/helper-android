@@ -16,14 +16,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.DatePicker;
 import android.widget.Toast;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import org.joda.time.DateTime;
-import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.core.asynctask.DownloadScheduleTask;
+import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
 import ru.bsuirhelper.android.ui.adapter.SchedulePagerAdapter;
 import ru.bsuirhelper.android.ui.pager.RotationViewPager;
 
@@ -105,7 +102,8 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
             }
         });
 
-        mActionBar.setTitle(getActivity().getString(R.string.group) + " " + mGroupId);
+        /*mActionBar.setTitle(getActivity().getString(R.string.group) + " " + mGroupId);*/
+        mActionBar.setTitle(mGroupId);
         if (DateTime.now().getMonthOfYear() >= 9 || DateTime.now().getMonthOfYear() <= 6) {
             mPager.setCurrentItem(mStudentCalendar.getDayOfYear());
         } else {
@@ -121,15 +119,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
             showDialogSubjectTypeHelper();
             ApplicationSettings.getInstance(getActivity().getApplicationContext()).putBoolean("firststart", false);
         }
-        EasyTracker tracker = EasyTracker.getInstance(getActivity());
-        tracker.set(Fields.SCREEN_NAME, "Окно расписания");
-        tracker.send(MapBuilder.createAppView().build());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance(getActivity().getApplicationContext()).activityStop(getActivity());
     }
 
     @Override

@@ -16,11 +16,11 @@ import org.joda.time.DateTime;
 
 import java.util.Arrays;
 
-import ru.bsuirhelper.android.ApplicationSettings;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.core.database.ScheduleManager;
+import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.ui.activity.ActivityDrawerMenu;
 
 /**

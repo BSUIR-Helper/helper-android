@@ -12,21 +12,28 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.*;
-import android.widget.*;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
-import ru.bsuirhelper.android.ApplicationSettings;
-import ru.bsuirhelper.android.R;
-import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBase;
-import ru.bsuirhelper.android.core.database.ScheduleManager;
-import ru.bsuirhelper.android.core.models.StudentGroup;
-import ru.bsuirhelper.android.core.asynctask.DownloadScheduleTask;
-import ru.bsuirhelper.android.ui.activity.ActivityDeleteGroups;
-import ru.bsuirhelper.android.ui.adapter.GroupsViewAdapter;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.appwidget.ScheduleWidgetProviderBase;
+import ru.bsuirhelper.android.core.ApplicationSettings;
+import ru.bsuirhelper.android.core.cache.ScheduleManager;
+import ru.bsuirhelper.android.core.models.StudentGroup;
+import ru.bsuirhelper.android.ui.activity.ActivityDeleteGroups;
+import ru.bsuirhelper.android.ui.adapter.GroupsViewAdapter;
+import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
 
 /**
  * Created by Влад on 12.10.13.
@@ -137,14 +144,6 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     public void onPostExecute() {
         Toast.makeText(context, getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
         refreshListGroup();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker tracker = EasyTracker.getInstance(getActivity());
-        tracker.set(Fields.SCREEN_NAME, "Окно списка групп");
-        tracker.send(MapBuilder.createAppView().build());
     }
 
     class DialogFragmentAddGroup extends DialogFragment {

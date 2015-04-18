@@ -1,14 +1,16 @@
-package ru.bsuirhelper.android.core.database;
+package ru.bsuirhelper.android.core.cache;
 
 import android.content.Context;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import java.util.ArrayList;
+
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.models.Lesson;
 import ru.bsuirhelper.android.core.models.StudentGroup;
-
-import java.util.ArrayList;
 
 /**
  * Created by Влад on 12.09.13.
