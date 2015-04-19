@@ -48,10 +48,11 @@
         android:background="@drawable/rectangle"
         android:layout_gravity="center"
         android:text="12"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_marginRight="30dp"
         android:gravity="center"
         android:textSize="16sp"
         android:textStyle="bold"
-        ></TextView>
+        />
+
 </LinearLayout>

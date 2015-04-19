@@ -110,10 +110,7 @@ public class ScheduleManager {
                 lessons.add(CacheHelper.Lessons.fromCursor(cursor));
             }
             cursor.close();
-            Logger.i("WeekDay:" + weekDay + " WorkWeek:" + workWeek + " " + " Subgroup:" + subgroup + " StudentGroupId:" + studentGroupId);
-            Logger.i(query);
         }
-        Logger.i(lessons + " ");
         return lessons;
     }
 

@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -29,6 +30,9 @@ import com.orhanobut.logger.Logger;
 
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.ApplicationSettings;
+import ru.bsuirhelper.android.core.cache.ScheduleManager;
+import ru.bsuirhelper.android.core.models.StudentGroup;
+import ru.bsuirhelper.android.ui.adapter.SpinnerGroupsAdapter;
 import ru.bsuirhelper.android.ui.fragment.FragmentManagerGroups;
 import ru.bsuirhelper.android.ui.fragment.FragmentSchedule;
 
@@ -37,9 +41,9 @@ import ru.bsuirhelper.android.ui.fragment.FragmentSchedule;
  */
 public class ActivityDrawerMenu extends ActionBarActivity {
     public static final String LOG_TAG = "BSUIR_DEBUG";
-    private final int SCHEDULE_FRAGMENT = 0;
+    private final int SCHEDULE_FRAGMENT = 1;
     // private final int NOTE_FRAGMENT = 1;
-    private final int ACTIVITY_SETTINGS = 1;
+    private final int ACTIVITY_SETTINGS = 2;
     private DrawerLayout mDrawerLayout;
     private DrawerArrayAdapter mDrawerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -62,7 +66,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         actionBarInitialize();
         //spinnerInitialize();
         FragmentManager fm = getSupportFragmentManager();
-        String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
+        String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
         Logger.i(defaultGroup);
         if (defaultGroup != null) {
             fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
@@ -100,6 +104,26 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerAdapter = new DrawerArrayAdapter(this, mMenuItems);
+        View view = LayoutInflater.from(this).inflate(R.layout.header_drawermenu, null);
+        mSpinnerGroups = (Spinner) view.findViewById(R.id.sp_schedules);
+        final BaseAdapter groupsAdapter = new SpinnerGroupsAdapter(this, ScheduleManager.getInstance(this).getGroups(this));
+        mSpinnerGroups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != groupsAdapter.getCount() - 1) {
+                    StudentGroup studentGroup = (StudentGroup) groupsAdapter.getItem(position);
+                    ApplicationSettings.getInstance(ActivityDrawerMenu.this).
+                            setActiveGroup(String.valueOf(studentGroup.getId()));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mSpinnerGroups.setAdapter(groupsAdapter);
+        mDrawerList.addHeaderView(view);
         mDrawerList.setAdapter(mDrawerAdapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -117,13 +141,11 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mActionBar.setHomeButtonEnabled(true);
     }
 
-    /*
+
     private void spinnerInitialize() {
-       mSpinnerGroups = (Spinner) findViewById(R.id.spinner_groups);
-        BaseAdapter groupsAdapter = new SpinnerGroupsAdapter(this, ScheduleManager.getInstance(this).getGroups());
-        mSpinnerGroups.setAdapter(groupsAdapter);
+
     }
-     */
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

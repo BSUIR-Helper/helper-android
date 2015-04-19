@@ -64,10 +64,10 @@ public class ActivityDeleteGroups extends ActionBarActivity {
             CheckBox checkBox = (CheckBox) listView.getChildAt(position).findViewById(R.id.checkbox_fordelete);
             if (checkBox.isChecked()) {
                 mScheduleManager.deleteSchedule(this, adapter.getItem(position).getId());
-                String defaultGroup = mSettings.getString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
+                String defaultGroup = mSettings.getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
                 if (!(defaultGroup == null)) {
                     if (defaultGroup.equals(adapter.getItem(position).getId())) {
-                        mSettings.putString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
+                        mSettings.putString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
                     }
                 }
             }

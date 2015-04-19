@@ -68,7 +68,6 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         try {
             String groupId = (String) getArguments().get("groupId");
             if(getActivity() != null) {
-                Logger.i(groupId);
                 Cursor cursor = getActivity().getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null,
                         CacheHelper.StudentGroups._ID + " = " + groupId, null, null);
                 if(cursor != null && cursor.moveToNext()) {

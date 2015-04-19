@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.orhanobut.logger.Logger;
+
+import java.util.List;
 
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.ApplicationSettings;
@@ -17,12 +19,13 @@ import ru.bsuirhelper.android.core.models.StudentGroup;
  * Created by Влад on 19.03.14.
  */
 public class SpinnerGroupsAdapter extends BaseAdapter {
-    private ArrayList<StudentGroup> groups;
+    private List<StudentGroup> groups;
     private Context mContext;
     private ApplicationSettings mSettings;
 
-    public SpinnerGroupsAdapter(Context context, ArrayList<StudentGroup> groups) {
+    public SpinnerGroupsAdapter(Context context, List<StudentGroup> groups) {
         this.groups = groups;
+        Logger.i(groups + "");
         //Need for last button in spinner
         //groups.add(groups.size(), null);
         mContext = context;
@@ -31,7 +34,7 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return groups.size();
+        return groups == null ? 0 : groups.size() + 1;
     }
 
     @Override
@@ -52,14 +55,14 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
             setViewHolder(view);
         }
         final ViewHolder vh = (ViewHolder) view.getTag();
-        vh.tvGroupName.setText(groups.get(position).toString());
+        vh.tvGroupName.setText(groups.get(position).getGroupName());
 
         return view;
     }
 
     @Override
     public View getDropDownView(int position, View view, ViewGroup viewGroup) {
-        if (groups.size() - 1 == position) {
+        if (groups.size()  == position) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.view_text_dropdown_spinner, null);
             return view;
@@ -72,7 +75,7 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
         }
         ViewHolderDropdown vh = (ViewHolderDropdown) view.getTag();
         vh.tvGroupName.setText(groups.get(position).getGroupName());
-        if (isActiveGroup(groups.get(position).getId())) {
+        if (isActiveGroup(String.valueOf(groups.get(position).getId()))) {
             vh.tvIsActive.setText(mContext.getString(R.string.active_group));
             vh.tvIsActive.setVisibility(View.VISIBLE);
         } else {
@@ -81,9 +84,9 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
         return view;
     }
 
-    private boolean isActiveGroup(long groupId) {
-        int defaultGroupName = mSettings.getDefaultGroupOfSchedule();
-        return defaultGroupName != -1;
+    private boolean isActiveGroup(String groupId) {
+        String defaultGroupName = mSettings.getActiveGroup();
+        return defaultGroupName.equals(groupId);
     }
 
     private void setViewHolder(View view) {
@@ -95,7 +98,6 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
         ViewHolderDropdown vh = new ViewHolderDropdown(view);
         view.setTag(vh);
     }
-
 
     class ViewHolderDropdown {
         TextView tvGroupName;

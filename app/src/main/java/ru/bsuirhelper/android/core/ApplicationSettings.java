@@ -10,7 +10,7 @@ public class ApplicationSettings {
     private static ApplicationSettings instance;
     private static SharedPreferences settings;
     private static final String PREFS_NAME = "settings.txt";
-    public static final String DEFAULT_GROUP_OF_SCHEDULE = "defaultgroup";
+    public static final String ACTIVE_STUDENTGROUP = "defaultgroup";
 
     private ApplicationSettings(Context context) {
         settings = context.getSharedPreferences(PREFS_NAME, 1);
@@ -47,7 +47,11 @@ public class ApplicationSettings {
         return settings.edit().putBoolean(varName, value).commit();
     }
 
-    public int getDefaultGroupOfSchedule() {
-        return getInt(DEFAULT_GROUP_OF_SCHEDULE, -1);
+    public String getActiveGroup() {
+        return getString(ACTIVE_STUDENTGROUP, null);
+    }
+
+    public void setActiveGroup(String groupId) {
+        putString(ACTIVE_STUDENTGROUP, groupId);
     }
 }

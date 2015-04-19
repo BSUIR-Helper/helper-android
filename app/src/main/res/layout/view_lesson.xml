@@ -92,7 +92,7 @@
     <ImageView
         android:id="@+id/customview"
         android:layout_width="1dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_alignBottom="@+id/lesson_teacher"
         android:layout_marginRight="15dp"
         android:layout_toLeftOf="@+id/lesson_time"
