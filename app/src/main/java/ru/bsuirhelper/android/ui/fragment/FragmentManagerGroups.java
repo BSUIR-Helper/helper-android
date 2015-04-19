@@ -93,24 +93,12 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
                 startActivity(intent);
                 return true;
             case R.id.action_addgroup:
-                if (isInternetAvaialable()) {
                     DialogFragmentAddGroup dialog = new DialogFragmentAddGroup();
                     dialog.show(getActivity().getSupportFragmentManager(), "");
-                } else {
-                    Toast.makeText(getActivity(), getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
-                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private boolean isInternetAvaialable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-        return isConnected;
     }
 
     void refreshListGroup() {
@@ -173,6 +161,14 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
                         }
                     });
             return builder.create();
+        }
+
+        private boolean isInternetAvaialable() {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            boolean isConnected = activeNetwork != null &&
+                    activeNetwork.isConnectedOrConnecting();
+            return isConnected;
         }
     }
 }

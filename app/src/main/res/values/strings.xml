@@ -57,7 +57,6 @@
     <string name="ab_curator_hour">c.h.</string>
     <string-array name="menu_items">
         <item>Schedule</item>
-        <!--<item>Notes</item>-->
         <item>Settings</item>
     </string-array>
     <string name="error">Error</string>

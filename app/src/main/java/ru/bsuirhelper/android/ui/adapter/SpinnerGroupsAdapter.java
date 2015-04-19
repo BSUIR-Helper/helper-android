@@ -34,7 +34,7 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return groups == null ? 0 : groups.size() + 1;
+        return groups == null || groups.size() == 0 ? 0 : groups.size() + 1;
     }
 
     @Override
@@ -56,7 +56,6 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
         }
         final ViewHolder vh = (ViewHolder) view.getTag();
         vh.tvGroupName.setText(groups.get(position).getGroupName());
-
         return view;
     }
 

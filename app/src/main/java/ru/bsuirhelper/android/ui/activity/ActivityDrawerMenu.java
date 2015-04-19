@@ -26,8 +26,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
@@ -67,7 +65,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         //spinnerInitialize();
         FragmentManager fm = getSupportFragmentManager();
         String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
-        Logger.i(defaultGroup);
+
         if (defaultGroup != null) {
             fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
         } else {
@@ -114,7 +112,30 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                     StudentGroup studentGroup = (StudentGroup) groupsAdapter.getItem(position);
                     ApplicationSettings.getInstance(ActivityDrawerMenu.this).
                             setActiveGroup(String.valueOf(studentGroup.getId()));
+                    mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+                        @Override
+                        public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                        }
+
+                        @Override
+                        public void onDrawerOpened(View drawerView) {
+
+                        }
+
+                        @Override
+                        public void onDrawerClosed(View drawerView) {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+                            mDrawerLayout.setDrawerListener(null);
+                        }
+
+                        @Override
+                        public void onDrawerStateChanged(int newState) {
+
+                        }
+                    });
                 }
+                closeDrawerMenu();
             }
 
             @Override
@@ -139,11 +160,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
-    }
-
-
-    private void spinnerInitialize() {
-
     }
 
     @Override
@@ -179,7 +195,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         mActionBar.setSubtitle(null);
         switch (position) {
             case SCHEDULE_FRAGMENT:
-                fragment = new FragmentManagerGroups();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
                 mActionBar.setTitle(FragmentManagerGroups.TITLE);
                 break;
            /* case NOTE_FRAGMENT:
@@ -230,12 +246,10 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                 setViewHolder(convertView);
             }
             ViewHolder vh = (ViewHolder) convertView.getTag();
-            TextView counterOfNotes = (TextView) convertView.findViewById(R.id.textview_counternotes);
             vh.menuName.setText(getItem(position));
-            switch (position) {
+            switch (position + 1) {
                 case SCHEDULE_FRAGMENT:
-                    vh.icon.setImageResource(R.drawable.ic_calendar);
-                    counterOfNotes.setVisibility(View.INVISIBLE);
+                    vh.icon.setImageResource(R.drawable.ic_timetable);
                     break;
                /* case NOTE_FRAGMENT:
                     counterOfNotes.setVisibility(View.VISIBLE);
@@ -244,7 +258,6 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                     break;*/
                 case ACTIVITY_SETTINGS:
                     vh.icon.setImageResource(R.drawable.ic_settings);
-                    counterOfNotes.setVisibility(View.INVISIBLE);
                     break;
             }
             return convertView;

@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/textview_group_name"
         android:layout_width="wrap_content"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:layout_marginLeft="6dp"
         android:text="313801"
         android:layout_height="wrap_content" />

@@ -24,35 +24,22 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_marginLeft="12dp"
-        android:src="@drawable/ic_notes"
+        android:visibility="visible"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/ic_timetable"
         />
 
     <TextView
         android:id="@+id/textview_itemname"
         android:text="Заметки"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:textColor="#D9000000"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:gravity="center_vertical"
         android:layout_marginLeft="16dp"
-        />
-
-    <TextView
-        android:id="@+id/textview_counternotes"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/rectangle"
-        android:layout_gravity="center"
-        android:text="12"
-        android:visibility="invisible"
-        android:layout_marginRight="30dp"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:textStyle="bold"
         />
 
 </LinearLayout>
