@@ -10,8 +10,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.orhanobut.logger.Logger;
-
 /**
  * Created by vladislav on 4/18/15.
  */
@@ -69,10 +67,11 @@ public class CacheContentProvider extends ContentProvider {
         String table = null;
         switch (uriMatcher.match(uri)) {
             case LESSON:
-                table = CacheHelper.Lessons.TABLE_NAME;
+                table = CacheHelper.Lessons.TABLE_NAME + " LEFT JOIN " + CacheHelper.Teachers.TABLE_NAME + " ON " + CacheHelper.Lessons.TEACHER_ID + " = " + CacheHelper.Teachers._ID;
                 break;
             case LESSON_ID:
-                table = CacheHelper.Lessons.TABLE_NAME;
+                //LEFT JOIN table_teacher on lesson_teacher_id = teacher_id
+                table = CacheHelper.Lessons.TABLE_NAME + " LEFT JOIN " + CacheHelper.Teachers.TABLE_NAME + " ON " + CacheHelper.Lessons.TEACHER_ID + " = " + CacheHelper.Teachers._ID;
                 selection = CacheHelper.Lessons._ID + " = ?";
                 selectionArgs = new String[]{uri.getLastPathSegment()};
                 break;

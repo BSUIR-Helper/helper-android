@@ -60,10 +60,10 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 StudentGroup group = (StudentGroup) mListGroups.getAdapter().getItem(position);
-                ApplicationSettings.getInstance(view.getContext()).putString("defaultgroup", group.getGroupNumber());
+                ApplicationSettings.getInstance(view.getContext()).putString("defaultgroup", String.valueOf(group.getId()));
                 ScheduleWidgetProviderBase.updateAllWidgets(getActivity().getApplicationContext());
                 Bundle args = new Bundle();
-                args.putString("groupId", group.getGroupNumber());
+                args.putString("groupId", String.valueOf(group.getId()));
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 Fragment fragmentSchedule = new FragmentSchedule();
                 fragmentSchedule.setArguments(args);
@@ -76,7 +76,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     @Override
     public void onResume() {
         super.onResume();
-//        refreshListGroup();
+        refreshListGroup();
     }
 
     @Override
@@ -135,7 +135,7 @@ public class FragmentManagerGroups extends Fragment implements DownloadScheduleT
     @Override
     public void onPostExecute() {
         Toast.makeText(getActivity(), getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
-//        refreshListGroup();
+        refreshListGroup();
     }
 
     class DialogFragmentAddGroup extends DialogFragment {

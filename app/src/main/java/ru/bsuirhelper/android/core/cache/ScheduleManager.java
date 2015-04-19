@@ -40,7 +40,7 @@ public class ScheduleManager {
 
     public List<StudentGroup> getGroups(Context context) {
         List<StudentGroup> groups = null;
-        if (context != null && groups != null) {
+        if (context != null) {
             groups = new ArrayList<>();
             Cursor cursor = context.getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null, null, null, null);
             while (cursor.moveToNext()) {
@@ -51,21 +51,46 @@ public class ScheduleManager {
         return groups;
     }
 
-    public void addSchedule(Context context, StudentGroup studentGroup, List<Lesson> lessons) {
-        if (context != null && lessons != null && lessons.size() >= 0) {
-            Uri uri = context.getContentResolver().insert(CacheContentProvider.STUDENTGROUP_URI, CacheHelper.StudentGroups.toContentValues(studentGroup));
-            Logger.i(uri.toString());
-            if (uri != null) {
-                long groupId = Long.parseLong(uri.getLastPathSegment());
-                CacheHelper.Lessons.insertLessons(context, groupId, lessons);
+    public void addSchedule() {
+
+    }
+
+    /**
+     * Add or update schedule if student group exists
+     */
+    public void replaceSchedule(Context context, StudentGroup studentGroup, List<Lesson> lessons) {
+        if (context != null && lessons != null && lessons.size() > 0) {
+            Cursor cursor = context.getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null, CacheHelper.StudentGroups.NUMBER + " = " + studentGroup.getGroupNumber(), null, null);
+            long groupId = -1;
+            if(cursor != null && cursor.moveToNext()) {
+                groupId = CacheHelper.StudentGroups.fromCursor(cursor).getId();
+                clearSchedule(context, groupId);
+                Logger.i("Clear schedule");
+            } else {
+                Uri uri = context.getContentResolver().insert(CacheContentProvider.STUDENTGROUP_URI, CacheHelper.StudentGroups.toContentValues(studentGroup));
+                if (uri != null) {
+                    groupId = Long.parseLong(uri.getLastPathSegment());
+                }
+                Logger.i("Add schedule");
             }
+            if(groupId == -1) {
+                Logger.e(new UnknownError("groupId == -1"), "Some strange");
+                return;
+            }
+            CacheHelper.Lessons.insertLessons(context, groupId, lessons);
             List<Teacher> teachers = new ArrayList<>();
             for(Lesson lesson : lessons) {
                 teachers.add(lesson.getTeacher());
             }
-            Logger.i(teachers + "");
             CacheHelper.Teachers.insertTeachers(context, teachers);
         }
+    }
+
+    public int clearSchedule(Context context, long groupId) {
+        if(context != null) {
+            return context.getContentResolver().delete(CacheContentProvider.LESSON_URI, CacheHelper.Lessons.STUDENT_GROUP_ID + " = " + groupId, null);
+        }
+        return 0;
     }
 
     public List<Lesson> getLessonsOfDay(Context context, String studentGroupId, DateTime dayOfYear, int subgroup) {
@@ -74,15 +99,21 @@ public class ScheduleManager {
             lessons = new ArrayList<>();
             int weekDay = dayOfYear.getDayOfWeek();
             int workWeek = StudentCalendar.getWorkWeek(dayOfYear);
-            Cursor cursor = context.getContentResolver().query(CacheContentProvider.LESSON_URI, null, "(" + CacheHelper.Lessons.WEEK_DAY + "=?) AND " +
+            String query = "(" + CacheHelper.Lessons.WEEK_DAY + "=?) AND " +
+                    "((" + CacheHelper.Lessons.WEEK_NUMBERS + " LIKE ?) OR (" + CacheHelper.Lessons.WEEK_NUMBERS + " LIKE '')) AND " +
+                    "((" + CacheHelper.Lessons.SUBGROUP + " LIKE ?) OR (" + CacheHelper.Lessons.SUBGROUP + " LIKE '0')) AND " + CacheHelper.Lessons.STUDENT_GROUP_ID + " = ?";
+            Cursor cursor = context.getContentResolver().query(CacheContentProvider.LESSON_URI, null, "(" + CacheHelper.Lessons.WEEK_DAY + "= ?) AND " +
                             "((" + CacheHelper.Lessons.WEEK_NUMBERS + " LIKE ?) OR (" + CacheHelper.Lessons.WEEK_NUMBERS + " LIKE '')) AND " +
-                            "((" + CacheHelper.Lessons.SUBGROUP + " LIKE ?) OR (" + CacheHelper.Lessons.SUBGROUP + " LIKE '0')) AND " + CacheHelper.Lessons.STUDENT_GROUP_ID + " = ?",
-                    new String[]{String.valueOf(weekDay), String.valueOf(workWeek), String.valueOf(subgroup), String.valueOf(studentGroupId)}, CacheHelper.Lessons.LESSON_TIME);
+                            "((" + CacheHelper.Lessons.SUBGROUP + " LIKE ?) OR (" + CacheHelper.Lessons.SUBGROUP + " LIKE '%0%')) AND " + CacheHelper.Lessons.STUDENT_GROUP_ID + " = ?",
+                    new String[]{String.valueOf(weekDay), "%" + String.valueOf(workWeek) + "%", "%" + String.valueOf(subgroup) + "%", String.valueOf(studentGroupId)}, CacheHelper.Lessons.LESSON_TIME);
             while (cursor.moveToNext()) {
                 lessons.add(CacheHelper.Lessons.fromCursor(cursor));
             }
             cursor.close();
+            Logger.i("WeekDay:" + weekDay + " WorkWeek:" + workWeek + " " + " Subgroup:" + subgroup + " StudentGroupId:" + studentGroupId);
+            Logger.i(query);
         }
+        Logger.i(lessons + " ");
         return lessons;
     }
 

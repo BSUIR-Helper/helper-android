@@ -66,7 +66,10 @@ public class Teacher {
     }
 
     public String getFullShortName() {
-        return String.format("%s %s.%s", lastName, firstName.substring(0, 1), middleName.substring(0, 1));
+        if(firstName != null && middleName != null) {
+            return String.format("%s %s.%s", lastName, firstName.substring(0, 1), middleName.substring(0, 1));
+        }
+        return "";
     }
 
     @Override

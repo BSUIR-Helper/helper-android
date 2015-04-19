@@ -95,7 +95,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        scheduleManager.addSchedule(fragment.getActivity(), new StudentGroup(-1, groupId,groupId), lessons);
+        scheduleManager.replaceSchedule(fragment.getActivity(), new StudentGroup(-1, groupId,groupId), lessons);
         return "Success";
     }
 

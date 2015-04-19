@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class CacheHelper extends SQLiteOpenHelper {
         public static final String SUBJECT_NAME = "subject_name";
         public static final String WEEK_NUMBERS = "week_numbers";
         public static final String WEEK_DAY = "week_day";
-        public static final String TEACHER_ID = "teacher_id";
+        public static final String TEACHER_ID = "lesson_teacher_id";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + " ;";
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" +
@@ -50,7 +48,6 @@ public class CacheHelper extends SQLiteOpenHelper {
                 ");";
 
         public static int insertLessons(Context context, long groupId, List<Lesson> lessons) {
-            Logger.i(lessons + "");
             if (context != null && lessons != null && lessons.size() > 0) {
                 ContentValues[] contentValues = new ContentValues[lessons.size()];
                 int index = 0;
@@ -62,7 +59,6 @@ public class CacheHelper extends SQLiteOpenHelper {
                         index++;
                     }
                 }
-                Logger.i("Added:" + index);
                /* for(int i = 0; i < contentValues.length; i++) {
                     context.getContentResolver().insert(CacheContentProvider.LESSON_URI, contentValues[i]);
                 }
@@ -107,7 +103,7 @@ public class CacheHelper extends SQLiteOpenHelper {
                 long studentGroup = cursor.getLong(cursor.getColumnIndex(STUDENT_GROUP_ID));
                 String subjectName = cursor.getString(cursor.getColumnIndex(SUBJECT_NAME));
                 //Week numbers to List
-                String strWeekNumbers = cursor.getString(cursor.getColumnIndex(AUDITORY));
+                String strWeekNumbers = cursor.getString(cursor.getColumnIndex(WEEK_NUMBERS));
                 List<Integer> weekNumbers = new ArrayList<>();
                 String[] aWeekNumbers = strWeekNumbers.split("\\|");
                 for (String number : aWeekNumbers) {
@@ -118,8 +114,10 @@ public class CacheHelper extends SQLiteOpenHelper {
                 int employeeId = cursor.getInt(cursor.getColumnIndex(TEACHER_ID));
                 String lessonTime = cursor.getString(cursor.getColumnIndex(LESSON_TIME));
                 int id = cursor.getInt(cursor.getColumnIndex(_ID));
+
+                Teacher teacher = Teachers.fromCursor(cursor);
                 return new Lesson(id, auditory, lessonTime, lessonType, subgroup, new StudentGroup(studentGroup, null, null), subjectName,
-                        weekNumbers, new Teacher(employeeId, null, null, null, null), weekDay);
+                        weekNumbers, teacher, weekDay);
             }
             return null;
         }
@@ -160,6 +158,18 @@ public class CacheHelper extends SQLiteOpenHelper {
             }
             return null;
         }
+
+       /* public static boolean isExists(Context context, String groupId) {
+            if (context != null) {
+                Cursor cursor = context.getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null, NUMBER + " = " + groupId, null, null);
+                boolean isExists = cursor != null && cursor.moveToNext();
+                if(cursor != null) {
+                    cursor.close();
+                }
+                return isExists;
+            }
+            return false;
+        }*/
     }
 
     public static class Teachers {
@@ -185,7 +195,7 @@ public class CacheHelper extends SQLiteOpenHelper {
                 List<ContentValues> contentValues = new ArrayList<>();
                 for (Teacher teacher : teachers) {
                     ContentValues cv = toContentValues(teacher);
-                    if(cv != null) {
+                    if (cv != null) {
                         contentValues.add(cv);
                     }
                 }

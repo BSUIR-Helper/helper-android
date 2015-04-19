@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -13,22 +14,34 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Toast;
+
+import com.orhanobut.logger.Logger;
+
 import org.joda.time.DateTime;
-import ru.bsuirhelper.android.core.ApplicationSettings;
+
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
+import ru.bsuirhelper.android.core.cache.CacheContentProvider;
+import ru.bsuirhelper.android.core.cache.CacheHelper;
+import ru.bsuirhelper.android.core.models.StudentGroup;
 import ru.bsuirhelper.android.ui.adapter.SchedulePagerAdapter;
+import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
 import ru.bsuirhelper.android.ui.pager.RotationViewPager;
 
 public class FragmentSchedule extends Fragment implements DownloadScheduleTask.CallBack {
 
     private String title = "Fragment Schedule";
     private ViewPager mPager;
-    private String mGroupId;
+    private StudentGroup mGroup;
     private StudentCalendar mStudentCalendar;
     private ApplicationSettings mSettings;
     private ActionBar mActionBar;
@@ -46,24 +59,42 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         mSettings = ApplicationSettings.getInstance(getActivity().getApplicationContext());
         mStudentCalendar = new StudentCalendar();
         setHasOptionsMenu(true);
-        mGroupId = getDefaultGroup();
+        mGroup = getDefaultGroup();
     }
 
-    private String getDefaultGroup() {
-        String defaultGroup = null;
+    //TODO Change to newInstance(String groupId)
+    private StudentGroup getDefaultGroup() {
+        StudentGroup defaultGroup = null;
         try {
-            defaultGroup = (String) getArguments().get("groupId");
+            String groupId = (String) getArguments().get("groupId");
+            if(getActivity() != null) {
+                Logger.i(groupId);
+                Cursor cursor = getActivity().getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null,
+                        CacheHelper.StudentGroups._ID + " = " + groupId, null, null);
+                if(cursor != null && cursor.moveToNext()) {
+                    defaultGroup = CacheHelper.StudentGroups.fromCursor(cursor);
+                }
+            }
         } catch (NullPointerException ex) {
 
         }
 
-        if (defaultGroup == null) {
-            defaultGroup = mSettings.getString("defaultgroup", null);
+
+       if (defaultGroup == null) {
+            String id = mSettings.getString("defaultgroup", null);
+           if(getActivity() != null) {
+               Logger.i(id);
+               Cursor cursor = getActivity().getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null,
+                       CacheHelper.StudentGroups._ID + " = " + id, null, null);
+               if(cursor != null && cursor.moveToNext()) {
+                   defaultGroup = CacheHelper.StudentGroups.fromCursor(cursor);
+               }
+           }
             //If get null, it's mean not set default group
             if (defaultGroup == null) {
                 FragmentManager fm = getChildFragmentManager();
                 fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
-                mActionBar.setTitle(FragmentManagerGroups.TITLE);
+               // mActionBar.setTitle(FragmentManagerGroups.TITLE);
                 return null;
             }
 
@@ -81,8 +112,8 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         if (Build.VERSION.SDK_INT > 10) {
             mPager.setPageTransformer(true, new RotationViewPager());
         }
-        int subgroup = mSettings.getInt(mGroupId, 1);
-        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity(), getChildFragmentManager(), mGroupId, subgroup);
+        int subgroup = mSettings.getInt(String.valueOf(mGroup.getId()), 1);
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity(), getChildFragmentManager(), String.valueOf(mGroup.getId()), subgroup);
         mPager.setAdapter(adapter);
 
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -103,7 +134,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         });
 
         /*mActionBar.setTitle(getActivity().getString(R.string.group) + " " + mGroupId);*/
-        mActionBar.setTitle(mGroupId);
+        mActionBar.setTitle(mGroup.getGroupName());
         if (DateTime.now().getMonthOfYear() >= 9 || DateTime.now().getMonthOfYear() <= 6) {
             mPager.setCurrentItem(mStudentCalendar.getDayOfYear());
         } else {
@@ -131,11 +162,11 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        mGroupId = getDefaultGroup();
+        mGroup = getDefaultGroup();
         inflater.inflate(R.menu.menu_schedule_activity_actions, menu);
         mSubgroup1 = menu.findItem(R.id.subgroup1);
         mSubgroup2 = menu.findItem(R.id.subgroup2);
-        int subgroup = mSettings.getInt(mGroupId, 1);
+        int subgroup = mSettings.getInt(String.valueOf(mGroup.getId()), 1);
         if (subgroup == 1) {
             mSubgroup1.setChecked(true);
         } else {
@@ -156,7 +187,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
                 if (!isConnected) {
                     Toast.makeText(getActivity(), getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
                 } else {
-                    new DownloadScheduleTask(this).execute(mGroupId);
+                    new DownloadScheduleTask(this).execute(String.valueOf(mGroup.getId()));
                 }
 
                 return true;
@@ -171,13 +202,13 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
                 return true;
             case R.id.subgroup1:
                 mSubgroup1.setChecked(true);
-                mSettings.putInt(mGroupId, 1);
+                mSettings.putInt(String.valueOf(mGroup.getId()), 1);
                 refreshSchedule(1);
                 mActionBar.setSubtitle(getResources().getStringArray(R.array.action_selectsubgroup_values)[0].toLowerCase());
                 return true;
             case R.id.subgroup2:
                 mSubgroup2.setChecked(true);
-                mSettings.putInt(mGroupId, 2);
+                mSettings.putInt(String.valueOf(mGroup.getId()), 2);
                 refreshSchedule(2);
                 mActionBar.setSubtitle(getResources().getStringArray(R.array.action_selectsubgroup_values)[1].toLowerCase());
                 return true;
@@ -203,9 +234,9 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
     }
 
     void refreshSchedule(int subgroup) {
-        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity(), getActivity().getSupportFragmentManager(), getDefaultGroup(), subgroup);
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(getActivity(), getActivity().getSupportFragmentManager(), String.valueOf(mGroup.getId()), subgroup);
         int position = mPager.getCurrentItem();
-        ((SchedulePagerAdapter) mPager.getAdapter()).changeGroup(mGroupId, subgroup);
+        ((SchedulePagerAdapter) mPager.getAdapter()).changeGroup(String.valueOf(mGroup.getId()), subgroup);
         mPager.setAdapter(mPager.getAdapter());
         mPager.setCurrentItem(position);
     }

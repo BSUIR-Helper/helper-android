@@ -24,8 +24,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import ru.bsuirhelper.android.core.ApplicationSettings;
+
+import com.orhanobut.logger.Logger;
+
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.ui.fragment.FragmentManagerGroups;
 import ru.bsuirhelper.android.ui.fragment.FragmentSchedule;
 
@@ -60,7 +63,7 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         //spinnerInitialize();
         FragmentManager fm = getSupportFragmentManager();
         String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.DEFAULT_GROUP_OF_SCHEDULE, null);
-
+        Logger.i(defaultGroup);
         if (defaultGroup != null) {
             fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
         } else {
