@@ -16,6 +16,7 @@ import java.util.List;
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.models.Lesson;
 import ru.bsuirhelper.android.core.models.StudentGroup;
+import ru.bsuirhelper.android.core.models.Teacher;
 
 /**
  * Created by Влад on 12.09.13.
@@ -39,10 +40,10 @@ public class ScheduleManager {
 
     public List<StudentGroup> getGroups(Context context) {
         List<StudentGroup> groups = null;
-        if(context != null && groups != null) {
+        if (context != null && groups != null) {
             groups = new ArrayList<>();
             Cursor cursor = context.getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null, null, null, null);
-            while(cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
                 groups.add(CacheHelper.StudentGroups.fromCursor(cursor));
             }
             cursor.close();
@@ -51,23 +52,29 @@ public class ScheduleManager {
     }
 
     public void addSchedule(Context context, StudentGroup studentGroup, List<Lesson> lessons) {
-        if(context != null && lessons != null && lessons.size() >= 0) {
+        if (context != null && lessons != null && lessons.size() >= 0) {
             Uri uri = context.getContentResolver().insert(CacheContentProvider.STUDENTGROUP_URI, CacheHelper.StudentGroups.toContentValues(studentGroup));
             Logger.i(uri.toString());
-            if(uri != null) {
-               long groupId = Long.parseLong(uri.getLastPathSegment());
-               CacheHelper.Lessons.insertLessons(context, groupId, lessons);
-           }
+            if (uri != null) {
+                long groupId = Long.parseLong(uri.getLastPathSegment());
+                CacheHelper.Lessons.insertLessons(context, groupId, lessons);
+            }
+            List<Teacher> teachers = new ArrayList<>();
+            for(Lesson lesson : lessons) {
+                teachers.add(lesson.getTeacher());
+            }
+            Logger.i(teachers + "");
+            CacheHelper.Teachers.insertTeachers(context, teachers);
         }
     }
 
     public List<Lesson> getLessonsOfDay(Context context, String studentGroupId, DateTime dayOfYear, int subgroup) {
         List<Lesson> lessons = null;
-        if(context != null) {
+        if (context != null) {
             lessons = new ArrayList<>();
             int weekDay = dayOfYear.getDayOfWeek();
             int workWeek = StudentCalendar.getWorkWeek(dayOfYear);
-            Cursor cursor = context.getContentResolver().query(CacheContentProvider.LESSON_URI, null,"(" + CacheHelper.Lessons.WEEK_DAY + "=?) AND " +
+            Cursor cursor = context.getContentResolver().query(CacheContentProvider.LESSON_URI, null, "(" + CacheHelper.Lessons.WEEK_DAY + "=?) AND " +
                             "((" + CacheHelper.Lessons.WEEK_NUMBERS + " LIKE ?) OR (" + CacheHelper.Lessons.WEEK_NUMBERS + " LIKE '')) AND " +
                             "((" + CacheHelper.Lessons.SUBGROUP + " LIKE ?) OR (" + CacheHelper.Lessons.SUBGROUP + " LIKE '0')) AND " + CacheHelper.Lessons.STUDENT_GROUP_ID + " = ?",
                     new String[]{String.valueOf(weekDay), String.valueOf(workWeek), String.valueOf(subgroup), String.valueOf(studentGroupId)}, CacheHelper.Lessons.LESSON_TIME);
@@ -80,7 +87,7 @@ public class ScheduleManager {
     }
 
     public void deleteSchedule(Context context, long studentGroupId) {
-        if(context != null) {
+        if (context != null) {
             context.getContentResolver().delete(CacheContentProvider.LESSON_URI, "WHERE " + CacheHelper.Lessons.STUDENT_GROUP_ID + " = " + studentGroupId, null);
         }
     }

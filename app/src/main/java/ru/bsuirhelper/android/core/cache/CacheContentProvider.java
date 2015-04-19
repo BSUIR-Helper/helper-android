@@ -35,6 +35,11 @@ public class CacheContentProvider extends ContentProvider {
     private static final int STUDENTGROUP_ID = 6;
     public static final Uri STUDENTGROUP_URI = Uri.parse("content://" + AUTHORITY + "/" + STUDENTGROUP_PATH);
 
+    private static final String TEACHER_PATH = "teacher";
+    private static final int TEACHER = 7;
+    private static final int TEACHER_ID = 8;
+    public static final Uri TEACHER_URI = Uri.parse("content://" + AUTHORITY + "/" + TEACHER_PATH);
+
     private static final UriMatcher uriMatcher;
 
     static {
@@ -45,6 +50,8 @@ public class CacheContentProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, NOTE_PATH + "/#", NOTE_ID);
         uriMatcher.addURI(AUTHORITY, STUDENTGROUP_PATH, STUDENTGROUP);
         uriMatcher.addURI(AUTHORITY, STUDENTGROUP_PATH + "/#", STUDENTGROUP_ID);
+        uriMatcher.addURI(AUTHORITY, TEACHER_PATH, TEACHER);
+        uriMatcher.addURI(AUTHORITY, TEACHER_PATH + "/#", TEACHER_ID);
     }
 
     CacheHelper cacheHelper;
@@ -75,6 +82,14 @@ public class CacheContentProvider extends ContentProvider {
             case STUDENTGROUP_ID:
                 table = CacheHelper.StudentGroups.TABLE_NAME;
                 selection = CacheHelper.StudentGroups._ID + " = ?";
+                selectionArgs = new String[]{uri.getLastPathSegment()};
+                break;
+            case TEACHER:
+                table = CacheHelper.StudentGroups.TABLE_NAME;
+                break;
+            case TEACHER_ID:
+                table = CacheHelper.Teachers.TABLE_NAME;
+                selection = CacheHelper.Teachers._ID + " = ?";
                 selectionArgs = new String[]{uri.getLastPathSegment()};
                 break;
         }
@@ -113,6 +128,13 @@ public class CacheContentProvider extends ContentProvider {
                 if (id >= 0) {
                     uriWithId = ContentUris.withAppendedId(STUDENTGROUP_URI, id);
                     currentUri = STUDENTGROUP_URI;
+                }
+                break;
+            case TEACHER:
+                id = database.replace(CacheHelper.Teachers.TABLE_NAME, null, values);
+                if (id >= 0) {
+                    uriWithId = ContentUris.withAppendedId(TEACHER_URI, id);
+                    currentUri = TEACHER_URI;
                 }
                 break;
             default:
@@ -156,6 +178,19 @@ public class CacheContentProvider extends ContentProvider {
                             " " + id, selectionArgs);
                 }
                 break;
+            case TEACHER:
+                rowsDeleted = database.delete(CacheHelper.Teachers.TABLE_NAME, selection, selectionArgs);
+                break;
+            case TEACHER_ID:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(id)) {
+                    rowsDeleted = database.delete(CacheHelper.Teachers.TABLE_NAME, CacheHelper.Teachers._ID +
+                            " " + id, selectionArgs);
+                } else {
+                    rowsDeleted = database.delete(CacheHelper.Teachers.TABLE_NAME, CacheHelper.Teachers._ID +
+                            " " + id, selectionArgs);
+                }
+                break;
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsDeleted;
@@ -180,7 +215,7 @@ public class CacheContentProvider extends ContentProvider {
                 }
                 break;
             case STUDENTGROUP:
-                rowsUpdated = database.update(CacheHelper.Lessons.TABLE_NAME, values, selection, selectionArgs);
+                rowsUpdated = database.update(CacheHelper.StudentGroups.TABLE_NAME, values, selection, selectionArgs);
                 break;
             case STUDENTGROUP_ID:
                 id = uri.getLastPathSegment();
@@ -192,7 +227,19 @@ public class CacheContentProvider extends ContentProvider {
                             CacheHelper.StudentGroups._ID + " = " + id + " and " + selection, null);
                 }
                 break;
-
+            case TEACHER:
+                rowsUpdated = database.update(CacheHelper.Teachers.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case TEACHER_ID:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsUpdated = database.update(CacheHelper.Teachers.TABLE_NAME, values,
+                            CacheHelper.Teachers._ID + " = " + id, null);
+                } else {
+                    rowsUpdated = database.update(CacheHelper.Teachers.TABLE_NAME, values,
+                            CacheHelper.Teachers._ID + " = " + id + " and " + selection, null);
+                }
+                break;
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsUpdated;
@@ -211,18 +258,22 @@ public class CacheContentProvider extends ContentProvider {
             case STUDENTGROUP_ID:
                 table = CacheHelper.StudentGroups.TABLE_NAME;
                 break;
+            case TEACHER:
+            case TEACHER_ID:
+                table = CacheHelper.Teachers.TABLE_NAME;
+                break;
         }
         if (table != null) {
             database.beginTransaction();
             try {
                 for (ContentValues cv : values) {
                     long newId = database.replace(table, null, cv);
-                    Logger.i(newId + "" + "\n" + cv);
                     if(newId > 0) {
                         numInserted++;
                     }
                 }
-                Logger.i("Table" + table + "Inserted:" + numInserted + "\n" + "Size:" + values.length);
+                database.setTransactionSuccessful();
+                getContext().getContentResolver().notifyChange(uri, null);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

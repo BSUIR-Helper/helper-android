@@ -61,15 +61,14 @@ public class CacheHelper extends SQLiteOpenHelper {
                         contentValues[index] = cv;
                         index++;
                     }
-                    Logger.i("Cv inserted:" + cv);
                 }
                 Logger.i("Added:" + index);
-                for(int i = 0; i < contentValues.length; i++) {
+               /* for(int i = 0; i < contentValues.length; i++) {
                     context.getContentResolver().insert(CacheContentProvider.LESSON_URI, contentValues[i]);
                 }
-                return contentValues.length;
+                return contentValues.length;*/
                 //TODO REPAIR BULK INSERT
-             //   return context.getContentResolver().bulkInsert(CacheContentProvider.LESSON_URI, contentValues);
+                return context.getContentResolver().bulkInsert(CacheContentProvider.LESSON_URI, contentValues);
 
             }
             return 0;
@@ -84,7 +83,6 @@ public class CacheHelper extends SQLiteOpenHelper {
                 cv.put(LESSON_TYPE, lesson.getType());
                 cv.put(LESSON_TIME, lesson.getLessonTime());
                 cv.put(SUBGROUP, lesson.getSubgroup());
-                Logger.e(lesson.getStudentGroup().getId() + "");
                 cv.put(STUDENT_GROUP_ID, lesson.getStudentGroup().getId());
                 cv.put(SUBJECT_NAME, lesson.getSubjectName());
                 cv.put(WEEK_DAY, lesson.getWeekDay());
@@ -146,7 +144,7 @@ public class CacheHelper extends SQLiteOpenHelper {
                 cv = new ContentValues();
                 cv.put(NAME, studentGroup.getGroupName());
                 cv.put(NUMBER, studentGroup.getGroupNumber());
-                if(studentGroup.getId() >= 0) {
+                if (studentGroup.getId() >= 0) {
                     cv.put(_ID, studentGroup.getId());
                 }
             }
@@ -164,6 +162,74 @@ public class CacheHelper extends SQLiteOpenHelper {
         }
     }
 
+    public static class Teachers {
+        public static final String TABLE_NAME = "table_teacher";
+        public static final String _ID = "teacher_id";
+        public static final String FIRST_NAME = "first_name";
+        public static final String LAST_NAME = "last_name";
+        public static final String MIDDLE_NAME = "middle_name";
+        public static final String ACADEMIC_DEPARTMENTS = "academic_departments";
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+                " (" +
+                _ID + " integer primary key, " +
+                FIRST_NAME + " text, " +
+                LAST_NAME + " text, " +
+                MIDDLE_NAME + " text, " +
+                ACADEMIC_DEPARTMENTS + " text" +
+                " );";
+
+
+        public static int insertTeachers(Context context, List<Teacher> teachers) {
+            if (context != null && teachers != null && teachers.size() > 0) {
+                List<ContentValues> contentValues = new ArrayList<>();
+                for (Teacher teacher : teachers) {
+                    ContentValues cv = toContentValues(teacher);
+                    if(cv != null) {
+                        contentValues.add(cv);
+                    }
+                }
+                return context.getContentResolver().bulkInsert(CacheContentProvider.TEACHER_URI, contentValues.toArray(new ContentValues[contentValues.size()]));
+            }
+            return 0;
+        }
+
+        public static Teacher fromCursor(Cursor cursor) {
+            if (cursor != null) {
+                long id = cursor.getLong(cursor.getColumnIndex(_ID));
+                String firstName = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
+                String lastName = cursor.getString(cursor.getColumnIndex(LAST_NAME));
+                String middleName = cursor.getString(cursor.getColumnIndex(MIDDLE_NAME));
+                String academicDepartments = cursor.getString(cursor.getColumnIndex(ACADEMIC_DEPARTMENTS));
+                String[] aDepartments = academicDepartments.split("\\|");
+                List<String> departments = new ArrayList<String>();
+                for (String department : departments) {
+                    departments.add(department);
+                }
+                return new Teacher(id, firstName, lastName, middleName, departments);
+            }
+            return null;
+        }
+
+        public static ContentValues toContentValues(Teacher teacher) {
+            if (teacher != null) {
+                ContentValues cv = new ContentValues();
+                cv.put(_ID, teacher.getId());
+                cv.put(FIRST_NAME, teacher.getFirstName());
+                cv.put(LAST_NAME, teacher.getLastName());
+                cv.put(MIDDLE_NAME, teacher.getMiddleName());
+                StringBuilder sb = new StringBuilder();
+                for (String department : teacher.getAcademicDepartments()) {
+                    sb.append(department).append("|");
+                }
+                cv.put(ACADEMIC_DEPARTMENTS, sb.toString());
+                return cv;
+            }
+            return null;
+        }
+    }
+
+
     public CacheHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -172,6 +238,7 @@ public class CacheHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Lessons.CREATE_TABLE);
         db.execSQL(StudentGroups.CREATE_TABLE);
+        db.execSQL(Teachers.CREATE_TABLE);
     }
 
     @Override
