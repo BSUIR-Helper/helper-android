@@ -35,9 +35,10 @@ import ru.bsuirhelper.android.core.cache.CacheHelper;
 import ru.bsuirhelper.android.core.models.StudentGroup;
 import ru.bsuirhelper.android.ui.adapter.SchedulePagerAdapter;
 import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
+import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
 import ru.bsuirhelper.android.ui.pager.RotationViewPager;
 
-public class FragmentSchedule extends Fragment implements DownloadScheduleTask.CallBack {
+public class FragmentSchedule extends Fragment implements AsyncTaskListener {
 
     private String title = "Fragment Schedule";
     private ViewPager mPager;
@@ -60,6 +61,8 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
         mStudentCalendar = new StudentCalendar();
         setHasOptionsMenu(true);
         mGroup = getDefaultGroup();
+        ((ActionBarActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((ActionBarActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     //TODO Change to newInstance(String groupId)
@@ -186,7 +189,7 @@ public class FragmentSchedule extends Fragment implements DownloadScheduleTask.C
                 if (!isConnected) {
                     Toast.makeText(getActivity(), getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
                 } else {
-                    new DownloadScheduleTask(this).execute(String.valueOf(mGroup.getId()));
+                    new DownloadScheduleTask(getActivity(), this).execute(String.valueOf(mGroup.getId()));
                 }
 
                 return true;

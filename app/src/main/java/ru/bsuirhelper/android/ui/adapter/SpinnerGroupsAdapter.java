@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
 import ru.bsuirhelper.android.R;
@@ -25,7 +23,6 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
 
     public SpinnerGroupsAdapter(Context context, List<StudentGroup> groups) {
         this.groups = groups;
-        Logger.i(groups + "");
         //Need for last button in spinner
         //groups.add(groups.size(), null);
         mContext = context;
@@ -44,7 +41,7 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
@@ -72,6 +69,7 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.view_dropdown_spinner, null);
             setViewHolderDropdown(view);
         }
+
         ViewHolderDropdown vh = (ViewHolderDropdown) view.getTag();
         vh.tvGroupName.setText(groups.get(position).getGroupName());
         if (isActiveGroup(String.valueOf(groups.get(position).getId()))) {

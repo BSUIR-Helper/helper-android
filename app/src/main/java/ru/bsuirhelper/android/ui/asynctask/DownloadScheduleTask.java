@@ -3,99 +3,51 @@ package ru.bsuirhelper.android.ui.asynctask;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import ru.bsuirhelper.android.R;
+import ru.bsuirhelper.android.core.api.BsuirApi;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.Lesson;
 import ru.bsuirhelper.android.core.models.StudentGroup;
 import ru.bsuirhelper.android.core.parser.ScheduleParser;
+import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
 
 /**
  * Created by Влад on 18.02.14.
  */
 public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
     private ProgressDialog mPogressDialog;
-    private Fragment fragment;
     private Context context;
     private String message;
     private ScheduleManager scheduleManager;
+    AsyncTaskListener listener;
 
-    public static interface CallBack {
-        public void onPostExecute();
-    }
 
-    public DownloadScheduleTask(Fragment fragment) {
-        super();
-        this.fragment = fragment;
-        this.context = fragment.getActivity();
+    public DownloadScheduleTask(Context context, AsyncTaskListener listener) {
+        this.context = context;
         this.message = context.getString(R.string.updating_schedule);
-        scheduleManager = ScheduleManager.getInstance(fragment.getActivity());
-    }
-
-    private File downloadScheduleFromInternet(String groupId) {
-        final String LIST_URL = "http://www.bsuir.by/schedule/rest/schedule/";
-        final String TEMP_FILE_NAME = "schedule.xml";
-        InputStream input = null;
-        OutputStream output = null;
-        HttpURLConnection connection = null;
-        try {
-            URL url = new URL(LIST_URL + groupId);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                return null;
-            }
-            input = connection.getInputStream();
-            output = context.openFileOutput(TEMP_FILE_NAME, Context.MODE_PRIVATE);
-            byte data[] = new byte[4096];
-            int count;
-            while ((count = input.read(data)) != -1) {
-                output.write(data, 0, count);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (output != null)
-                    output.close();
-                if (input != null)
-                    input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (connection != null)
-                connection.disconnect();
-        }
-        return new File(context.getApplicationContext().getFilesDir() + "/" + TEMP_FILE_NAME);
+        scheduleManager = ScheduleManager.getInstance(context);
+        this.listener = listener;
     }
 
     @Override
-    protected String doInBackground(String... urls) {
-        String groupId = urls[0];
-        File xmlFile = downloadScheduleFromInternet(groupId);
-        if (xmlFile == null || xmlFile.length() == 0) {
+    protected String doInBackground(String... groupNumbers) {
+        String groupNumber = groupNumbers[0];
+        String schedule = BsuirApi.groupSchedule(groupNumber);
+        if (schedule == null) {
             return "Error";
         }
 
         List<Lesson> lessons = null;
         try {
-            lessons = ScheduleParser.parseXmlSchedule(xmlFile);
+            lessons = ScheduleParser.parseXmlSchedule(schedule);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        scheduleManager.replaceSchedule(fragment.getActivity(), new StudentGroup(-1, groupId,groupId), lessons);
+        scheduleManager.replaceSchedule(context, new StudentGroup(-1, groupNumber, groupNumber), lessons);
         return "Success";
     }
 
@@ -113,11 +65,12 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         }
 
         if (result.equals("Error")) {
-            Toast.makeText(context.getApplicationContext(), fragment.getString(R.string.error), Toast.LENGTH_LONG).show();
+            Toast.makeText(context.getApplicationContext(), context.getString(R.string.error), Toast.LENGTH_LONG).show();
         } else {
             try {
-                CallBack callBack = (CallBack) fragment;
-                callBack.onPostExecute();
+                if(listener != null) {
+                    listener.onPostExecute();
+                }
             } catch (ClassCastException e) {
                 System.out.print("Fragment must implement CallBack Interface" + e.getMessage());
             }

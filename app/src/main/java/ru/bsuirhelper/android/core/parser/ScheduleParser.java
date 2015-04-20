@@ -3,8 +3,7 @@ package ru.bsuirhelper.android.core.parser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import ru.bsuirhelper.android.core.models.StudentGroup;
  */
 public class ScheduleParser {
 
-    public static List<Lesson> parseXmlSchedule(File xmlFile) throws Exception {
+    public static List<Lesson> parseXmlSchedule(String schedule) throws Exception {
         List<Lesson> lessons = new ArrayList<>();
         ArrayList<String> weekDays = new ArrayList<>(7);
         weekDays.add("понедельник");
@@ -27,7 +26,7 @@ public class ScheduleParser {
         weekDays.add("суббота");
         weekDays.add("воскресенье");
         XmlPullParser xpp = XmlPullParserFactory.newInstance().newPullParser();
-        xpp.setInput(new FileReader(xmlFile));
+        xpp.setInput(new StringReader(schedule));
         int eventType = xpp.getEventType();
         Lesson lesson = null;
         String startTag = null;

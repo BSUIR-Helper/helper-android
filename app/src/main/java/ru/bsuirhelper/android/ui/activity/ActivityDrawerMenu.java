@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,38 +24,37 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.orhanobut.logger.Logger;
 
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.StudentGroup;
 import ru.bsuirhelper.android.ui.adapter.SpinnerGroupsAdapter;
+import ru.bsuirhelper.android.ui.dialog.DialogFragmentAddGroup;
 import ru.bsuirhelper.android.ui.fragment.FragmentManagerGroups;
 import ru.bsuirhelper.android.ui.fragment.FragmentSchedule;
+import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
 
 /**
  * Created by Влад on 29.10.13.
  */
-public class ActivityDrawerMenu extends ActionBarActivity {
-    public static final String LOG_TAG = "BSUIR_DEBUG";
+public class ActivityDrawerMenu extends ActionBarActivity implements AsyncTaskListener {
     private final int SCHEDULE_FRAGMENT = 1;
-    // private final int NOTE_FRAGMENT = 1;
     private final int ACTIVITY_SETTINGS = 2;
+    private boolean isScheduleClicked;
     private DrawerLayout mDrawerLayout;
-    private DrawerArrayAdapter mDrawerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
-    private ListView mDrawerList;
     private ActionBar mActionBar;
-    private Runnable mPendingRunnable;
-    private Handler mHandler;
-    private Spinner mSpinnerGroups;
     private String[] mMenuItems;
     private Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.drawerlayout);
+        setContentView(R.layout.drawerlayout);
         mMenuItems = getResources().getStringArray(R.array.menu_items);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -78,9 +76,13 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
+        mDrawerToggle.syncState();
+    }
 
     private void drawerInitialize() {
-        mHandler = new Handler();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -88,52 +90,34 @@ public class ActivityDrawerMenu extends ActionBarActivity {
                 mToolbar,
                 R.string.drawer_open,
                 R.string.drawer_close
-        ) {
+        ){
             @Override
-            public void onDrawerClosed(View view) {
-                ActivityCompat.invalidateOptionsMenu(ActivityDrawerMenu.this);
-                // If mPendingRunnable is not null, then add to the message queue
-                if (mPendingRunnable != null) {
-                    mHandler.post(mPendingRunnable);
-                    mPendingRunnable = null;
+            public void onDrawerClosed(View drawerView) {
+                if(isScheduleClicked) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+                    isScheduleClicked = false;
                 }
-            }
-        };
+            }};
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerAdapter = new DrawerArrayAdapter(this, mMenuItems);
+        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        DrawerArrayAdapter drawerAdapter = new DrawerArrayAdapter(this, mMenuItems);
         View view = LayoutInflater.from(this).inflate(R.layout.header_drawermenu, null);
-        mSpinnerGroups = (Spinner) view.findViewById(R.id.sp_schedules);
+        Spinner mSpinnerGroups = (Spinner) view.findViewById(R.id.sp_schedules);
         final BaseAdapter groupsAdapter = new SpinnerGroupsAdapter(this, ScheduleManager.getInstance(this).getGroups(this));
         mSpinnerGroups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position != groupsAdapter.getCount() - 1) {
+                Logger.i("Select position in spinner:" + position);
+                if (position != groupsAdapter.getCount() - 1) {
                     StudentGroup studentGroup = (StudentGroup) groupsAdapter.getItem(position);
                     ApplicationSettings.getInstance(ActivityDrawerMenu.this).
                             setActiveGroup(String.valueOf(studentGroup.getId()));
-                    mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
-                        @Override
-                        public void onDrawerSlide(View drawerView, float slideOffset) {
-
-                        }
-
-                        @Override
-                        public void onDrawerOpened(View drawerView) {
-
-                        }
-
-                        @Override
-                        public void onDrawerClosed(View drawerView) {
-                            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
-                            mDrawerLayout.setDrawerListener(null);
-                        }
-
-                        @Override
-                        public void onDrawerStateChanged(int newState) {
-
-                        }
-                    });
+                    isScheduleClicked = true;
+                    closeDrawerMenu();
+                } else if (position == groupsAdapter.getCount() - 1) {
+                    new DialogFragmentAddGroup().show(getSupportFragmentManager(), null);
                 }
                 closeDrawerMenu();
             }
@@ -145,15 +129,25 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         });
         mSpinnerGroups.setAdapter(groupsAdapter);
         mDrawerList.addHeaderView(view);
-        mDrawerList.setAdapter(mDrawerAdapter);
+        mDrawerList.setAdapter(drawerAdapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 closeDrawerMenu();
-                selectItem(position);
+                mActionBar.setSubtitle(null);
+                Intent intent = new Intent();
+                switch (position) {
+                    case SCHEDULE_FRAGMENT:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+                        mActionBar.setTitle(FragmentManagerGroups.TITLE);
+                        break;
+                    case ACTIVITY_SETTINGS:
+                        startActivity(intent.setClass(getApplicationContext(), ActivitySettings.class));
+                        return;
+                }
+                closeDrawerMenu();
             }
         });
-
     }
 
     private void actionBarInitialize() {
@@ -184,51 +178,21 @@ public class ActivityDrawerMenu extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void updateDrawerMenu() {
-        mDrawerAdapter.notifyDataSetChanged();
-    }
-
-
-    private void selectItem(final int position) {
-        Fragment fragment = null;
-        Intent intent = new Intent();
-        mActionBar.setSubtitle(null);
-        switch (position) {
-            case SCHEDULE_FRAGMENT:
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
-                mActionBar.setTitle(FragmentManagerGroups.TITLE);
-                break;
-           /* case NOTE_FRAGMENT:
-                fragment = new FragmentNotes();
-                mActionBar.setTitle(FragmentNotes.TITLE);
-                break;*/
-            case ACTIVITY_SETTINGS:
-                startActivity(intent.setClass(getApplicationContext(), ActivitySettings.class));
-                return;
-        }
-
-        final Fragment finalFragment = fragment;
-        mPendingRunnable = new Runnable() {
-            @Override
-            public void run() {
-                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, finalFragment)
-                        .commit();
-
-            }
-
-        };
-        mDrawerList.setItemChecked(position, true);
-        closeDrawerMenu();
-    }
-
     protected void openDrawerMenu() {
-        mDrawerLayout.openDrawer(GravityCompat.START);
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
     }
 
     protected void closeDrawerMenu() {
-        mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
+        if(mDrawerLayout.isDrawerOpen(Gravity.START)) {
+            mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
+        }
+    }
+
+    @Override
+    public void onPostExecute() {
+        Toast.makeText(this, getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
     }
 
     class DrawerArrayAdapter extends ArrayAdapter<String> {

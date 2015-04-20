@@ -51,10 +51,6 @@ public class ScheduleManager {
         return groups;
     }
 
-    public void addSchedule() {
-
-    }
-
     /**
      * Add or update schedule if student group exists
      */
@@ -65,13 +61,11 @@ public class ScheduleManager {
             if(cursor != null && cursor.moveToNext()) {
                 groupId = CacheHelper.StudentGroups.fromCursor(cursor).getId();
                 clearSchedule(context, groupId);
-                Logger.i("Clear schedule");
             } else {
                 Uri uri = context.getContentResolver().insert(CacheContentProvider.STUDENTGROUP_URI, CacheHelper.StudentGroups.toContentValues(studentGroup));
                 if (uri != null) {
                     groupId = Long.parseLong(uri.getLastPathSegment());
                 }
-                Logger.i("Add schedule");
             }
             if(groupId == -1) {
                 Logger.e(new UnknownError("groupId == -1"), "Some strange");

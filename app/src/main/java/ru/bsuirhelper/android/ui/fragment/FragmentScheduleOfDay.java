@@ -3,7 +3,6 @@ package ru.bsuirhelper.android.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,10 @@ import android.widget.TextView;
 
 import org.joda.time.DateTime;
 
-import java.util.Arrays;
-
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.ui.activity.ActivityDrawerMenu;
 import ru.bsuirhelper.android.ui.adapter.ViewAdapterLessons;
 
 /**
@@ -113,8 +109,6 @@ public class FragmentScheduleOfDay extends Fragment {
         for (int i = 0; i < mAdapterLessons.getCount(); i++) {
             Lesson lesson = (Lesson) mAdapterLessons.getItem(i);
             String lessonType = lesson.getType();
-
-            Log.d(ActivityDrawerMenu.LOG_TAG, lessonType);
             if (lessonType.equals("лк")) {
                 type[1][2] += 1;
             } else if (lessonType.equals("лр")) {
@@ -132,7 +126,6 @@ public class FragmentScheduleOfDay extends Fragment {
                 color = type[0][i];
             }
         }
-        Log.d(ActivityDrawerMenu.LOG_TAG, Arrays.deepToString(type));
         return color;
     }
 }

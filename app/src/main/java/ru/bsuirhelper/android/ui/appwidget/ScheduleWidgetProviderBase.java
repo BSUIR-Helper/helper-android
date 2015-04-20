@@ -9,13 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import org.joda.time.DateTime;
 
-import java.util.Arrays;
 import java.util.List;
 
 import ru.bsuirhelper.android.R;
@@ -142,7 +140,6 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
         for(Lesson lesson: lessons) {
             String subjectType = lesson.getType().toLowerCase();
 
-            Log.d(ActivityDrawerMenu.LOG_TAG, subjectType);
             if (subjectType.equals("лк")) {
                 type[1][2] += 1;
             } else if (subjectType.equals("лр")) {
@@ -160,7 +157,6 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
                 color = type[0][i];
             }
         }
-        Log.d(ActivityDrawerMenu.LOG_TAG, Arrays.deepToString(type));
         return color;
     }
 
