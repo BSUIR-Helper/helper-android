@@ -39,4 +39,13 @@ public class StudentGroup {
     public void setGroupNumber(String groupNumber) {
         this.groupNumber = groupNumber;
     }
+
+    @Override
+    public String toString() {
+        return "StudentGroup{" +
+                "groupName='" + groupName + '\'' +
+                ", groupNumber='" + groupNumber + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

@@ -21,7 +21,7 @@ import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.Lesson;
-import ru.bsuirhelper.android.ui.activity.ActivityDrawerMenu;
+import ru.bsuirhelper.android.ui.activity.ActivityMain;
 
 /**
  * Created by Влад on 04.02.14.
@@ -45,7 +45,6 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
             if (defaultGroup != null) {
                 subgroup = ApplicationSettings.getInstance(context).getInt(defaultGroup, 1);
             }
-            ScheduleManager scheduleManager = ScheduleManager.getInstance(context);
             setOnClickWidget(context, rv, i);
             if (defaultGroup == null) {
                 rv.setViewVisibility(R.id.widget_textView, View.VISIBLE);
@@ -53,10 +52,10 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
             } else {
                 DateTime lessonDay = DateTime.now();
                 lessonDay = lessonDay.plusDays(1);
-                List<Lesson> lessons = scheduleManager.getLessonsOfDay(context,defaultGroup, lessonDay,
+                List<Lesson> lessons = ScheduleManager.getLessonsOfDay(context,defaultGroup, lessonDay,
                         ApplicationSettings.getInstance(context).getInt(defaultGroup, subgroup));
                 int color = getMostColor(lessons, context);
-                if (scheduleManager.isLessonsFinishedToday(context, defaultGroup, subgroup)) {
+                if (ScheduleManager.isLessonsFinishedToday(context, defaultGroup, subgroup)) {
                     rv.setTextViewText(R.id.widget_date, "Расписание на завтра");
                     rv.setInt(R.id.widget_date, "setBackgroundColor", color);
                 } else {
@@ -82,7 +81,7 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setOnClickWidget(Context context, RemoteViews rv, int appWidgetId) {
-        Intent startMainActivity = new Intent(context, ActivityDrawerMenu.class);
+        Intent startMainActivity = new Intent(context, ActivityMain.class);
         startMainActivity.setData(Uri.parse(startMainActivity.toUri(Intent.URI_INTENT_SCHEME)));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, startMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.widget_schedule, pendingIntent);
@@ -100,7 +99,7 @@ public abstract class ScheduleWidgetProviderBase extends AppWidgetProvider {
             if (Build.VERSION.SDK_INT > 10) {
                 onUpdate(context, manager, appWidgetIds);
             }
-            Intent startActivity = new Intent(context, ActivityDrawerMenu.class);
+            Intent startActivity = new Intent(context, ActivityMain.class);
             context.startActivity(startActivity);
         }
     }

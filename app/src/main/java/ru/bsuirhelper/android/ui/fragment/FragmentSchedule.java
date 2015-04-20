@@ -23,8 +23,6 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
-
 import org.joda.time.DateTime;
 
 import ru.bsuirhelper.android.R;
@@ -61,8 +59,6 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
         mStudentCalendar = new StudentCalendar();
         setHasOptionsMenu(true);
         mGroup = getDefaultGroup();
-        ((ActionBarActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((ActionBarActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     //TODO Change to newInstance(String groupId)
@@ -85,7 +81,6 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
        if (defaultGroup == null) {
             String id = mSettings.getString("defaultgroup", null);
            if(getActivity() != null) {
-               Logger.i(id);
                Cursor cursor = getActivity().getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null,
                        CacheHelper.StudentGroups._ID + " = " + id, null, null);
                if(cursor != null && cursor.moveToNext()) {
@@ -95,7 +90,7 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
             //If get null, it's mean not set default group
             if (defaultGroup == null) {
                 FragmentManager fm = getChildFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame, new FragmentManagerGroups()).commit();
+                fm.beginTransaction().replace(R.id.content_frame, new FragmentNoGroups()).commit();
                // mActionBar.setTitle(FragmentManagerGroups.TITLE);
                 return null;
             }
@@ -189,7 +184,7 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
                 if (!isConnected) {
                     Toast.makeText(getActivity(), getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
                 } else {
-                    new DownloadScheduleTask(getActivity(), this).execute(String.valueOf(mGroup.getId()));
+                    new DownloadScheduleTask(getActivity(), this).execute(String.valueOf(mGroup.getGroupNumber()));
                 }
 
                 return true;

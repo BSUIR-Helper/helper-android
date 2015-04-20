@@ -16,20 +16,13 @@
             android:label="Создать заметку"/>
 
         <activity
-            android:name=".ui.activity.ActivityDrawerMenu"
+            android:name=".ui.activity.ActivityMain"
             android:label="BSUIR Helper"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".ui.activity.ActivityDeleteGroups"
-            android:label="Удаление групп"
-            android:theme="@style/AppTheme"
-            >
         </activity>
 
         <activity

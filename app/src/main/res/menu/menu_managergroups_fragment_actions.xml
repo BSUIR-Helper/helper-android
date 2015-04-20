@@ -6,9 +6,4 @@
         android:icon="@drawable/ic_addgroup"
         android:title="@string/add_group"
         bsuirguide:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/action_startdeletegroups"
-        android:icon="@drawable/ic_deletegroups"
-        android:title="@string/delete_groups"
-        bsuirguide:showAsAction="ifRoom"/>
 </menu>

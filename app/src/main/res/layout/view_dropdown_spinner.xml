@@ -42,6 +42,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lv_edit_schedule"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="right"
@@ -68,9 +69,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lv_delete_schedule"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btn_dropdown_delete"
             android:clickable="true"
             android:background="?selectableItemBackground">
 

@@ -22,14 +22,12 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
     private ProgressDialog mPogressDialog;
     private Context context;
     private String message;
-    private ScheduleManager scheduleManager;
     AsyncTaskListener listener;
 
 
     public DownloadScheduleTask(Context context, AsyncTaskListener listener) {
         this.context = context;
         this.message = context.getString(R.string.updating_schedule);
-        scheduleManager = ScheduleManager.getInstance(context);
         this.listener = listener;
     }
 
@@ -47,7 +45,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        scheduleManager.replaceSchedule(context, new StudentGroup(-1, groupNumber, groupNumber), lessons);
+        ScheduleManager.replaceSchedule(context, new StudentGroup(-1, groupNumber, groupNumber), lessons);
         return "Success";
     }
 

@@ -18,7 +18,7 @@ import ru.bsuirhelper.android.core.models.Teacher;
  */
 public class CacheHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "cache_db";
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
 
     public static class Lessons {
         public static final String TABLE_NAME = "table_lesson";

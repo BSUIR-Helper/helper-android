@@ -25,7 +25,6 @@ import ru.bsuirhelper.android.ui.activity.ActivitySettings;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
-    private final ScheduleManager mScheduleManager;
     private List<Lesson> mLessons;
     private final Context mContext;
     private final Intent mIntent;
@@ -34,7 +33,6 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     private final ApplicationSettings mSettings;
 
     public ScheduleFactoryViews(Context context, Intent intent) {
-        mScheduleManager = ScheduleManager.getInstance(context);
         mIntent = intent;
         mWidgetId = mIntent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         mContext = context;
@@ -131,10 +129,10 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
     public void updateLessons() {
         String groupId = mSettings.getString("defaultgroup", null);
         int subgroup = mSettings.getInt(groupId, 1);
-        if (!mScheduleManager.isLessonsFinishedToday(mContext, groupId, subgroup)) {
-            mLessons = mScheduleManager.getLessonsOfDay(mContext, groupId, DateTime.now(), subgroup);
+        if (!ScheduleManager.isLessonsFinishedToday(mContext, groupId, subgroup)) {
+            mLessons = ScheduleManager.getLessonsOfDay(mContext, groupId, DateTime.now(), subgroup);
         } else {
-            mLessons = mScheduleManager.getLessonsOfDay(mContext, groupId, new DateTime().plusDays(1), subgroup);
+            mLessons = ScheduleManager.getLessonsOfDay(mContext, groupId, new DateTime().plusDays(1), subgroup);
         }
         mLessonCount = mLessons.size();
     }

@@ -31,7 +31,6 @@ public class FragmentScheduleOfDay extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
         Context context = getActivity();
-        ScheduleManager scheduleManager = ScheduleManager.getInstance(context);
         Bundle args = getArguments();
         TextView dateInText = (TextView) fragmentView.findViewById(R.id.date);
         DateTime day = StudentCalendar.convertToDefaultDateTime(args.getInt("day"));
@@ -39,7 +38,7 @@ public class FragmentScheduleOfDay extends Fragment {
 
         String groupId = args.getString("groupId");
         int subgroup = args.getInt("subgroup");
-        mAdapterLessons = new ViewAdapterLessons(context, scheduleManager.getLessonsOfDay(context, groupId, day, subgroup));
+        mAdapterLessons = new ViewAdapterLessons(context, ScheduleManager.getLessonsOfDay(context, groupId, day, subgroup));
         dateInText.setBackgroundColor(getMostColor());
         if (isSummer(day) || isOtherSemester(day)) {
             TextView view = (TextView) fragmentView.findViewById(R.id.textView);

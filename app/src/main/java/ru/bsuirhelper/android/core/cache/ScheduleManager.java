@@ -22,26 +22,9 @@ import ru.bsuirhelper.android.core.models.Teacher;
  * Created by Влад on 12.09.13.
  */
 public class ScheduleManager {
-    private final ScheduleDatabase mScheduleDatabase;
-    private StudentCalendar mStudentCalendar = new StudentCalendar();
-    private static ScheduleManager instance;
-
-    public static ScheduleManager getInstance(Context context) {
-        if (instance == null) {
-            instance = new ScheduleManager(context);
-        }
-        return instance;
-    }
-
-    public ScheduleManager(Context context) {
-        mScheduleDatabase = new ScheduleDatabase(context);
-        mStudentCalendar = new StudentCalendar();
-    }
-
-    public List<StudentGroup> getGroups(Context context) {
-        List<StudentGroup> groups = null;
+    public static List<StudentGroup> getGroups(Context context) {
+        List<StudentGroup> groups = new ArrayList<>();
         if (context != null) {
-            groups = new ArrayList<>();
             Cursor cursor = context.getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null, null, null, null);
             while (cursor.moveToNext()) {
                 groups.add(CacheHelper.StudentGroups.fromCursor(cursor));
@@ -54,7 +37,7 @@ public class ScheduleManager {
     /**
      * Add or update schedule if student group exists
      */
-    public void replaceSchedule(Context context, StudentGroup studentGroup, List<Lesson> lessons) {
+    public static void replaceSchedule(Context context, StudentGroup studentGroup, List<Lesson> lessons) {
         if (context != null && lessons != null && lessons.size() > 0) {
             Cursor cursor = context.getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null, CacheHelper.StudentGroups.NUMBER + " = " + studentGroup.getGroupNumber(), null, null);
             long groupId = -1;
@@ -80,14 +63,14 @@ public class ScheduleManager {
         }
     }
 
-    public int clearSchedule(Context context, long groupId) {
+    public static int clearSchedule(Context context, long groupId) {
         if(context != null) {
-            return context.getContentResolver().delete(CacheContentProvider.LESSON_URI, CacheHelper.Lessons.STUDENT_GROUP_ID + " = " + groupId, null);
+            context.getContentResolver().delete(CacheContentProvider.LESSON_URI, CacheHelper.Lessons.STUDENT_GROUP_ID + " = " + groupId, null);
         }
         return 0;
     }
 
-    public List<Lesson> getLessonsOfDay(Context context, String studentGroupId, DateTime dayOfYear, int subgroup) {
+    public static List<Lesson> getLessonsOfDay(Context context, String studentGroupId, DateTime dayOfYear, int subgroup) {
         List<Lesson> lessons = null;
         if (context != null) {
             lessons = new ArrayList<>();
@@ -108,13 +91,14 @@ public class ScheduleManager {
         return lessons;
     }
 
-    public void deleteSchedule(Context context, long studentGroupId) {
+    public static void deleteSchedule(Context context, long studentGroupId) {
         if (context != null) {
-            context.getContentResolver().delete(CacheContentProvider.LESSON_URI, "WHERE " + CacheHelper.Lessons.STUDENT_GROUP_ID + " = " + studentGroupId, null);
+            context.getContentResolver().delete(CacheContentProvider.LESSON_URI, CacheHelper.Lessons.STUDENT_GROUP_ID + " = " + studentGroupId, null);
+            context.getContentResolver().delete(CacheContentProvider.STUDENTGROUP_URI, CacheHelper.StudentGroups._ID + " = " + studentGroupId, null);
         }
     }
 
-    public boolean isLessonsFinishedToday(Context context, String groupId, int subgroup) {
+    public static boolean isLessonsFinishedToday(Context context, String groupId, int subgroup) {
         DateTime currentTime = new DateTime();
         List<Lesson> lessons = getLessonsOfDay(context, groupId, DateTime.now(), subgroup);
         if (lessons.size() > 0) {
@@ -130,7 +114,7 @@ public class ScheduleManager {
         return false;
     }
 
-    private String getFinishTimeOfLesson(Lesson lesson) {
+    private static String getFinishTimeOfLesson(Lesson lesson) {
         String time = lesson.getLessonTime();
         char c = '-';
         int pos = -1;
