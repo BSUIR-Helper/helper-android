@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -29,8 +28,10 @@ import java.util.List;
 
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.ApplicationSettings;
+import ru.bsuirhelper.android.core.cache.CacheHelper;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.StudentGroup;
+import ru.bsuirhelper.android.ui.activity.base.ActivityBase;
 import ru.bsuirhelper.android.ui.adapter.DrawerMenuAdapter;
 import ru.bsuirhelper.android.ui.adapter.SpinnerGroupsAdapter;
 import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
@@ -46,7 +47,7 @@ import ru.bsuirhelper.android.ui.listener.OnEditScheduleListener;
 /**
  * Created by Влад on 29.10.13.
  */
-public class ActivityMain extends ActionBarActivity implements AsyncTaskListener, OnDialogEditGroupNameComplete {
+public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnDialogEditGroupNameComplete {
     private boolean isScheduleClicked;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -68,9 +69,10 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
         FragmentManager fm = getSupportFragmentManager();
         String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
         if (defaultGroup != null) {
-            fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+            StudentGroup studentGroup = CacheHelper.StudentGroups.getById(this, Long.parseLong(defaultGroup));
+            switchFragment(FragmentSchedule.newInstance(studentGroup), R.id.content_frame);
         } else {
-            fm.beginTransaction().replace(R.id.content_frame, new FragmentNoGroups()).commit();
+            switchFragment(FragmentNoGroups.newInstance(), R.id.content_frame);
         }
 
         if (ApplicationSettings.getInstance(this).getBoolean("isFirstShowDrawer", true)) {
@@ -101,7 +103,9 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+                            String defaultGroup = ApplicationSettings.getInstance(getApplicationContext()).getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
+                            StudentGroup studentGroup = CacheHelper.StudentGroups.getById(getApplicationContext(), Long.parseLong(defaultGroup));
+                            switchFragment(FragmentSchedule.newInstance(studentGroup), R.id.content_frame);
                             isScheduleClicked = false;
                         }
                     }, 0);
@@ -143,8 +147,6 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
         mSpinnerGroups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Logger.i("Count:" + mGroupsAdapter.getCount());
-                Logger.i("Position:" + position);
                 if (position != mGroupsAdapter.getCount() - 1) {
                     StudentGroup studentGroup = (StudentGroup) mGroupsAdapter.getItem(position);
                     ApplicationSettings.getInstance(getApplicationContext()).
@@ -193,12 +195,17 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
                 .setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        String studentGroupId = ApplicationSettings.getInstance(getApplicationContext()).getActiveGroup();
                         ScheduleManager.deleteSchedule(getApplicationContext(), studentGroup.getId());
                         List<StudentGroup> studentGroupList = ScheduleManager.getGroups(getApplicationContext());
                         if (studentGroupList.size() > 0) {
-                            StudentGroup studentGroupActive = studentGroupList.get(studentGroupList.size() - 1);
-                            ApplicationSettings.getInstance(getApplicationContext()).setActiveGroup(String.valueOf(studentGroupActive.getId()));
+                            if (String.valueOf(studentGroup.getId()).equals(studentGroupId)) {
+                                StudentGroup studentGroupActive = studentGroupList.get(studentGroupList.size() - 1);
+                                ApplicationSettings.getInstance(getApplicationContext()).setActiveGroup(String.valueOf(studentGroupActive.getId()));
+                                mSpinnerGroups.setSelection(mGroupsAdapter.indexOf(studentGroupActive));
+                            }
                         } else {
+                            switchFragment(FragmentNoGroups.newInstance(), R.id.content_frame);
                             ApplicationSettings.getInstance(getApplicationContext()).setActiveGroup(null);
                         }
                         updateSpinner(studentGroupList);
@@ -278,9 +285,13 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
     //TODO Вынести в строковые ресурсы
     @Override
     public void onPostExecute(DownloadScheduleTask.Status status) {
+        updateSpinner(ScheduleManager.getGroups(getApplicationContext()));
         if(status == DownloadScheduleTask.Status.OK) {
             List<StudentGroup> groups = ScheduleManager.getGroups(getApplicationContext());
-            if (mGroupsAdapter.getCount() == 1) {
+            if (mGroupsAdapter.getCount() == 2) {
+                isScheduleClicked = true;
+                mSpinnerGroups.setSelection(0);
+                closeDrawerMenu();
                 ApplicationSettings.getInstance(getApplicationContext()).
                         setActiveGroup(String.valueOf(groups.get(0).getId()));
             } else if(mGroupsAdapter.getCount() - 1 < groups.size()) {
@@ -293,7 +304,6 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
         } else {
             Toast.makeText(this, "Произошла ошибка", Toast.LENGTH_LONG).show();
         }
-        updateSpinner(ScheduleManager.getGroups(getApplicationContext()));
     }
 
     @Override

@@ -159,6 +159,18 @@ public class CacheHelper extends SQLiteOpenHelper {
             return null;
         }
 
+        public static StudentGroup getById(Context context, long id) {
+            StudentGroup studentGroup = null;
+            if (context != null) {
+                Cursor cursor = context.getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null,
+                        CacheHelper.StudentGroups._ID + " = " + id, null, null);
+                if (cursor != null && cursor.moveToNext()) {
+                    studentGroup = fromCursor(cursor);
+                }
+            }
+            return studentGroup;
+        }
+
        /* public static boolean isExists(Context context, String groupId) {
             if (context != null) {
                 Cursor cursor = context.getContentResolver().query(CacheContentProvider.STUDENTGROUP_URI, null, NUMBER + " = " + groupId, null, null);
@@ -170,89 +182,89 @@ public class CacheHelper extends SQLiteOpenHelper {
             }
             return false;
         }*/
-    }
+        }
 
-    public static class Teachers {
-        public static final String TABLE_NAME = "table_teacher";
-        public static final String _ID = "teacher_id";
-        public static final String FIRST_NAME = "first_name";
-        public static final String LAST_NAME = "last_name";
-        public static final String MIDDLE_NAME = "middle_name";
-        public static final String ACADEMIC_DEPARTMENTS = "academic_departments";
-        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
-                " (" +
-                _ID + " integer primary key, " +
-                FIRST_NAME + " text, " +
-                LAST_NAME + " text, " +
-                MIDDLE_NAME + " text, " +
-                ACADEMIC_DEPARTMENTS + " text" +
-                " );";
+        public static class Teachers {
+            public static final String TABLE_NAME = "table_teacher";
+            public static final String _ID = "teacher_id";
+            public static final String FIRST_NAME = "first_name";
+            public static final String LAST_NAME = "last_name";
+            public static final String MIDDLE_NAME = "middle_name";
+            public static final String ACADEMIC_DEPARTMENTS = "academic_departments";
+            public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+            public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+                    " (" +
+                    _ID + " integer primary key, " +
+                    FIRST_NAME + " text, " +
+                    LAST_NAME + " text, " +
+                    MIDDLE_NAME + " text, " +
+                    ACADEMIC_DEPARTMENTS + " text" +
+                    " );";
 
 
-        public static int insertTeachers(Context context, List<Teacher> teachers) {
-            if (context != null && teachers != null && teachers.size() > 0) {
-                List<ContentValues> contentValues = new ArrayList<>();
-                for (Teacher teacher : teachers) {
-                    ContentValues cv = toContentValues(teacher);
-                    if (cv != null) {
-                        contentValues.add(cv);
+            public static int insertTeachers(Context context, List<Teacher> teachers) {
+                if (context != null && teachers != null && teachers.size() > 0) {
+                    List<ContentValues> contentValues = new ArrayList<>();
+                    for (Teacher teacher : teachers) {
+                        ContentValues cv = toContentValues(teacher);
+                        if (cv != null) {
+                            contentValues.add(cv);
+                        }
                     }
+                    return context.getContentResolver().bulkInsert(CacheContentProvider.TEACHER_URI, contentValues.toArray(new ContentValues[contentValues.size()]));
                 }
-                return context.getContentResolver().bulkInsert(CacheContentProvider.TEACHER_URI, contentValues.toArray(new ContentValues[contentValues.size()]));
+                return 0;
             }
-            return 0;
+
+            public static Teacher fromCursor(Cursor cursor) {
+                if (cursor != null) {
+                    long id = cursor.getLong(cursor.getColumnIndex(_ID));
+                    String firstName = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
+                    String lastName = cursor.getString(cursor.getColumnIndex(LAST_NAME));
+                    String middleName = cursor.getString(cursor.getColumnIndex(MIDDLE_NAME));
+                    String academicDepartments = cursor.getString(cursor.getColumnIndex(ACADEMIC_DEPARTMENTS));
+                    String[] aDepartments = academicDepartments.split("\\|");
+                    List<String> departments = new ArrayList<String>();
+                    for (String department : departments) {
+                        departments.add(department);
+                    }
+                    return new Teacher(id, firstName, lastName, middleName, departments);
+                }
+                return null;
+            }
+
+            public static ContentValues toContentValues(Teacher teacher) {
+                if (teacher != null) {
+                    ContentValues cv = new ContentValues();
+                    cv.put(_ID, teacher.getId());
+                    cv.put(FIRST_NAME, teacher.getFirstName());
+                    cv.put(LAST_NAME, teacher.getLastName());
+                    cv.put(MIDDLE_NAME, teacher.getMiddleName());
+                    StringBuilder sb = new StringBuilder();
+                    for (String department : teacher.getAcademicDepartments()) {
+                        sb.append(department).append("|");
+                    }
+                    cv.put(ACADEMIC_DEPARTMENTS, sb.toString());
+                    return cv;
+                }
+                return null;
+            }
         }
 
-        public static Teacher fromCursor(Cursor cursor) {
-            if (cursor != null) {
-                long id = cursor.getLong(cursor.getColumnIndex(_ID));
-                String firstName = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
-                String lastName = cursor.getString(cursor.getColumnIndex(LAST_NAME));
-                String middleName = cursor.getString(cursor.getColumnIndex(MIDDLE_NAME));
-                String academicDepartments = cursor.getString(cursor.getColumnIndex(ACADEMIC_DEPARTMENTS));
-                String[] aDepartments = academicDepartments.split("\\|");
-                List<String> departments = new ArrayList<String>();
-                for (String department : departments) {
-                    departments.add(department);
-                }
-                return new Teacher(id, firstName, lastName, middleName, departments);
-            }
-            return null;
+
+        public CacheHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
         }
 
-        public static ContentValues toContentValues(Teacher teacher) {
-            if (teacher != null) {
-                ContentValues cv = new ContentValues();
-                cv.put(_ID, teacher.getId());
-                cv.put(FIRST_NAME, teacher.getFirstName());
-                cv.put(LAST_NAME, teacher.getLastName());
-                cv.put(MIDDLE_NAME, teacher.getMiddleName());
-                StringBuilder sb = new StringBuilder();
-                for (String department : teacher.getAcademicDepartments()) {
-                    sb.append(department).append("|");
-                }
-                cv.put(ACADEMIC_DEPARTMENTS, sb.toString());
-                return cv;
-            }
-            return null;
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(Lessons.CREATE_TABLE);
+            db.execSQL(StudentGroups.CREATE_TABLE);
+            db.execSQL(Teachers.CREATE_TABLE);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
         }
     }
-
-
-    public CacheHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Lessons.CREATE_TABLE);
-        db.execSQL(StudentGroups.CREATE_TABLE);
-        db.execSQL(Teachers.CREATE_TABLE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
-}

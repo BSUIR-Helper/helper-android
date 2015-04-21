@@ -14,6 +14,11 @@ import ru.bsuirhelper.android.R;
 public class FragmentNoGroups extends Fragment{
     public static final String TITLE = "Расписание";
 
+    public static FragmentNoGroups newInstance() {
+        FragmentNoGroups fragmentNoGroups = new FragmentNoGroups();
+        return fragmentNoGroups;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

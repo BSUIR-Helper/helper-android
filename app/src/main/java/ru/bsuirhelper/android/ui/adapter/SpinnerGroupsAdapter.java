@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -20,7 +21,7 @@ import ru.bsuirhelper.android.ui.listener.OnEditScheduleListener;
 /**
  * Created by Влад on 19.03.14.
  */
-public class SpinnerGroupsAdapter extends BaseAdapter {
+public class SpinnerGroupsAdapter extends BaseAdapter implements SpinnerAdapter {
     private List<StudentGroup> groups;
     private Context mContext;
     private ApplicationSettings mSettings;
@@ -156,6 +157,10 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
                 }
             });
         }
+    }
+
+    public int indexOf(StudentGroup studentGroup) {
+        return groups.indexOf(studentGroup);
     }
 
     class ViewHolder {

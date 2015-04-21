@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -28,8 +26,6 @@ import org.joda.time.DateTime;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.StudentCalendar;
-import ru.bsuirhelper.android.core.cache.CacheContentProvider;
-import ru.bsuirhelper.android.core.cache.CacheHelper;
 import ru.bsuirhelper.android.core.models.StudentGroup;
 import ru.bsuirhelper.android.ui.adapter.SchedulePagerAdapter;
 import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
@@ -37,7 +33,7 @@ import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
 import ru.bsuirhelper.android.ui.pager.RotationViewPager;
 
 public class FragmentSchedule extends Fragment implements AsyncTaskListener {
-
+    private static final String TAG_STUDENT_GROUP = "student_group";
     private String title = "Fragment Schedule";
     private ViewPager mPager;
     private StudentGroup mGroup;
@@ -45,6 +41,14 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
     private ApplicationSettings mSettings;
     private ActionBar mActionBar;
     private Context context;
+
+    public static FragmentSchedule newInstance(StudentGroup studentGroup) {
+        Bundle args = new Bundle();
+        args.putParcelable(TAG_STUDENT_GROUP, studentGroup);
+        FragmentSchedule fragmentSchedule = new FragmentSchedule();
+        fragmentSchedule.setArguments(args);
+        return fragmentSchedule;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -58,10 +62,10 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
         mSettings = ApplicationSettings.getInstance(getActivity().getApplicationContext());
         mStudentCalendar = new StudentCalendar();
         setHasOptionsMenu(true);
-        mGroup = getDefaultGroup();
+        mGroup = getArguments().getParcelable(TAG_STUDENT_GROUP);
     }
 
-    //TODO Change to newInstance(String groupId)
+   /* //TODO Change to newInstance(String groupId)
     private StudentGroup getDefaultGroup() {
         StudentGroup defaultGroup = null;
         try {
@@ -97,7 +101,7 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
 
         }
         return defaultGroup;
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,7 +163,6 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        mGroup = getDefaultGroup();
         inflater.inflate(R.menu.menu_schedule_activity_actions, menu);
         mSubgroup1 = menu.findItem(R.id.subgroup1);
         mSubgroup2 = menu.findItem(R.id.subgroup2);
