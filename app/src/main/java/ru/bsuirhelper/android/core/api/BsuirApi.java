@@ -17,11 +17,18 @@ public class BsuirApi {
             .setLogLevel(RestAdapter.LogLevel.FULL)
             .build();
 
-    public static String groupSchedule (String groupNumber) {
+    public static String groupSchedule(String groupNumber) {
         StudentgroupSchedule studentgroupSchedule = restAdapter.create(StudentgroupSchedule.class);
-        Response response =  studentgroupSchedule.studentgroupSchedule(groupNumber);
-        if(response != null && response.getStatus() == 200) {
-            return new String(((TypedByteArray) response.getBody()).getBytes());
+        Response response = null;
+        try {
+            response = studentgroupSchedule.studentgroupSchedule(groupNumber);
+            if (response != null && response.getStatus() == 200) {
+                return new String(((TypedByteArray) response.getBody()).getBytes());
+            }
+        } catch (Exception e) {
+            if(response != null){
+                return new String(((TypedByteArray) response.getBody()).getBytes());
+            }
         }
         return null;
     }

@@ -3,7 +3,6 @@ package ru.bsuirhelper.android.ui.asynctask;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -18,12 +17,15 @@ import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
 /**
  * Created by Влад on 18.02.14.
  */
-public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
+public class DownloadScheduleTask extends AsyncTask<String, Integer, DownloadScheduleTask.Status> {
     private ProgressDialog mPogressDialog;
     private Context context;
     private String message;
     AsyncTaskListener listener;
 
+    public enum Status {
+        OK, ERROR, NOT_EXISTS
+    }
 
     public DownloadScheduleTask(Context context, AsyncTaskListener listener) {
         this.context = context;
@@ -32,11 +34,11 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected String doInBackground(String... groupNumbers) {
+    protected Status doInBackground(String... groupNumbers) {
         String groupNumber = groupNumbers[0];
         String schedule = BsuirApi.groupSchedule(groupNumber);
         if (schedule == null) {
-            return "Error";
+            return Status.ERROR;
         }
 
         List<Lesson> lessons = null;
@@ -45,8 +47,11 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (lessons == null || lessons.size() == 0) {
+            return Status.NOT_EXISTS;
+        }
         ScheduleManager.replaceSchedule(context, new StudentGroup(-1, groupNumber, groupNumber), lessons);
-        return "Success";
+        return Status.OK;
     }
 
     @Override
@@ -54,28 +59,15 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, String> {
         showProgressDialog();
     }
 
+    //TODO Вынести в строковые ресурсы
     @Override
-    public void onPostExecute(String result) {
-
+    public void onPostExecute(Status result) {
+        listener.onPostExecute(result);
         try {
             if (mPogressDialog.isShowing()) mPogressDialog.cancel();
         } catch (Exception exception) {
         }
-
-        if (result.equals("Error")) {
-            Toast.makeText(context.getApplicationContext(), context.getString(R.string.error), Toast.LENGTH_LONG).show();
-        } else {
-            try {
-                if(listener != null) {
-                    listener.onPostExecute();
-                }
-            } catch (ClassCastException e) {
-                System.out.print("Fragment must implement CallBack Interface" + e.getMessage());
-            }
-        }
-
     }
-
     private void showProgressDialog() {
         mPogressDialog = new ProgressDialog(context);
         mPogressDialog.setMessage(message);

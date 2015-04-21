@@ -21,7 +21,7 @@ import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
 /**
  * Created by vladislav on 4/20/15.
  */
-public class DialogFragmentAddGroup extends DialogFragment {
+public class DialogAddGroup extends DialogFragment {
 
     @Override
     public void onDestroyView() {
@@ -64,7 +64,7 @@ public class DialogFragmentAddGroup extends DialogFragment {
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        DialogFragmentAddGroup.this.dismiss();
+                        DialogAddGroup.this.dismiss();
                     }
                 });
         return builder.create();

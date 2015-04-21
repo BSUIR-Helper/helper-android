@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -32,16 +33,20 @@ import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.StudentGroup;
 import ru.bsuirhelper.android.ui.adapter.DrawerMenuAdapter;
 import ru.bsuirhelper.android.ui.adapter.SpinnerGroupsAdapter;
-import ru.bsuirhelper.android.ui.dialog.DialogFragmentAddGroup;
+import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
+import ru.bsuirhelper.android.ui.dialog.DialogAddGroup;
+import ru.bsuirhelper.android.ui.dialog.DialogEditGroupName;
 import ru.bsuirhelper.android.ui.fragment.FragmentNoGroups;
 import ru.bsuirhelper.android.ui.fragment.FragmentSchedule;
 import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
 import ru.bsuirhelper.android.ui.listener.OnDeleteScheduleListener;
+import ru.bsuirhelper.android.ui.listener.OnDialogEditGroupNameComplete;
+import ru.bsuirhelper.android.ui.listener.OnEditScheduleListener;
 
 /**
  * Created by Влад on 29.10.13.
  */
-public class ActivityMain extends ActionBarActivity implements AsyncTaskListener {
+public class ActivityMain extends ActionBarActivity implements AsyncTaskListener, OnDialogEditGroupNameComplete {
     private boolean isScheduleClicked;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -62,8 +67,6 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
         actionBarInitialize();
         FragmentManager fm = getSupportFragmentManager();
         String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
-
-        Logger.e(defaultGroup);
         if (defaultGroup != null) {
             fm.beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
         } else {
@@ -93,10 +96,22 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
         ) {
             @Override
             public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
                 if (isScheduleClicked) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
-                    isScheduleClicked = false;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+                            isScheduleClicked = false;
+                        }
+                    }, 0);
                 }
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
             }
         };
         mDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -119,7 +134,12 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
                 showAddGroupDialog();
             }
         });
-
+        mGroupsAdapter.setOnEditScheduleListener(new OnEditScheduleListener() {
+            @Override
+            public void onEditScheduleListener(StudentGroup studentGroup) {
+                showEditGroupDialog(studentGroup);
+            }
+        });
         mSpinnerGroups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -150,8 +170,8 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
                 Intent intent = new Intent();
                 switch (position) {
                     case DrawerMenuAdapter.SCHEDULE_FRAGMENT:
-                        if(mGroupsAdapter.getCount() > 1) {
-                            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentSchedule()).commit();
+                        if (mGroupsAdapter.getCount() > 1) {
+                            isScheduleClicked = true;
                             mActionBar.setTitle(FragmentNoGroups.TITLE);
                         }
                         break;
@@ -188,7 +208,11 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
     }
 
     private void showAddGroupDialog() {
-        new DialogFragmentAddGroup().show(getSupportFragmentManager(), null);
+        new DialogAddGroup().show(getSupportFragmentManager(), null);
+    }
+
+    private void showEditGroupDialog(StudentGroup studentGroup) {
+        DialogEditGroupName.newInstance(studentGroup).show(getSupportFragmentManager(), null);
     }
 
     private void updateSpinner(List<StudentGroup> studentGroupList) {
@@ -251,14 +275,29 @@ public class ActivityMain extends ActionBarActivity implements AsyncTaskListener
         }
     }
 
+    //TODO Вынести в строковые ресурсы
     @Override
-    public void onPostExecute() {
-        Toast.makeText(this, getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
-        List<StudentGroup> groups = ScheduleManager.getGroups(getApplicationContext());
-        if(mGroupsAdapter.getCount() == 1) {
-            ApplicationSettings.getInstance(getApplicationContext()).
-                    setActiveGroup(String.valueOf(groups.get(0).getId()));
+    public void onPostExecute(DownloadScheduleTask.Status status) {
+        if(status == DownloadScheduleTask.Status.OK) {
+            List<StudentGroup> groups = ScheduleManager.getGroups(getApplicationContext());
+            if (mGroupsAdapter.getCount() == 1) {
+                ApplicationSettings.getInstance(getApplicationContext()).
+                        setActiveGroup(String.valueOf(groups.get(0).getId()));
+            } else if(mGroupsAdapter.getCount() - 1 < groups.size()) {
+                Toast.makeText(this, "Расписание добавлено", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Расписание обновлено", Toast.LENGTH_LONG).show();
+            }
+        } else if(status == DownloadScheduleTask.Status.NOT_EXISTS) {
+            Toast.makeText(this, "Такой группы не существует", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Произошла ошибка", Toast.LENGTH_LONG).show();
         }
+        updateSpinner(ScheduleManager.getGroups(getApplicationContext()));
+    }
+
+    @Override
+    public void onDialogEditComplete() {
         updateSpinner(ScheduleManager.getGroups(getApplicationContext()));
     }
 }

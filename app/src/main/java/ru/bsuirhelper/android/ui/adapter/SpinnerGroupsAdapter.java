@@ -135,7 +135,7 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
         public ViewHolderDropdown(View view, final StudentGroup studentGroup) {
 
             view.setTag(TAG_STUDENT_GROUP, studentGroup);
-            tvGroupName = (TextView) view.findViewById(R.id.textview_dropdown_groupname);
+            tvGroupName = (TextView) view.findViewById(R.id.tv_dropdown_groupname);
             tvIsActive = (TextView) view.findViewById(R.id.textview_dropdown_group_default);
             btnEditSchedule = view.findViewById(R.id.lv_edit_schedule);
             btnDeleteSchedule = view.findViewById(R.id.lv_delete_schedule);
@@ -150,7 +150,9 @@ public class SpinnerGroupsAdapter extends BaseAdapter {
             btnEditSchedule.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onEditScheduleListener.onEditScheduleListener(studentGroup);
+                    if(onEditScheduleListener != null) {
+                        onEditScheduleListener.onEditScheduleListener(studentGroup);
+                    }
                 }
             });
         }

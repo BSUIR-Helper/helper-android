@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             android:minWidth="160dp">
 
             <TextView
-                android:id="@+id/textview_dropdown_groupname"
+                android:id="@+id/tv_dropdown_groupname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="313801 (ФКП)"
@@ -39,6 +40,7 @@
                 android:layout_marginTop="2dp"
                 android:text="АКТИВНО"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -86,9 +88,11 @@
 
 
     </LinearLayout>
+
     <ImageView
         android:id="@+id/customview"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/divider_gray" />
+
 </LinearLayout>
