@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Schedule</string>
+    <string name="app_name">BSUIR Helper</string>
     <string name="activity_schedule">Schedule</string>
     <string name="activity_managergroups">List of groups</string>
     <string name="drawer_open">Open menu</string>

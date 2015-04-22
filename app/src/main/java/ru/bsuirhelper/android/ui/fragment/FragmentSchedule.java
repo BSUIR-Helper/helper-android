@@ -245,4 +245,11 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
     public void onPostExecute(DownloadScheduleTask.Status status) {
         Toast.makeText(context, getString(R.string.schedule_is_updated), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+
 }

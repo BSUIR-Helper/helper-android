@@ -8,8 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
 import ru.bsuirhelper.android.R;
@@ -97,10 +95,8 @@ public class SpinnerGroupsAdapter extends BaseAdapter implements SpinnerAdapter 
         if (view == null || view.getTag() == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.view_dropdown_spinner, null);
-            Logger.i(groups.get(position) + "");
             setViewHolderDropdown(view, groups.get(position));
         }
-
         ViewHolderDropdown vh = (ViewHolderDropdown) view.getTag();
         vh.tvGroupName.setText(groups.get(position).getGroupName());
         if (isActiveGroup(String.valueOf(groups.get(position).getId()))) {
@@ -159,8 +155,13 @@ public class SpinnerGroupsAdapter extends BaseAdapter implements SpinnerAdapter 
         }
     }
 
-    public int indexOf(StudentGroup studentGroup) {
-        return groups.indexOf(studentGroup);
+    public int indexOfActiveGroup() {
+        for(StudentGroup studentGroup : groups) {
+            if(isActiveGroup(String.valueOf(studentGroup.getId()))) {
+                return groups.indexOf(studentGroup);
+            }
+        }
+        return 0;
     }
 
     class ViewHolder {
@@ -170,4 +171,6 @@ public class SpinnerGroupsAdapter extends BaseAdapter implements SpinnerAdapter 
             tvGroupName = (TextView) view.findViewById(R.id.textview_group_name);
         }
     }
+
+
 }

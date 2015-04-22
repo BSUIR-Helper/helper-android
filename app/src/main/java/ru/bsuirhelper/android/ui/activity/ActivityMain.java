@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -15,14 +14,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -56,6 +54,9 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
     private Toolbar mToolbar;
     private SpinnerGroupsAdapter mGroupsAdapter;
     private Spinner mSpinnerGroups;
+    private String mTitle;
+    private String mSubTitle;
+    private boolean isVisibleMenu = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,6 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
         setSupportActionBar(mToolbar);
         drawerInitialize();
         actionBarInitialize();
-        FragmentManager fm = getSupportFragmentManager();
         String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
         if (defaultGroup != null) {
             StudentGroup studentGroup = CacheHelper.StudentGroups.getById(this, Long.parseLong(defaultGroup));
@@ -74,7 +74,6 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
         } else {
             switchFragment(FragmentNoGroups.newInstance(), R.id.content_frame);
         }
-
         if (ApplicationSettings.getInstance(this).getBoolean("isFirstShowDrawer", true)) {
             openDrawerMenu();
             ApplicationSettings.getInstance(this).putBoolean("isFirstShowDrawer", false);
@@ -97,8 +96,27 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
                 R.string.drawer_close
         ) {
             @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                try {
+                    mTitle = getSupportActionBar().getTitle().toString();
+                    mSubTitle = getSupportActionBar().getSubtitle().toString();
+                    isVisibleMenu = false;
+                    invalidateOptionsMenu();
+                    getSupportActionBar().setTitle(R.string.app_name);
+                    getSupportActionBar().setSubtitle("");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                getSupportActionBar().setTitle(mTitle);
+                getSupportActionBar().setSubtitle(mSubTitle);
+                isVisibleMenu = true;
+                invalidateOptionsMenu();
                 if (isScheduleClicked) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -112,11 +130,6 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
                 }
             }
 
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-
-            }
         };
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerToggle.syncState();
@@ -147,6 +160,10 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
         mSpinnerGroups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mSpinnerGroups.getTag() != null && ((Integer) mSpinnerGroups.getTag()) == position) {
+                    mSpinnerGroups.setTag(-1);
+                    return;
+                }
                 if (position != mGroupsAdapter.getCount() - 1) {
                     StudentGroup studentGroup = (StudentGroup) mGroupsAdapter.getItem(position);
                     ApplicationSettings.getInstance(getApplicationContext()).
@@ -202,14 +219,12 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
                             if (String.valueOf(studentGroup.getId()).equals(studentGroupId)) {
                                 StudentGroup studentGroupActive = studentGroupList.get(studentGroupList.size() - 1);
                                 ApplicationSettings.getInstance(getApplicationContext()).setActiveGroup(String.valueOf(studentGroupActive.getId()));
-                                mSpinnerGroups.setSelection(mGroupsAdapter.indexOf(studentGroupActive));
                             }
                         } else {
                             switchFragment(FragmentNoGroups.newInstance(), R.id.content_frame);
                             ApplicationSettings.getInstance(getApplicationContext()).setActiveGroup(null);
                         }
                         updateSpinner(studentGroupList);
-                        Logger.i("Delete schedule");
                     }
                 }).show();
     }
@@ -224,6 +239,8 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
 
     private void updateSpinner(List<StudentGroup> studentGroupList) {
         mGroupsAdapter.setGroups(studentGroupList);
+        mSpinnerGroups.setSelection(mGroupsAdapter.indexOfActiveGroup());
+        mSpinnerGroups.setTag(mGroupsAdapter.indexOfActiveGroup());
         /*if(studentGroupList.size() == 0) {
             Logger.i("Disabled spinner");
             mSpinnerGroups.setClickable(false);
@@ -263,6 +280,14 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        for (int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setVisible(isVisibleMenu);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -286,7 +311,7 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
     @Override
     public void onPostExecute(DownloadScheduleTask.Status status) {
         updateSpinner(ScheduleManager.getGroups(getApplicationContext()));
-        if(status == DownloadScheduleTask.Status.OK) {
+        if (status == DownloadScheduleTask.Status.OK) {
             List<StudentGroup> groups = ScheduleManager.getGroups(getApplicationContext());
             if (mGroupsAdapter.getCount() == 2) {
                 isScheduleClicked = true;
@@ -294,12 +319,12 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
                 closeDrawerMenu();
                 ApplicationSettings.getInstance(getApplicationContext()).
                         setActiveGroup(String.valueOf(groups.get(0).getId()));
-            } else if(mGroupsAdapter.getCount() - 1 < groups.size()) {
+            } else if (mGroupsAdapter.getCount() - 1 < groups.size()) {
                 Toast.makeText(this, "Расписание добавлено", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Расписание обновлено", Toast.LENGTH_LONG).show();
             }
-        } else if(status == DownloadScheduleTask.Status.NOT_EXISTS) {
+        } else if (status == DownloadScheduleTask.Status.NOT_EXISTS) {
             Toast.makeText(this, "Такой группы не существует", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "Произошла ошибка", Toast.LENGTH_LONG).show();

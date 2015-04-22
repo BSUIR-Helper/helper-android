@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Расписание</string>
+    <string name="app_name">BSUIR Helper</string>
     <string name="activity_schedule">Расписание</string>
     <string name="activity_managergroups">Список групп</string>
     <string name="drawer_open">Открыть меню</string>
@@ -13,7 +13,7 @@
         <item>Подгруппа 2</item>
     </string-array>
     <string name="lecture">Лекция</string>
-    <string name="practical_lesson">Практическое занятия</string>
+    <string name="practical_lesson">Практическое занятие</string>
     <string name="lab">Лабараторная работа</string>
     <string name="other">Другое</string>
     <string-array name="week_days">
