@@ -70,7 +70,7 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
         String defaultGroup = ApplicationSettings.getInstance(this).getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
         if (defaultGroup != null) {
             StudentGroup studentGroup = CacheHelper.StudentGroups.getById(this, Long.parseLong(defaultGroup));
-            switchFragment(FragmentSchedule.newInstance(studentGroup), R.id.content_frame);
+            switchFragment(FragmentSchedule.newInstance(studentGroup), FragmentSchedule.TAG_FRAGMENT, false, R.id.content_frame);
         } else {
             switchFragment(FragmentNoGroups.newInstance(), R.id.content_frame);
         }
@@ -123,7 +123,7 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
                         public void run() {
                             String defaultGroup = ApplicationSettings.getInstance(getApplicationContext()).getString(ApplicationSettings.ACTIVE_STUDENTGROUP, null);
                             StudentGroup studentGroup = CacheHelper.StudentGroups.getById(getApplicationContext(), Long.parseLong(defaultGroup));
-                            switchFragment(FragmentSchedule.newInstance(studentGroup), R.id.content_frame);
+                            switchFragment(FragmentSchedule.newInstance(studentGroup), FragmentSchedule.TAG_FRAGMENT, false, R.id.content_frame);
                             isScheduleClicked = false;
                         }
                     }, 0);
@@ -233,8 +233,10 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
         new DialogAddGroup().show(getSupportFragmentManager(), null);
     }
 
+    private String preEditNameOfGroup;
     private void showEditGroupDialog(StudentGroup studentGroup) {
         DialogEditGroupName.newInstance(studentGroup).show(getSupportFragmentManager(), null);
+        preEditNameOfGroup = studentGroup.getGroupName();
     }
 
     private void updateSpinner(List<StudentGroup> studentGroupList) {
@@ -332,7 +334,10 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
     }
 
     @Override
-    public void onDialogEditComplete() {
+    public void onDialogEditComplete(String groupName) {
         updateSpinner(ScheduleManager.getGroups(getApplicationContext()));
+        if(preEditNameOfGroup.equals(mTitle)) {
+            mTitle = groupName;
+        }
     }
 }

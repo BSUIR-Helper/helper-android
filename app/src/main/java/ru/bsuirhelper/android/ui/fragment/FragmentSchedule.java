@@ -27,12 +27,14 @@ import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.ApplicationSettings;
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.models.StudentGroup;
+import ru.bsuirhelper.android.ui.activity.base.ActivityBase;
 import ru.bsuirhelper.android.ui.adapter.SchedulePagerAdapter;
 import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
 import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
 import ru.bsuirhelper.android.ui.pager.RotationViewPager;
 
 public class FragmentSchedule extends Fragment implements AsyncTaskListener {
+    public static final String TAG_FRAGMENT = "fragment_schedule";
     private static final String TAG_STUDENT_GROUP = "student_group";
     private String title = "Fragment Schedule";
     private ViewPager mPager;
@@ -251,5 +253,12 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
         super.onPause();
     }
 
+    public void updateTile(StudentGroup studentGroup) {
+        try {
+            ((ActivityBase) getActivity()).getSupportActionBar().setTitle(studentGroup.getGroupName());
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Parent of fragment must be ActionBarActiviy");
+        }
+    }
 
 }

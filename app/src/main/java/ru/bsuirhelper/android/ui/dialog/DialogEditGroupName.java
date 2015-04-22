@@ -45,9 +45,10 @@ public class DialogEditGroupName extends DialogFragment {
                     studentGroup.setGroupName(edittext.getText().toString());
                     getActivity().getContentResolver().
                             update(CacheContentProvider.STUDENTGROUP_URI, CacheHelper.StudentGroups.toContentValues(studentGroup), CacheHelper.StudentGroups._ID + " = " + studentGroup.getId(), null);
+
                     try {
                         OnDialogEditGroupNameComplete listener = (OnDialogEditGroupNameComplete) getActivity();
-                        listener.onDialogEditComplete();
+                        listener.onDialogEditComplete(edittext.getText().toString());
                     } catch (ClassCastException e) {
                         throw new ClassCastException(getActivity().toString()
                                 + " must implement NoticeDialogListener");
