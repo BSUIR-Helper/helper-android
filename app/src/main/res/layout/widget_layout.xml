@@ -9,13 +9,10 @@
 
     <TextView
         android:id="@+id/widget_date"
-        style="@style/AppTheme"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"
-        android:background="#ff222224"
+        android:background="@drawable/rectangle"
         android:gravity="center"
         android:padding="4dp"
         android:text="Расписание на сегодня"
@@ -24,18 +21,16 @@
 
     <ListView
         android:id="@+id/widget_listView"
-        style="@style/AppTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/widget_date"
         android:layout_gravity="center"
         android:clickable="false"
         android:divider="@color/divider_gray"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="1px" />
 
     <TextView
         android:id="@+id/widget_textView"
-        style="@style/AppTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

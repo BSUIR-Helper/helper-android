@@ -27,12 +27,12 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/lesson_teacher"
         android:layout_alignParentTop="true"
+        android:textColor="@android:color/black"
         android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@+id/lesson_subject_type"
         android:layout_toRightOf="@+id/lesson_type_color"
         android:text="Математика"
-        android:textSize="24sp"
-        android:theme="@style/AppTheme" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/lesson_subject_type"
@@ -41,8 +41,8 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/customview"
         android:text=""
+        android:textColor="@android:color/black"
         android:textSize="24sp"
-        android:theme="@style/AppTheme"
         android:visibility="visible" />
 
     <TextView
@@ -52,10 +52,10 @@
         android:layout_alignLeft="@+id/lesson_name"
         android:layout_alignRight="@+id/lesson_name"
         android:layout_below="@+id/lesson_time"
+        android:textColor="@android:color/black"
         android:singleLine="true"
         android:text="Test"
-        android:textSize="12sp"
-        android:theme="@style/AppTheme" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/lesson_time"
@@ -63,10 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-
+        android:textColor="@android:color/black"
         android:text="13:00-16:00"
-        android:textSize="20sp"
-        android:theme="@style/AppTheme" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/lesson_auditorium"
@@ -75,9 +74,9 @@
         android:layout_alignLeft="@+id/lesson_time"
         android:layout_below="@+id/lesson_time"
         android:paddingRight="8dp"
+        android:textColor="@android:color/black"
         android:text="420-2"
-        android:textSize="16sp"
-        android:theme="@style/AppTheme" />
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/customview"
@@ -88,8 +87,7 @@
         android:layout_marginRight="15dp"
         android:layout_toLeftOf="@+id/lesson_time"
         android:background="@color/divider_gray"
-        android:padding="0dp"
-        android:theme="@style/AppTheme" />
+        android:padding="0dp" />
 
     <ImageView
         android:id="@+id/imageview_note"
@@ -99,7 +97,6 @@
         android:layout_alignRight="@+id/customview"
         android:src="@drawable/ic_notes"
         android:tag="1"
-        android:theme="@style/AppTheme"
         android:visibility="invisible" />
 
 

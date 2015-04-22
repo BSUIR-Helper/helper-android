@@ -75,7 +75,7 @@
             android:authorities="ru.bsuirhelper.android.core.database.cache"
             android:name=".core.cache.CacheContentProvider"
             android:enabled="true"
-            android:exported="false" />>
+            android:exported="true" />>
 
         <meta-data
             android:name="io.fabric.ApiKey"

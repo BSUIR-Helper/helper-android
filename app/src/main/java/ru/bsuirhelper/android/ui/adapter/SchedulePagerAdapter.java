@@ -1,11 +1,12 @@
 package ru.bsuirhelper.android.ui.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
 import org.joda.time.DateTime;
+
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.ui.fragment.FragmentScheduleOfDay;
@@ -29,13 +30,7 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        Bundle args = new Bundle();
-        args.putInt("day", i + 1);
-        args.putString("groupId", mGroupId);
-        args.putInt("subgroup", mSubgroup);
-        Fragment fragment = new FragmentScheduleOfDay();
-        fragment.setArguments(args);
-        return fragment;
+        return FragmentScheduleOfDay.newInstance(i + 1, mGroupId, mSubgroup);
     }
 
     @Override

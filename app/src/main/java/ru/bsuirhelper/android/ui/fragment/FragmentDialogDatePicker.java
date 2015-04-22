@@ -1,5 +1,6 @@
 package ru.bsuirhelper.android.ui.fragment;
 
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -7,7 +8,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
+
 import org.joda.time.DateTime;
+
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
 

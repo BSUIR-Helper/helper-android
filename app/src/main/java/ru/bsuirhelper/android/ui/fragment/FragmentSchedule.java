@@ -1,7 +1,7 @@
 package ru.bsuirhelper.android.ui.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -108,7 +107,7 @@ public class FragmentSchedule extends Fragment implements AsyncTaskListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        mActionBar = ((ActivityBase) getActivity()).getSupportActionBar();
         mActionBar.setDisplayShowTitleEnabled(true);
         View fragmentContent = inflater.inflate(R.layout.activity_schedule, container, false);
         mPager = (ViewPager) fragmentContent.findViewById(R.id.schedule_pager);

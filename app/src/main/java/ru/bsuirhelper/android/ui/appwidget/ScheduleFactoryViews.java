@@ -76,14 +76,14 @@ class ScheduleFactoryViews implements RemoteViewsService.RemoteViewsFactory {
         if (!subjectType.equals(mContext.getString(R.string.ab_curator_hour))) {
             boolean isShowSubjectTypes = PreferenceManager.getDefaultSharedPreferences(
                     mContext).getBoolean(ActivitySettings.KEY_SHOW_SUBJECTS_TYPE, false);
-            /*if (isShowSubjectTypes && !subjectType.equals("")) {
-            */    rView.setTextViewText(R.id.lesson_name, lesson.getSubjectName());
+            if (isShowSubjectTypes && !subjectType.equals("")) {
+              rView.setTextViewText(R.id.lesson_name, lesson.getSubjectName());
                 rView.setViewVisibility(R.id.lesson_subject_type, View.VISIBLE);
                 rView.setTextViewText(R.id.lesson_subject_type, " (" + subjectType + ")");
-          /*  } else {
-                rView.setTextViewText(R.id.lesson_name, lesson.fields.get("subject"));
+            } else {
+                rView.setTextViewText(R.id.lesson_name, lesson.getType());
                 rView.setViewVisibility(R.id.lesson_subject_type, View.GONE);
-            }*/
+            }
         } else {
             rView.setTextViewText(R.id.lesson_name, mContext.getString(R.string.ab_curator_hour).toUpperCase());
         }

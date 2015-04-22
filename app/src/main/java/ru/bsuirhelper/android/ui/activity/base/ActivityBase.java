@@ -3,7 +3,7 @@ package ru.bsuirhelper.android.ui.activity.base;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ui.listener.SwitchFragmentListener;
@@ -11,7 +11,7 @@ import ru.bsuirhelper.android.ui.listener.SwitchFragmentListener;
 /**
  * Created by vladislav on 4/21/15.
  */
-public class ActivityBase extends ActionBarActivity implements SwitchFragmentListener {
+public class ActivityBase extends AppCompatActivity implements SwitchFragmentListener {
     public void switchFragment(Fragment fragment, boolean isAdd) {
         switchFragment(fragment, null, isAdd, R.id.content_frame);
     }

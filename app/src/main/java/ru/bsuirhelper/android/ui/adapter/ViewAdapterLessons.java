@@ -130,6 +130,5 @@ public class ViewAdapterLessons extends BaseAdapter {
         TextView lessonName;
         TextView lessonSubject;
         ImageView ivNote;
-
     }
 }

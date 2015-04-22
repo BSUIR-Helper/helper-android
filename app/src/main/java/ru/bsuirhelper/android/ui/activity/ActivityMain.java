@@ -1,6 +1,6 @@
 package ru.bsuirhelper.android.ui.activity;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;

@@ -1,52 +1,89 @@
 package ru.bsuirhelper.android.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.core.StudentCalendar;
 import ru.bsuirhelper.android.core.cache.ScheduleManager;
 import ru.bsuirhelper.android.core.models.Lesson;
 import ru.bsuirhelper.android.ui.adapter.ViewAdapterLessons;
+import ru.bsuirhelper.android.ui.loader.SchedulerLoader;
 
 /**
  * Created by Влад on 10.10.13.
  */
-public class FragmentScheduleOfDay extends Fragment {
-
+public class FragmentScheduleOfDay extends Fragment implements LoaderManager.LoaderCallbacks<List<Lesson>> {
+    private int LOADER_LESSONS = 1;
+    private static final String KEY_DAY = "day";
+    private static final String KEY_GROUP_ID = "groupId";
+    private static final String KEY_SUBGROUP = "subgroup";
     private final StudentCalendar mStudentCalendar = new StudentCalendar();
     private ListView mListOfLessons;
     private ViewAdapterLessons mAdapterLessons;
+    private int mSubgroup;
+    private DateTime mDay;
+    private String mGroupId;
+    private View fragmentView;
+    private View content;
+    private TextView mDateInText;
+    private List<Lesson> lessons;
+
+    public static FragmentScheduleOfDay newInstance(int day, String groupId, int subgroup) {
+        Bundle args = new Bundle();
+        args.putInt(KEY_DAY, day);
+        args.putString(KEY_GROUP_ID, groupId);
+        args.putInt(KEY_SUBGROUP, subgroup);
+        FragmentScheduleOfDay fragment = new FragmentScheduleOfDay();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        mGroupId = args.getString(KEY_GROUP_ID);
+        mSubgroup = args.getInt(KEY_SUBGROUP);
+        mDay = StudentCalendar.convertToDefaultDateTime(args.getInt(KEY_DAY));
+        lessons = ScheduleManager.getLessonsOfDay(getActivity(), mGroupId, mDay, mSubgroup);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
-        Context context = getActivity();
-        Bundle args = getArguments();
-        TextView dateInText = (TextView) fragmentView.findViewById(R.id.date);
-        DateTime day = StudentCalendar.convertToDefaultDateTime(args.getInt("day"));
-        dateInText.setText(day.getDayOfMonth() + " " + day.monthOfYear().getAsText() + " " + day.year().getAsText() + "");
-
-        String groupId = args.getString("groupId");
-        int subgroup = args.getInt("subgroup");
-        mAdapterLessons = new ViewAdapterLessons(context, ScheduleManager.getLessonsOfDay(context, groupId, day, subgroup));
-        dateInText.setBackgroundColor(getMostColor());
-        if (isSummer(day) || isOtherSemester(day)) {
+        fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
+        mDateInText = (TextView) fragmentView.findViewById(R.id.date);
+        mDateInText.setText(mDay.getDayOfMonth() + " " + mDay.monthOfYear().getAsText() + " " + mDay.year().getAsText() + "");
+        mListOfLessons = (ListView) fragmentView.findViewById(R.id.listView);
+        mAdapterLessons = new ViewAdapterLessons(getActivity(), lessons);
+        mDateInText.setBackgroundColor(getMostColor());
+        if (isSummer(mDay) || isOtherSemester(mDay)) {
             TextView view = (TextView) fragmentView.findViewById(R.id.textView);
+            fragmentView.setAlpha(1);
             view.setText(getString(R.string.lessons_are_not_known));
             view.setVisibility(View.VISIBLE);
+            fragmentView.setAlpha(1);
         } else if (mAdapterLessons.getCount() != 0) {
-            mListOfLessons = (ListView) fragmentView.findViewById(R.id.listView);
             mListOfLessons.setAdapter(mAdapterLessons);
+        } else {
+            TextView view = (TextView) fragmentView.findViewById(R.id.textView);
+            view.setVisibility(View.VISIBLE);
+            fragmentView.setAlpha(1);
+        }
         /*    mListOfLessons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -60,20 +97,14 @@ public class FragmentScheduleOfDay extends Fragment {
                     }
                 }
             });*/
-        } else {
-            TextView view = (TextView) fragmentView.findViewById(R.id.textView);
-            view.setVisibility(View.VISIBLE);
-        }
+        content = fragmentView.findViewById(R.id.fragment_schedule);
         return fragmentView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mAdapterLessons.notifyDataSetChanged();
-        mAdapterLessons.notifyDataSetInvalidated();
     }
-
 
     /*
     private Intent createIntentForAddNote(Lesson lesson) {
@@ -107,7 +138,7 @@ public class FragmentScheduleOfDay extends Fragment {
         type[0][2] = getResources().getColor(R.color.green);
         for (int i = 0; i < mAdapterLessons.getCount(); i++) {
             Lesson lesson = (Lesson) mAdapterLessons.getItem(i);
-            String lessonType = lesson.getType();
+            String lessonType = lesson.getType().toLowerCase();
             if (lessonType.equals("лк")) {
                 type[1][2] += 1;
             } else if (lessonType.equals("лр")) {
@@ -126,5 +157,36 @@ public class FragmentScheduleOfDay extends Fragment {
             }
         }
         return color;
+    }
+
+    @Override
+    public Loader<List<Lesson>> onCreateLoader(int i, Bundle bundle) {
+        Logger.e("On Create Loader");
+        return new SchedulerLoader(getActivity(), mDay, mGroupId, mSubgroup);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Lesson>> loader, List<Lesson> lessons) {
+        mDateInText.setBackgroundColor(getResources().getColor(R.color.green));
+        mAdapterLessons = new ViewAdapterLessons(getActivity(), lessons);
+        if (isSummer(mDay) || isOtherSemester(mDay)) {
+            TextView view = (TextView) fragmentView.findViewById(R.id.textView);
+            fragmentView.setAlpha(1);
+            view.setText(getString(R.string.lessons_are_not_known));
+            view.setVisibility(View.VISIBLE);
+            fragmentView.setAlpha(1);
+        } else if (mAdapterLessons.getCount() != 0) {
+            mListOfLessons.setAdapter(mAdapterLessons);
+        } else {
+            TextView view = (TextView) fragmentView.findViewById(R.id.textView);
+            view.setVisibility(View.VISIBLE);
+            fragmentView.setAlpha(1);
+        }
+        Logger.e("Data delivered");
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Lesson>> loader) {
     }
 }
