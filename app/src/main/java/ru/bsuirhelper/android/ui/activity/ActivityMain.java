@@ -35,6 +35,8 @@ import ru.bsuirhelper.android.ui.adapter.SpinnerGroupsAdapter;
 import ru.bsuirhelper.android.ui.asynctask.DownloadScheduleTask;
 import ru.bsuirhelper.android.ui.dialog.DialogAddGroup;
 import ru.bsuirhelper.android.ui.dialog.DialogEditGroupName;
+import ru.bsuirhelper.android.ui.fragment.FragmentCalendar;
+import ru.bsuirhelper.android.ui.fragment.FragmentCalendarMonth;
 import ru.bsuirhelper.android.ui.fragment.FragmentNoGroups;
 import ru.bsuirhelper.android.ui.fragment.FragmentSchedule;
 import ru.bsuirhelper.android.ui.listener.AsyncTaskListener;
@@ -72,7 +74,7 @@ public class ActivityMain extends ActivityBase implements AsyncTaskListener, OnD
             StudentGroup studentGroup = CacheHelper.StudentGroups.getById(this, Long.parseLong(defaultGroup));
             switchFragment(FragmentSchedule.newInstance(studentGroup), FragmentSchedule.TAG_FRAGMENT, false, R.id.content_frame);
         } else {
-            switchFragment(FragmentNoGroups.newInstance(), R.id.content_frame);
+            switchFragment(new FragmentCalendar(), R.id.content_frame);
         }
         if (ApplicationSettings.getInstance(this).getBoolean("isFirstShowDrawer", true)) {
             openDrawerMenu();

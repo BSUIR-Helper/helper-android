@@ -2,88 +2,137 @@
 <items version="2" >
 
     <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/classes.jar"
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\22.2.0\jars\classes.jar"
         jumboMode="false"
-        revision="22.0.0"
-        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-09f9ca0cd3636c4d2eb24e4ee5c53982e68a6395.jar" />
+        revision="22.0.1"
+        sha1="5b37cf49773f7f17aca9830efd3053b0cac56728">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-197a770d5e66574eb3929b283a00eb87ba277bde.jar" />
     </item>
     <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/crashlytics/2.2.3/classes.jar"
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\beta\1.1.2\jars\classes.jar"
         jumboMode="false"
-        revision="22.0.0"
-        sha1="151dcc4be9b748290223c6bbf94bf8213181a971">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-d0db22a525eff08acde5a3e6283200ef33f5a014.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.9.0/a681c044244d9fc375198588297a39ba78028423/retrofit-1.9.0.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="a681c044244d9fc375198588297a39ba78028423">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/retrofit-1.9.0-3e01eafead4dcd0f0c849cc836f2518312fca74b.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-4e57bfb006f759b48f397c5c93104ac36860ba11.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.orhanobut/logger/1.8/classes.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="905a1a3170bf8e5f07e14217f5bdc2348f1425ca">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-6a36cec81985568bf378ba3705204f828c22088a.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/libs/internal_impl-22.0.0.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-9a07401c8fcce6855584780f53040e7df1777bbc.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/Development/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-d6be6d2ff8d90c07c32526c3e6ae19d8f7739b79.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/gson-2.3.1-ddcf02349239a8d99a7b02ef4274608e6224d178.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.7/5599707a3eaad13e889f691b3af78c8c03842195/joda-time-2.7.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="5599707a3eaad13e889f691b3af78c8c03842195">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/joda-time-2.7-09bec48bf8240e7920b0057a2f90f68b6fdc6994.jar" />
-    </item>
-    <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/beta/1.1.2/classes.jar"
-        jumboMode="false"
-        revision="22.0.0"
+        revision="22.0.1"
         sha1="0d6546c1c73cb64a6907f694e6c4bf4b50fefa70">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-c7c0e6ba69a0785971a4ae492d649edda62dc48c.jar" />
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-362dc097f0a0862b5acf85116dcb7f45bede6eb5.jar" />
     </item>
     <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/answers/1.1.2/classes.jar"
+        jar="C:\Users\Grishechko\.gradle\caches\modules-2\files-2.1\joda-time\joda-time\2.7\5599707a3eaad13e889f691b3af78c8c03842195\joda-time-2.7.jar"
         jumboMode="false"
-        revision="22.0.0"
-        sha1="158555fbeff80e5a85464a818eadda8a448a1051">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-dcfd7e0320438881c7bdc6eb7497daa2e9c59182.jar" />
+        revision="22.0.1"
+        sha1="5599707a3eaad13e889f691b3af78c8c03842195">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\joda-time-2.7-82561bd1e38a57431ffae612e330b043ac3eff5c.jar" />
     </item>
     <item
-        jar="/home/vladislav/workspace/helper-android/app/build/intermediates/exploded-aar/io.fabric.sdk.android/fabric/1.3.0/classes.jar"
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.orhanobut\logger\1.8\jars\classes.jar"
         jumboMode="false"
-        revision="22.0.0"
+        revision="22.0.1"
+        sha1="905a1a3170bf8e5f07e14217f5bdc2348f1425ca">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-ce7feedff1fa8ba7dccbb4a85cb626823c46ae75.jar" />
+    </item>
+    <item
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-b4064f8ea14dcfc2e51a85b0768a0a421e32ab8e.jar" />
+    </item>
+    <item
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-7ae354f43f5038ce412c540dd34582a93b389f7f.jar" />
+    </item>
+    <item
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="97f7e239e86ef994de894818fdd8a71d2e89d6aa">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-8c8564974a1113c61524b39b3e082eb187428c63.jar" />
+    </item>
+    <item
+        jar="C:\Users\Grishechko\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\2.0.1\516c03b21d50a644d538de0f0369c620989cd8f0\jsr305-2.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="516c03b21d50a644d538de0f0369c620989cd8f0">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\jsr305-2.0.1-f9a51f4151e8b86b719c8787ba0e98586f98c1e6.jar" />
+    </item>
+    <item
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-f19d54924b7e4f4371205cd578bbfa32c97f8504.jar" />
+    </item>
+    <item
+        jar="C:\Users\Grishechko\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3.1\ecb6e1f8e4b0e84c4b886c2f14a1500caf309757\gson-2.3.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\gson-2.3.1-a97f8d5e2914cb2148a3d2e87072f2b8eb85f6f9.jar" />
+    </item>
+    <item
+        jar="C:\Users\Grishechko\.gradle\caches\modules-2\files-2.1\com.jakewharton.timber\timber\3.1.0\3ab2aedaeb4bfa698d0021cb843b2040fbf57fc\timber-3.1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="03ab2aedaeb4bfa698d0021cb843b2040fbf57fc">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\timber-3.1.0-91a4c07d4010f023e2876fbb697f9ab497500dfe.jar" />
+    </item>
+    <item
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\io.fabric.sdk.android\fabric\1.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
         sha1="7372378dec00f25c04714a058617e515858273c8">
-        <dex dex="/home/vladislav/workspace/helper-android/app/build/intermediates/pre-dexed/debug/classes-724dc92e829a7115d24c07312f146884fa4d88e5.jar" />
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-5fb57021bf5595ad32c1acb8907ebc29ffb59817.jar" />
+    </item>
+    <item
+        jar="C:\Users\Grishechko\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\7.0.1\d5d13ea991eab0252e3710e5df3d6a9d4b21d461\butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\butterknife-7.0.1-cad7dd77987459476f56b203c67867065508de5c.jar" />
+    </item>
+    <item
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\answers\1.1.2\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="158555fbeff80e5a85464a818eadda8a448a1051">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-09a91ba6b60fb3a27ba5f63f436841f8d1c3c2b5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Grishechko\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.9.0\a681c044244d9fc375198588297a39ba78028423\retrofit-1.9.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a681c044244d9fc375198588297a39ba78028423">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\retrofit-1.9.0-170bb3fbdad72aa3e4d7ac420e493fb3584833de.jar" />
+    </item>
+    <item
+        jar="E:\Soft\Android SDK 2015\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-3ee44f982957f7d8fd962d89b8706aa80f857189.jar" />
+    </item>
+    <item
+        jar="C:\Users\Grishechko\.gradle\caches\modules-2\files-2.1\commons-cli\commons-cli\1.2\2bf96b7aa8b611c177d329452af1dc933e14501c\commons-cli-1.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2bf96b7aa8b611c177d329452af1dc933e14501c">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\commons-cli-1.2-e7b84809e23a323acd3d4bfba6d13d9ef06e9631.jar" />
+    </item>
+    <item
+        jar="E:\workspace\helper-android\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\crashlytics\2.2.3\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="151dcc4be9b748290223c6bbf94bf8213181a971">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\classes-565718a2ae6977fd8933d95d92d8ad3cf0de7f59.jar" />
+    </item>
+    <item
+        jar="C:\Users\Grishechko\.gradle\caches\modules-2\files-2.1\com.facebook.stetho\stetho\1.1.1\ab1142c5adfa474e7494cba19fd9fc6e73207960\stetho-1.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ab1142c5adfa474e7494cba19fd9fc6e73207960">
+        <dex dex="E:\workspace\helper-android\app\build\intermediates\pre-dexed\debug\stetho-1.1.1-b4fb302b9816c42b65fee7a01e40ab938f456733.jar" />
     </item>
 
 </items>

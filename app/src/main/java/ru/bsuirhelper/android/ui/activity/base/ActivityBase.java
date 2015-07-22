@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import butterknife.ButterKnife;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.ui.listener.SwitchFragmentListener;
 
@@ -12,6 +13,13 @@ import ru.bsuirhelper.android.ui.listener.SwitchFragmentListener;
  * Created by vladislav on 4/21/15.
  */
 public class ActivityBase extends AppCompatActivity implements SwitchFragmentListener {
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        ButterKnife.bind(this);
+    }
+
     public void switchFragment(Fragment fragment, boolean isAdd) {
         switchFragment(fragment, null, isAdd, R.id.content_frame);
     }
