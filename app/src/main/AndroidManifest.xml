@@ -6,17 +6,17 @@
 
     <application
         android:label="BSUIR Helper"
-        android:name=".App"
+        android:name=".app.App"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme"
         >
         <!-- ACTIVITIES -->
         <activity
-            android:name=".ui.activity.ActivityEditNote"
+            android:name=".app.ui.activity.ActivityEditNote"
             android:label="Создать заметку"/>
 
         <activity
-            android:name=".ui.activity.ActivityMain"
+            android:name=".app.ui.activity.MainActivity"
             android:label="BSUIR Helper"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -26,22 +26,22 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.ActivityDetailNote"
+            android:name=".app.ui.activity.ActivityDetailNote"
             android:label="Заметка"
             >
         </activity>
         <activity
-            android:name=".ui.activity.ActivitySettings"
+            android:name=".app.ui.activity.ActivitySettings"
             android:label="Настройки"/>
 
         <!-- WIDGET -->
         <service
-            android:name=".ui.appwidget.ScheduleWidgetService"
+            android:name=".app.ui.appwidget.ScheduleWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
 
         <receiver
-            android:name=".ui.appwidget.ScheduleWidgetProviderBig"
+            android:name=".app.ui.appwidget.ScheduleWidgetProviderBig"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день (большое)">
@@ -56,7 +56,7 @@
             </meta-data>
         </receiver>
         <receiver
-            android:name=".ui.appwidget.ScheduleWidgetProviderMedium"
+            android:name=".app.ui.appwidget.ScheduleWidgetProviderMedium"
             android:icon="@drawable/ic_launcher"
             android:enabled="@bool/honeycombOrAbove"
             android:label="Расписание на день (среднее)">
@@ -72,8 +72,8 @@
         </receiver>
 
         <provider
-            android:authorities="ru.bsuirhelper.android.core.database.cache"
-            android:name=".core.cache.CacheContentProvider"
+            android:authorities="ru.bsuirhelper.android.app.core.database.cache"
+            android:name=".app.core.cache.CacheContentProvider"
             android:enabled="true"
             android:exported="true" />>
 

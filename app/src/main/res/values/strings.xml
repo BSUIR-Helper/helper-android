@@ -88,4 +88,5 @@
 
     <string name="subgroup1">Subgroup 1</string>
     <string name="subgroup2">Subgroup 2</string>
+    <string name="dont_change"/>
 </resources>

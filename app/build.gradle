@@ -1,5 +1,20 @@
-configurations {
-    all*.exclude group: 'com.android.support', module: 'support-v4'
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
+apply from: '../code_quality_tools/jacoco.gradle'
+
+def getGitSha() {
+    return 'cmd /c git rev-parse --short HEAD'.execute().text.trim()
+}
+
+def getBuildDateForDebugBuild() {
+    // To prevent frequent breaking of incremental compilation we don't put minutes and seconds in debug builds.
+    return new Date().format("dd-MM-yyyy HH:00:00 z", TimeZone.getTimeZone("UTC"))
+}
+
+def getBuildDateForReleaseBuild() {
+    return new Date().format("dd-MM-yyyy HH:mm:ss z", TimeZone.getTimeZone("UTC"))
 }
 
 buildscript {
@@ -8,15 +23,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.21.2'
     }
-}
-
-apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
 }
 
 def versionMajor = 0
@@ -25,24 +33,30 @@ def versionPatch = 2
 def versionBuild = 1 // bump for dogfood builds, public betas, etc.
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0"
+    // See build.gradle in the root of the project
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
+
     defaultConfig {
         applicationId "ru.bsuirhelper.android"
-        minSdkVersion 14
-        targetSdkVersion 22
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        multiDexEnabled true
+
+        // Notice that each change of git sha will require recompilation of the BuildConfig class (which can cause full assemble task run).
+        buildConfigField 'String', 'GIT_SHA', "\"${getGitSha()}\""
+        // Notice that we have custom Instrumentation test runner to change application class (to mock dependencies)!
+        testInstrumentationRunner 'com.artemzin.qualitymatters.functional_tests.QualityMattersFunctionalTestsRunner'
     }
-    sourceSets {
-        instrumentTest.setRoot('tests')
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
-    }
+    1
+
     if (project.hasProperty("idiscount.properties")
             && file(project.property("idiscount.properties")).exists()) {
         Properties keyProps = new Properties()
@@ -66,6 +80,7 @@ android {
                 renderscriptDebuggable true
                 zipAlignEnabled true
                 signingConfig signingConfigs.release
+                buildConfigField 'String', 'BUILD_DATE', "\"${getBuildDateForReleaseBuild()}\""
             }
 
             debug {
@@ -75,6 +90,7 @@ android {
                 jniDebuggable true
                 renderscriptDebuggable true
                 zipAlignEnabled true
+                buildConfigField 'String', 'BUILD_DATE', "\"${getBuildDateForDebugBuild()}\""
             }
         }
     } else {
@@ -82,6 +98,7 @@ android {
             release {
                 minifyEnabled false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                buildConfigField 'String', 'BUILD_DATE', "\"${getBuildDateForReleaseBuild()}\""
             }
             debug {
                 minifyEnabled false
@@ -91,11 +108,27 @@ android {
                 renderscriptDebuggable true
                 zipAlignEnabled true
                 signingConfig signingConfigs.debug
+                buildConfigField 'String', 'BUILD_DATE', "\"${getBuildDateForDebugBuild()}\""
             }
         }
     }
-    productFlavors {
+
+    lintOptions {
+        warningsAsErrors true
+        abortOnError true // Fail early.
+
+        disable 'GoogleAppIndexingWarning' // App does not have deep linking.
+        disable 'InvalidPackage' // Okio references java.nio that does not presented in Android SDK.
     }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             output.outputFile = new File(
@@ -103,21 +136,90 @@ android {
                     output.outputFile.name.replace(".apk", "-${variant.versionCode}.apk"))
         }
     }
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+
+
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            exceptionFormat 'full'
         }
     }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.1.0'
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'com.orhanobut:logger:1.4'
     compile 'joda-time:joda-time:2.7'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
     compile 'com.orhanobut:logger:1.8'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+    compile libraries.dagger
+    apt libraries.daggerCompiler
+    compile libraries.javaxInject
+    compile libraries.javaxAnnotationApi
+
+    compile libraries.rxJava
+
+    compile libraries.okHttp
+    compile libraries.okHttpLoggingInterceptor
+    compile libraries.retrofit
+    compile libraries.retrofitJacksonConverter
+    compile libraries.retrofitRxJavaAdapter
+    compile libraries.jacksonDataBind
+    compile (libraries.retrofitXmlConverter) {
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
+
+    compile libraries.storio
+    apt libraries.storioCompiler
+    compile libraries.storioAnnotations
+
+    compile libraries.autoValue
+
+    compile libraries.supportAnnotations
+    compile libraries.supportAppCompat
+    compile libraries.supportDesign
+    compile libraries.supportRecyclerView
+    compile libraries.supportCardView
+
+    compile libraries.butterKnife
+    compile libraries.dart
+    compile libraries.picasso
+    compile libraries.timber
+
+    // Developer tools (Developer Settings)
+    debugCompile libraries.stetho
+    debugCompile libraries.stethoOkHttp
+    debugCompile libraries.leakCanary
+    debugCompile libraries.tinyDancer
+
+    testCompile libraries.junit
+    testCompile libraries.robolectric
+    testCompile libraries.assertJ
+    testCompile libraries.equalsVerifier
+    testCompile libraries.okHttpMockWebServer
+    testCompile libraries.mockitoCore
+
+    androidTestCompile libraries.supportTestRunner
+    androidTestCompile libraries.supportTestRules
+    androidTestCompile libraries.espressoCore
+    androidTestCompile(libraries.espressoContrib) {
+        // Causes IncompatibleClassChangeError. As always…
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'support-v4'
+    }
+    /*androidTestCompile libraries.okHttpMockWebServer*/
+}
+
+
+configurations.all {
+    resolutionStrategy {
+        // Force our version of support-annotations, we have a conflict between app and androidTest dependency resolution.
+        force libraries.supportAnnotations
+    }
 }
