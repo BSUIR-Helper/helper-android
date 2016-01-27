@@ -117,7 +117,7 @@ public class Lesson {
 
     @Override
     public String toString() {
-        return "Lesson{" +
+        return "ScheduleLesson{" +
                 "id=" + id +
                 ", auditory='" + auditory + '\'' +
                 ", lessonTime='" + lessonTime + '\'' +

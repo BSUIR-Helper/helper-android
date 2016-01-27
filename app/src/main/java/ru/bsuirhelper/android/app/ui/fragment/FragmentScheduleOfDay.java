@@ -87,7 +87,7 @@ public class FragmentScheduleOfDay extends Fragment implements LoaderManager.Loa
         /*    mListOfLessons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Lesson lesson = (Lesson) mListOfLessons.getAdapter().getItem(i);
+                    ScheduleLesson lesson = (ScheduleLesson) mListOfLessons.getAdapter().getItem(i);
                     Note note = NoteDatabase.getInstance(getActivity().getApplicationContext())
                             .fetchNoteByLessonId(lesson.id);
                     if (note != null) {
@@ -107,7 +107,7 @@ public class FragmentScheduleOfDay extends Fragment implements LoaderManager.Loa
     }
 
     /*
-    private Intent createIntentForAddNote(Lesson lesson) {
+    private Intent createIntentForAddNote(ScheduleLesson lesson) {
         Intent intent = new Intent(getActivity(), ActivityEditNote.class);
         intent.putExtra("lesson_id", lesson.id);
         intent.putExtra("lesson_subject", lesson.fields.get("subject") + " " + lesson.fields.get("subjectType"));
@@ -115,7 +115,7 @@ public class FragmentScheduleOfDay extends Fragment implements LoaderManager.Loa
         return intent;
     }
 
-    private Intent createIntentForEditNote(Lesson lesson, Note note) {
+    private Intent createIntentForEditNote(ScheduleLesson lesson, Note note) {
         Intent intent = new Intent(getActivity(), ActivityDetailNote.class);
         intent.putExtra("note_id", note.getId());
         intent.putExtra("lesson_id", lesson.id);

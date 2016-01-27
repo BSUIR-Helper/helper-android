@@ -26,6 +26,8 @@ import ru.bsuirhelper.android.app.api.entities.Employee;
 import ru.bsuirhelper.android.app.api.entities.EmployeeList;
 import ru.bsuirhelper.android.app.api.entities.ScheduleStudentGroupList;
 import ru.bsuirhelper.android.app.api.entities.StudentGroupList;
+import ru.bsuirhelper.android.app.db.DatabaseHelper;
+import ru.bsuirhelper.android.app.db.entities.StudentGroup;
 import ru.bsuirhelper.android.app.ui.activity.base.BaseActivity;
 import ru.bsuirhelper.android.app.ui.other.ViewModifier;
 import timber.log.Timber;
@@ -45,6 +47,9 @@ public class MainActivity extends BaseActivity {
 
     @Inject
     AppRestApi api;
+
+    @Inject
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +97,7 @@ public class MainActivity extends BaseActivity {
                 Timber.e(t, "Error");
             }
         });
+        db.putStudentGroup(StudentGroup.builder().id(1L).course(2).name("3232").facultyId(2L).specialityDepartmentEducationFormId(4L).build()).execute();
     }
 
     @Override

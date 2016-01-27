@@ -154,6 +154,7 @@ dependencies {
         transitive = true;
     }
     compile 'com.orhanobut:logger:1.8'
+    compile 'nl.qbusict:cupboard:2.1.4'
 
     compile libraries.dagger
     apt libraries.daggerCompiler

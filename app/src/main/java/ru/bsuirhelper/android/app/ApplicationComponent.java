@@ -1,9 +1,12 @@
 package ru.bsuirhelper.android.app;
 
+import ru.bsuirhelper.android.app.db.DatabaseModule;
+import ru.bsuirhelper.android.app.db.converter.JsonParametrizedTypeConverter;
 import ru.bsuirhelper.android.app.developer_settings.DeveloperSettingsComponent;
 import ru.bsuirhelper.android.app.developer_settings.DeveloperSettingsModule;
 import ru.bsuirhelper.android.app.developer_settings.LeakCanaryProxy;
 import ru.bsuirhelper.android.app.performance.AsyncJobsModule;
+
 import android.support.annotation.NonNull;
 
 
@@ -25,6 +28,7 @@ import ru.bsuirhelper.android.app.ui.activity.MainActivity;
         ApplicationModule.class,
         NetworkModule.class,
         ApiModule.class,
+        DatabaseModule.class,
         ModelsModule.class,
         AsyncJobsModule.class,
         DeveloperSettingsModule.class,

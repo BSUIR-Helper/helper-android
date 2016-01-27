@@ -11,6 +11,15 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import nl.qbusict.cupboard.Cupboard;
+import nl.qbusict.cupboard.CupboardBuilder;
+import nl.qbusict.cupboard.CupboardFactory;
+import ru.bsuirhelper.android.app.db.converter.AutoValueEntityCoverterFactory;
+import ru.bsuirhelper.android.app.db.converter.GenericFieldConverterFactory;
+import ru.bsuirhelper.android.app.db.entities.StudentGroup;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
+import static nl.qbusict.cupboard.CupboardFactory.setCupboard;
 
 /**
  * Created by Grishechko on 21.01.2016.
@@ -21,16 +30,27 @@ public class DatabaseModule {
     @Provides
     @NonNull
     @Singleton
-    public StorIOSQLite provideStorIOSQLite(@NonNull SQLiteOpenHelper sqLiteOpenHelper) {
-        return DefaultStorIOSQLite.builder()
-                .sqliteOpenHelper(sqLiteOpenHelper)
-                .build();
+    public DbSQLiteOpenHelper provideSQLiteOpenHelper(@NonNull Context context, @NonNull Cupboard cupboard) {
+        return new DbSQLiteOpenHelper(context, cupboard);
     }
 
     @Provides
     @NonNull
     @Singleton
-    public SQLiteOpenHelper provideSQLiteOpenHelper(@NonNull Context context) {
-        return new DbOpenHelper(context);
+    public Cupboard provideCupboard() {
+        CupboardFactory.setCupboard(new CupboardBuilder().registerFieldConverterFactory(new GenericFieldConverterFactory()).
+                registerEntityConverterFactory(new AutoValueEntityCoverterFactory()).useAnnotations().build());
+        Class[] ENTITIES = new Class[]{StudentGroup.class};
+        for (Class clazz : ENTITIES) {
+            CupboardFactory.cupboard().register(clazz);
+        }
+        return CupboardFactory.cupboard();
+    }
+
+    @Provides
+    @NonNull
+    @Singleton
+    public DatabaseHelper provideDatabaseHelper(@NonNull DbSQLiteOpenHelper sqLiteOpenHelper, @NonNull Cupboard cupboard) {
+        return new DatabaseHelperImpl(sqLiteOpenHelper, cupboard);
     }
 }

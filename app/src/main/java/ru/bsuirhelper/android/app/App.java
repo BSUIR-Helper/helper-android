@@ -14,13 +14,13 @@ import ru.bsuirhelper.android.app.api.ApiModule;
 /**
  * Created by vladislav on 4/18/15.
  */
-public class App extends Application{
+public class App extends Application {
     @SuppressWarnings("NullableProblems")
     // Initialized in onCreate. But be careful if you have ContentProviders
     // -> their onCreate may be called before app.onCreate()
     // -> move initialization to attachBaseContext().
     @NonNull
-    private ApplicationComponent applicationComponent;
+    private static ApplicationComponent applicationComponent;
 
     public static volatile Handler applicationHandler;
     public static volatile Context applicationContext;
@@ -28,7 +28,7 @@ public class App extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        if(!BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics());
         }
         applicationHandler = new Handler(getApplicationContext().getMainLooper());
@@ -45,7 +45,7 @@ public class App extends Application{
     }
 
     @NonNull
-    public ApplicationComponent applicationComponent() {
+    public static ApplicationComponent applicationComponent() {
         return applicationComponent;
     }
 

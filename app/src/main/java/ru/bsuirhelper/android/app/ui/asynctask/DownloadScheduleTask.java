@@ -40,7 +40,7 @@ public class DownloadScheduleTask extends AsyncTask<String, Integer, DownloadSch
             return Status.ERROR;
         }
 
-        List<Lesson> lessons = null;
+        List<ScheduleLesson> lessons = null;
         try {
             lessons = ScheduleParser.parseXmlSchedule(schedule);
         } catch (Exception e) {

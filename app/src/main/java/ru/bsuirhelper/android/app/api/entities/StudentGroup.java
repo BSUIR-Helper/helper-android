@@ -57,7 +57,7 @@ public class StudentGroup {
     }
 
     @Nullable
-    public int getCourse() {
+    public Integer getCourse() {
         return course;
     }
 

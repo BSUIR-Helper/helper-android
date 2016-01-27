@@ -63,8 +63,6 @@ ext.libraries = [
         supportRecyclerView     : "com.android.support:recyclerview-v7:$versions.supportLibs",
         supportCardView         : "com.android.support:cardview-v7:$versions.supportLibs",
 
-
-
         butterKnife             : "com.jakewharton:butterknife:$versions.butterKnife",
         dart                    : "com.f2prateek.dart:dart:$versions.dart",
         picasso                 : "com.squareup.picasso:picasso:$versions.picasso",

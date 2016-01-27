@@ -111,7 +111,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String createTableQuery = "CREATE table " + tableName;
         //Add column names and types in table
         createTableQuery += " ( " + _ID + " INT, updatedTime TEXT, ";
-        Lesson lesson = new Lesson();
+        ScheduleLesson lesson = new ScheduleLesson();
         Map<String, String> columns = lesson.fields;
         for (String columnName : columns.keySet()) {
             createTableQuery += columnName + " TEXT,";
