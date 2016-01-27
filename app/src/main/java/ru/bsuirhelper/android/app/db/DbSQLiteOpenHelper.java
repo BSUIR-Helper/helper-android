@@ -34,6 +34,7 @@ public class DbSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(@NonNull SQLiteDatabase db) {
+        cupboard.withDatabase(db).createTables();
     }
 
     @Override

@@ -1,16 +1,16 @@
 package ru.bsuirhelper.android.app.db;
 
+import java.util.List;
+
 import ru.bsuirhelper.android.app.db.entities.StudentGroup;
 
 /**
  * Created by Grishechko on 21.01.2016.
  */
 public interface DatabaseHelper {
-    DbCall<String> getTest();
 
-    DbCall<Boolean> putTest();
+    DbCall<Boolean> putStudentGroups(List<StudentGroup> studentGroups);
 
-    DbCall<Boolean> putStudentGroup(StudentGroup studentGroup);
 
-    DbCall<StudentGroup> getStudentGroup();
+    DbCall<List<StudentGroup>> getStudentGroups();
 }

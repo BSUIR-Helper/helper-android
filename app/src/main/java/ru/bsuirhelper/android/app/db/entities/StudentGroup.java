@@ -35,7 +35,7 @@ public class StudentGroup implements DbConverter<ru.bsuirhelper.android.app.api.
     }
 
     @NonNull
-    public long getId() {
+    public Long getId() {
         return _id;
     }
 
@@ -45,7 +45,7 @@ public class StudentGroup implements DbConverter<ru.bsuirhelper.android.app.api.
     }
 
     @NonNull
-    public long getFacultyId() {
+    public Long getFacultyId() {
         return facultyId;
     }
 
@@ -55,7 +55,7 @@ public class StudentGroup implements DbConverter<ru.bsuirhelper.android.app.api.
     }
 
     @NonNull
-    public long getSpecialityDepartmentEducationFormId() {
+    public Long getSpecialityDepartmentEducationFormId() {
         return specialityDepartmentEducationFormId;
     }
 

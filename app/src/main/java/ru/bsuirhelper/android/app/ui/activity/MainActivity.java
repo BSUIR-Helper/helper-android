@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,7 +23,6 @@ import retrofit.Retrofit;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.app.App;
 import ru.bsuirhelper.android.app.api.AppRestApi;
-import ru.bsuirhelper.android.app.api.entities.Employee;
 import ru.bsuirhelper.android.app.api.entities.EmployeeList;
 import ru.bsuirhelper.android.app.api.entities.ScheduleStudentGroupList;
 import ru.bsuirhelper.android.app.api.entities.StudentGroupList;
@@ -74,7 +74,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onResponse(Response<StudentGroupList> response, Retrofit retrofit) {
                 if (response.body() != null) {
-                    Timber.d(response.body().toString());
+                    List<ru.bsuirhelper.android.app.api.entities.StudentGroup> apiEntities = response.body().getStudentGroups();
+                    List<StudentGroup> studentGroups = new ArrayList<>();
+                    for (ru.bsuirhelper.android.app.api.entities.StudentGroup studentGroup : apiEntities) {
+                        studentGroups.add(new StudentGroup().setDataFrom(studentGroup));
+                    }
+                    db.putStudentGroups(studentGroups).execute();
                 }
             }
 
@@ -97,7 +102,6 @@ public class MainActivity extends BaseActivity {
                 Timber.e(t, "Error");
             }
         });
-        db.putStudentGroup(StudentGroup.builder().id(1L).course(2).name("3232").facultyId(2L).specialityDepartmentEducationFormId(4L).build()).execute();
     }
 
     @Override

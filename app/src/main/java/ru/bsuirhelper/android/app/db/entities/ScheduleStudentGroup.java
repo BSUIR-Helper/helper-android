@@ -14,7 +14,7 @@ import ru.bsuirhelper.android.app.api.entities.ScheduleStudentGroupList;
 public class ScheduleStudentGroup implements DbConverter<ScheduleStudentGroupList, ScheduleStudentGroup> {
 
     @NonNull
-    private long _id;
+    private Long _id;
 
     @NonNull
     private StudentGroup studentGroup;
