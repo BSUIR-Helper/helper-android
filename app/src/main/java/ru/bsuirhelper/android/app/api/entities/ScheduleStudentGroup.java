@@ -30,11 +30,11 @@ public class ScheduleStudentGroup {
     private static final String XML_ELEMENT_NOTE = "note";
     private static final String XML_ELEMENT_ZAOCH = "zaoch";
 
-    @NonNull
-    @Element(name = XML_ELEMENT_AUDITORY)
+    @Nullable
+    @Element(name = XML_ELEMENT_AUDITORY, required = false)
     private String auditory;
 
-    @NonNull
+    @Nullable
     @Element(name = XML_ELEMENT_EMPLOYEE, required = false)
     private Employee employee;
 
@@ -72,12 +72,12 @@ public class ScheduleStudentGroup {
     @Element(name = XML_ELEMENT_ZAOCH)
     private boolean zaoch;
 
-    @NonNull
+    @Nullable
     public String getAuditory() {
         return auditory;
     }
 
-    @NonNull
+    @Nullable
     public Employee getEmployee() {
         return employee;
     }
