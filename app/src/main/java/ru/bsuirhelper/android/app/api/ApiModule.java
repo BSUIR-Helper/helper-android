@@ -9,7 +9,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
 import retrofit.SimpleXmlConverterFactory;
@@ -35,7 +34,7 @@ public class ApiModule {
     }
 
     @Provides @NonNull @Singleton
-    public AppRestApi provideRestApi(@NonNull OkHttpClient okHttpClient, @NonNull ObjectMapper objectMapper, @NonNull ChangeableBaseUrl changeableBaseUrl) {
+    public RestApi provideRestApi(@NonNull OkHttpClient okHttpClient, @NonNull ObjectMapper objectMapper, @NonNull ChangeableBaseUrl changeableBaseUrl) {
         final Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(changeableBaseUrl)
                 .client(okHttpClient)
@@ -47,6 +46,6 @@ public class ApiModule {
             builder.validateEagerly();
         }
 
-        return builder.build().create(AppRestApi.class);
+        return builder.build().create(RestApi.class);
     }
 }

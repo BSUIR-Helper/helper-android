@@ -1,6 +1,7 @@
 package ru.bsuirhelper.android.app.ui.activity.base;
 
 
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +19,13 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarC
     @Override
     public void setContentView(View view) {
         super.setContentView(view);
-        ButterKnife.bind(view, this);
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        ButterKnife.bind(this);
     }
 
     private void clearFragmentBackStack() {
@@ -58,7 +65,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarC
         if (transaction.isAddToBackStack()) {
             ft.addToBackStack(null);
         }
-        ft.replace(R.id.content_frame, transaction.getFragment());
+        ft.replace(R.id.fl_main_activity_container, transaction.getFragment());
         ft.commitAllowingStateLoss();
         AndroidUtils.hideKeyboard(this);
     }

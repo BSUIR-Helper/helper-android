@@ -73,4 +73,6 @@
 
     <string name="subgroup1">Подгруппа 1</string>
     <string name="subgroup2">Подгруппа 2</string>
+    <string name="september">Сентябрь</string>
+    <string name="october">Октябрь</string>
 </resources>

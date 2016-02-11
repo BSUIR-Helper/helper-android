@@ -79,4 +79,9 @@ public class Employee implements DbConverter<ru.bsuirhelper.android.app.api.enti
         rank = employee.getRank();
         return this;
     }
+
+    @NonNull
+    public String getShortName() {
+        return String.format("%s %s.%s", lastName, firstName.substring(0, 1), middleName.substring(0, 1));
+    }
 }

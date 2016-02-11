@@ -64,12 +64,12 @@ public class ScheduleLesson implements DbConverter<ScheduleStudentGroup, Schedul
     }
 
     @NonNull
-    public String getLessonTime() {
+    public String getTime() {
         return lessonTime;
     }
 
     @NonNull
-    public String getLessonType() {
+    public String getType() {
         return lessonType;
     }
 
@@ -101,7 +101,9 @@ public class ScheduleLesson implements DbConverter<ScheduleStudentGroup, Schedul
     @Override
     public ScheduleLesson setDataFrom(ScheduleStudentGroup scheduleStudentGroup) {
         this.auditory = scheduleStudentGroup.getAuditory();
-        this.employee = new Employee().setDataFrom(scheduleStudentGroup.getEmployee());
+        if(scheduleStudentGroup.getEmployee() != null) {
+            this.employee = new Employee().setDataFrom(scheduleStudentGroup.getEmployee());
+        }
         this.lessonTime = scheduleStudentGroup.getLessonTime();
         this.lessonType = scheduleStudentGroup.getLessonType();
         this.numSubgroup = scheduleStudentGroup.getNumSubgroup();

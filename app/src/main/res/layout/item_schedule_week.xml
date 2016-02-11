@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:orientation="vertical"
+              tools:background="@color/colorPrimary"
+    >
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_day_mo"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="@string/mo"
+            app:layout_widthPercent="@fraction/width_schedule_day"/>
+
+        <TextView
+            android:id="@+id/tv_day_tu"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_day_mo"
+            android:text="@string/tu"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            />
+
+        <TextView
+            android:id="@+id/tv_day_we"
+
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_day_tu"
+            android:text="@string/we"
+            app:layout_widthPercent="@fraction/width_schedule_day"/>
+
+        <TextView
+            android:id="@+id/tv_day_th"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_day_we"
+            android:text="@string/th"
+            app:layout_widthPercent="@fraction/width_schedule_day"/>
+
+        <TextView
+            android:id="@+id/tv_day_fr"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_day_th"
+            android:text="пт"
+            app:layout_widthPercent="@fraction/width_schedule_day"/>
+
+        <TextView
+            android:id="@+id/tv_day_sa"
+
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_day_fr"
+            android:text="cб"
+            app:layout_widthPercent="@fraction/width_schedule_day"/>
+
+        <TextView
+            android:id="@+id/tv_day_su"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_day_sa"
+            android:text="вс"
+            android:textColor="@android:color/white"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_day_mo_under"
+            style="@style/WhiteDay"
+            android:textColor="@color/brigth_gray"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_day_mo"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            tools:text="9"/>
+
+        <TextView
+            android:id="@+id/tv_day_tu_under"
+            style="@style/WhiteDay"
+
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_day_mo"
+            android:layout_toRightOf="@+id/tv_day_mo_under"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            tools:text="10"
+            />
+
+        <TextView
+            android:id="@+id/tv_day_we_under"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_day_mo"
+            android:layout_toRightOf="@id/tv_day_tu_under"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            tools:text="11"/>
+
+        <TextView
+            android:id="@+id/tv_day_th_under"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_day_mo"
+            android:layout_toRightOf="@id/tv_day_we_under"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            tools:text="12"/>
+
+        <TextView
+            android:id="@+id/tv_day_fr_under"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_day_mo"
+            android:layout_toRightOf="@id/tv_day_th_under"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            tools:text="13"/>
+
+        <TextView
+            android:id="@+id/tv_day_sa_under"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_day_mo"
+            android:layout_toRightOf="@id/tv_day_fr_under"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            tools:text="14"/>
+
+        <TextView
+            android:id="@+id/tv_day_su_under"
+            style="@style/WhiteDay"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_day_mo"
+            android:layout_toRightOf="@id/tv_day_sa_under"
+            app:layout_widthPercent="@fraction/width_schedule_day"
+            tools:text="15"
+            tools:textColor="@android:color/white"
+            />
+
+        <View
+            android:id="@+id/selector"
+            android:layout_width="29dp"
+            android:layout_height="2dp"
+            android:layout_alignLeft="@id/tv_day_mo_under"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@id/tv_day_mo_under"
+            android:background="@color/pink"
+            app:layout_marginLeftPercent="3.5%"
+            app:layout_marginRightPercent="3.5%"/>
+    </android.support.percent.PercentRelativeLayout>
+
+</LinearLayout>

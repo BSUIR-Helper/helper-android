@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.orhanobut.logger.Logger;
-
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.app.ui.asynctask.DownloadScheduleTask;
 import ru.bsuirhelper.android.app.ui.listener.AsyncTaskListener;
@@ -54,8 +52,6 @@ public class DialogAddGroup extends DialogFragment {
                         } catch (ClassCastException e) {
                             e.printStackTrace();
                         }
-
-                        Logger.i(listener + "");
                         DownloadScheduleTask downloadScheduleTask = new DownloadScheduleTask(getActivity(), listener);
                         downloadScheduleTask.setPogressDialogMessage(getActivity().getString(R.string.loading_schedule));
                         downloadScheduleTask.execute(groupId);

@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:bsuirguide="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_selecttoday"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/today"
+        bsuirguide:showAsAction="always"/>
+    <item
+        android:id="@+id/action_updateschedule"
+        android:title="@string/update_schedule"
+        bsuirguide:showAsAction="never"/>
+    <item
+        android:id="@+id/action_select_da"
+        android:title="@string/subgroup"
+        bsuirguide:showAsAction="never">
+        <menu>
+            <group
+                android:id="@+id/menu_nav_group"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/subgroup1"
+                    android:title="@string/subgroup1"/>
+
+                <item
+                    android:id="@+id/subgroup2"
+                    android:title="@string/subgroup2"/>
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_help"
+        android:title="@string/help_info"/>
+
+</menu>

@@ -101,10 +101,6 @@ public abstract class BaseFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-    protected void setTitle(@StringRes int title) {
-        activity().setTitle(title);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -197,7 +193,7 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    private boolean isFragmentAlive() {
+    protected boolean isFragmentAlive() {
         return getActivity() != null && isAdded() && !isDetached() && getView() != null && !isRemoving();
     }
 

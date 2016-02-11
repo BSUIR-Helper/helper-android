@@ -11,6 +11,7 @@ import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import hu.supercluster.paperwork.Paperwork;
 import ru.bsuirhelper.android.app.App;
 import ru.bsuirhelper.android.BuildConfig;
 import timber.log.Timber;
@@ -36,6 +37,9 @@ public class DeveloperSettingsModelImpl implements DeveloperSettingsModel {
     private final LeakCanaryProxy leakCanaryProxy;
 
     @NonNull
+    private final Paperwork paperwork;
+
+    @NonNull
     private AtomicBoolean stethoAlreadyEnabled = new AtomicBoolean();
 
     @NonNull
@@ -44,26 +48,29 @@ public class DeveloperSettingsModelImpl implements DeveloperSettingsModel {
     @NonNull
     private AtomicBoolean tinyDancerDisplayed = new AtomicBoolean();
 
+
     public DeveloperSettingsModelImpl(@NonNull App qualityMattersApp,
                                       @NonNull DeveloperSettings developerSettings,
                                       @NonNull OkHttpClient okHttpClient,
                                       @NonNull HttpLoggingInterceptor httpLoggingInterceptor,
-                                      @NonNull LeakCanaryProxy leakCanaryProxy) {
+                                      @NonNull LeakCanaryProxy leakCanaryProxy,
+                                      @NonNull Paperwork paperwork) {
         this.qualityMattersApp = qualityMattersApp;
         this.developerSettings = developerSettings;
         this.okHttpClient = okHttpClient;
         this.httpLoggingInterceptor = httpLoggingInterceptor;
         this.leakCanaryProxy = leakCanaryProxy;
+        this.paperwork = paperwork;
     }
 
     @NonNull
     public String getGitSha() {
-        return BuildConfig.GIT_SHA;
+        return paperwork.get("gitSha");
     }
 
     @NonNull
     public String getBuildDate() {
-        return BuildConfig.BUILD_DATE;
+        return paperwork.get("buildDate");
     }
 
     @NonNull

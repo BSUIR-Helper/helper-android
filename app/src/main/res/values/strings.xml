@@ -89,4 +89,21 @@
     <string name="subgroup1">Subgroup 1</string>
     <string name="subgroup2">Subgroup 2</string>
     <string name="dont_change"/>
+    <string name="mo">пн</string>
+    <string name="tu">вт</string>
+    <string name="we">cр</string>
+    <string name="th">чт</string>
+    <string name="september">Сентябрь</string>
+    <string name="october">Октябрь</string>
+    <string name="november">Ноябрь</string>
+    <string name="december">Декабрь</string>
+    <string name="january">Январь</string>
+    <string name="february">Февраль</string>
+    <string name="march">Март</string>
+    <string name="april">Апрель</string>
+    <string name="may">Май</string>
+    <string name="june">Июнь</string>
+    <string name="july">Июль</string>
+    <string name="august">Август</string>
+    <string name="work_week_postfix">-я неделя</string>
 </resources>

@@ -2,37 +2,23 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/material_blue_800</item>
-        <item name="colorPrimaryDark">@color/material_blue_900</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="actionMenuTextColor">@color/white</item>
-        <item name="android:textViewStyle">@style/textViewStyle</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
 
+    <style name="WhiteDay">
+        <item name="android:textSize">13sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
-    </style>
-
-    <!-- ACTIONBAR STYLE -->
-    <style name="ActionBarCompat" parent="Widget.AppCompat.ActionBar">
-        <item name="titleTextStyle">@style/titleStyle</item>
-        <item name="subtitleTextStyle">@style/subtitleStyle</item>
-        <item name="background">@color/material_blue_800</item>
-    </style>
-
-    <style name="textViewStyle" parent="android:Widget.TextView">
-        <item name="android:textColor">@android:color/black</item>
-    </style>
-
-    <style name="titleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="subtitleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="actionbarActionStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">

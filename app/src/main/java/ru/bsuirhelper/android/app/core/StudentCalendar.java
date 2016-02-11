@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 import org.joda.time.PeriodType;
+import org.joda.time.Weeks;
 
 /**
  * Created by Влад on 11.10.13.
@@ -11,29 +12,22 @@ import org.joda.time.PeriodType;
 public class StudentCalendar {
     public static final int FIRST_SEMESTER = 1;
     public static final int SECOND_SEMESTER = 2;
-    private final DateTime mCurrentDateTime;
-    private static int mDaysOfYear = 0;
-    private static int mSemester;
+    private static final DateTime mCurrentDateTime = new DateTime();
+    private static int mDaysOfYear = getDaysOfYear();
+    private static int mSemester = getSemesterByDay(mCurrentDateTime);
+    ;
 
-    public StudentCalendar() {
-        mCurrentDateTime = new DateTime();
-        mDaysOfYear = getDaysOfYear();
-        mSemester = getSemesterByDay(mCurrentDateTime);
-
-    }
-
-    public int getSemesterByDay(DateTime day) {
+    public static int getSemesterByDay(DateTime day) {
         int semester;
         if (day.getMonthOfYear() >= 7) {
-            semester = 1;
+            semester = FIRST_SEMESTER;
         } else {
-            semester = 2;
+            semester = SECOND_SEMESTER;
         }
-
         return semester;
     }
 
-    public int getDayOfYear() {
+    public static int getDayOfYear() {
         int dayOfYear;
         if (mCurrentDateTime.getMonthOfYear() >= 9) {
             DateTime september = new DateTime(mCurrentDateTime.getYear(), 9, 1, 0, 0, 0);
@@ -57,7 +51,7 @@ public class StudentCalendar {
         return dayOfYear;
     }
 
-    public int getDaysOfYear() {
+    public static int getDaysOfYear() {
         mDaysOfYear = new Interval(getStartStudentYear(), getEndStudentYear()).toPeriod(PeriodType.days()).getDays();
         return mDaysOfYear + 1;
     }
@@ -70,8 +64,8 @@ public class StudentCalendar {
             september = new DateTime(dateTime.getYear(), 9, 1, 0, 0, 0);
         }
 
-        if(september.getDayOfWeek() != DateTimeConstants.MONDAY) {
-           september = september.minusDays(september.getDayOfWeek() - 1);
+        if (september.getDayOfWeek() != DateTimeConstants.MONDAY) {
+            september = september.minusDays(september.getDayOfWeek() - 1);
         }
         Interval interval = new Interval(september, dateTime);
         int workWeek = (interval.toPeriod(PeriodType.weeks()).getWeeks() + 1) % 4;
@@ -96,13 +90,11 @@ public class StudentCalendar {
 
     public static long getStartStudentYear() {
         DateTime september;
-
         if (DateTime.now().getMonthOfYear() <= 7) {
             september = new DateTime(DateTime.now().getYear() - 1, 9, 1, 0, 0, 0);
         } else {
             september = new DateTime(DateTime.now().getYear(), 9, 1, 1, 0, 0);
         }
-
         return september.getMillis();
     }
 
@@ -116,6 +108,24 @@ public class StudentCalendar {
         return july.getMillis();
     }
 
+    public static DateTime getStartSemester() {
+        DateTime now = DateTime.now();
+        if (now.getMonthOfYear() >= 9) {
+            return new DateTime(DateTime.now().getYear(), DateTimeConstants.SEPTEMBER, 1, 0, 0, 0);
+        } else {
+            return new DateTime(DateTime.now().getYear(), DateTimeConstants.JANUARY, 1, 0, 0, 0);
+        }
+    }
+
+    public static DateTime getEndSemester() {
+        DateTime now = DateTime.now();
+        if (now.getMonthOfYear() >= 9) {
+            return new DateTime(DateTime.now().getYear(), DateTimeConstants.DECEMBER, 31, 0, 0, 0);
+        } else {
+            return new DateTime(DateTime.now().getYear(), DateTimeConstants.AUGUST, 1, 0, 0, 0);
+        }
+    }
+
     public static boolean isHolidays() {
         DateTime currentTime = DateTime.now();
         if (currentTime.getMonthOfYear() >= 7 && currentTime.getMonthOfYear() <= 8) {
@@ -123,4 +133,13 @@ public class StudentCalendar {
         }
         return false;
     }
+
+    public static DateTime getCurrentDay() {
+        return mCurrentDateTime;
+    }
+
+    public static int getWeeksInYear() {
+        return mCurrentDateTime.weekOfWeekyear().getMaximumValue();
+    }
+
 }

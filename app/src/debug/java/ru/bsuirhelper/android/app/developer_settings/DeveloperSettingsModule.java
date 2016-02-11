@@ -1,6 +1,8 @@
 package ru.bsuirhelper.android.app.developer_settings;
 
 import android.support.annotation.NonNull;
+
+import hu.supercluster.paperwork.Paperwork;
 import ru.bsuirhelper.android.app.ui.presenters.DeveloperSettingsPresenter;
 
 import com.squareup.okhttp.OkHttpClient;
@@ -50,6 +52,13 @@ public class DeveloperSettingsModule {
         return new LeakCanaryProxyImpl(app);
     }
 
+    @Provides
+    @NonNull
+    @Singleton
+    public Paperwork providePaperwork(@NonNull App app) {
+        return new Paperwork(app);
+    }
+
     // We will use this concrete type for debug code, but main code will see only DeveloperSettingsModel interface.
     @Provides
     @NonNull
@@ -58,8 +67,9 @@ public class DeveloperSettingsModule {
                                                                         @NonNull DeveloperSettings developerSettings,
                                                                         @NonNull OkHttpClient okHttpClient,
                                                                         @NonNull HttpLoggingInterceptor httpLoggingInterceptor,
-                                                                        @NonNull LeakCanaryProxy leakCanaryProxy) {
-        return new DeveloperSettingsModelImpl(app, developerSettings, okHttpClient, httpLoggingInterceptor, leakCanaryProxy);
+                                                                        @NonNull LeakCanaryProxy leakCanaryProxy,
+                                                                        @NonNull Paperwork paperwork) {
+        return new DeveloperSettingsModelImpl(app, developerSettings, okHttpClient, httpLoggingInterceptor, leakCanaryProxy, paperwork);
     }
 
     @Provides

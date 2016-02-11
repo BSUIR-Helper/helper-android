@@ -1,41 +1,56 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:alpha="1"
-                android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:showDividers="middle"
-                android:id="@+id/fragment_schedule"
-                android:divider="?android:attr/listDivider"
-    >
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <TextView
-        android:layout_width="fill_parent"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Loading..."
-        android:id="@+id/date"
-        android:padding="4dp"
-        android:gravity="center"
-        android:textSize="15dp"
-        android:textColor="#faffff"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:elevation="@dimen/default_elevation"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:visibility="visible">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_gravity="center"
-        android:layout_below="@+id/date"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/no_lessons"
-        android:id="@+id/textView"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:textSize="34dp"/>
-</RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:layout_height="92dp">
+
+                <TextView
+                    android:id="@+id/tv_month_and_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@android:color/white"
+                    tools:text="Август 2016"/>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="bottom"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            </FrameLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </android.support.v4.view.ViewPager>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="29dp"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_lesson_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="7dp"
+        android:width="20dp"
+        android:height="20dp"
+        android:gravity="center"
+        android:paddingBottom="1.5dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        tools:background="@drawable/green_circle"
+        tools:text="пз"/>
+
+
+    <TextView
+        android:id="@+id/tv_lesson_time"
+        android:layout_width="113dp"
+        android:layout_height="33dp"
+        android:layout_toRightOf="@+id/tv_lesson_type"
+        android:gravity="center_vertical"
+        android:paddingLeft="9dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:background="@drawable/green_rectangle"
+        tools:text="11.20 - 13.15"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignLeft="@id/tv_lesson_time"
+        android:layout_below="@+id/tv_lesson_time"
+        android:background="@drawable/lesson_shadow"
+        android:paddingRight="5px"
+        android:paddingTop="5px">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            tools:src="@drawable/no_photo"/>
+
+        <TextView
+            android:id="@+id/tv_lesson_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/divider"
+            android:layout_alignTop="@+id/iv_avatar"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:lines="1"
+            android:paddingRight="5dp"
+            android:textColor="@color/bright_black"
+            android:textSize="20sp"
+            tools:text="ОАиП "/>
+
+        <TextView
+            android:id="@+id/tv_lesson_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_lesson_name"
+            android:layout_below="@+id/tv_lesson_name"
+            android:lines="1"
+            android:textColor="@color/bright_black"
+            android:textSize="10sp"
+            tools:text="Гришечко В.В"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0.6dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="19dp"
+            android:layout_marginRight="66dp"
+            android:layout_marginTop="19dp"
+            android:background="#c4c4c4"/>
+
+        <TextView
+            android:id="@+id/tv_lesson_auditory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/divider"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:textColor="@color/bright_black"
+            tools:text="312-5к"/>
+    </RelativeLayout>
+</RelativeLayout>

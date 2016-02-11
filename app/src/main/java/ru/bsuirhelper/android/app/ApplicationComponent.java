@@ -1,7 +1,7 @@
 package ru.bsuirhelper.android.app;
 
+import ru.bsuirhelper.android.app.api.RestApi;
 import ru.bsuirhelper.android.app.db.DatabaseModule;
-import ru.bsuirhelper.android.app.db.converter.JsonParametrizedTypeConverter;
 import ru.bsuirhelper.android.app.developer_settings.DeveloperSettingsComponent;
 import ru.bsuirhelper.android.app.developer_settings.DeveloperSettingsModule;
 import ru.bsuirhelper.android.app.developer_settings.LeakCanaryProxy;
@@ -16,7 +16,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import ru.bsuirhelper.android.app.api.ApiModule;
-import ru.bsuirhelper.android.app.api.AppRestApi;
 import ru.bsuirhelper.android.app.api.ChangeableBaseUrl;
 import ru.bsuirhelper.android.app.models.ModelsModule;
 import ru.bsuirhelper.android.app.network.NetworkModule;
@@ -42,7 +41,7 @@ public interface ApplicationComponent {
 
     // Provide QualityMattersRestApi from the real app to the tests without need in injection to the test.
     @NonNull
-    AppRestApi qualityMattersApi();
+    RestApi qualityMattersApi();
 
     @NonNull
     ChangeableBaseUrl changeableBaseUrl();

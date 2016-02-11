@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -65,7 +63,7 @@ public class FragmentScheduleOfDay extends Fragment implements LoaderManager.Loa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.fragment_schedule, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_schedule_old, container, false);
         mDateInText = (TextView) fragmentView.findViewById(R.id.date);
         mDateInText.setText(mDay.getDayOfMonth() + " " + mDay.monthOfYear().getAsText() + " " + mDay.year().getAsText() + "");
         mListOfLessons = (ListView) fragmentView.findViewById(R.id.listView);
@@ -161,7 +159,6 @@ public class FragmentScheduleOfDay extends Fragment implements LoaderManager.Loa
 
     @Override
     public Loader<List<Lesson>> onCreateLoader(int i, Bundle bundle) {
-        Logger.e("On Create Loader");
         return new SchedulerLoader(getActivity(), mDay, mGroupId, mSubgroup);
     }
 
@@ -182,7 +179,6 @@ public class FragmentScheduleOfDay extends Fragment implements LoaderManager.Loa
             view.setVisibility(View.VISIBLE);
             fragmentView.setAlpha(1);
         }
-        Logger.e("Data delivered");
 
     }
 

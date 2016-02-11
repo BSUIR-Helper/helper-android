@@ -3,8 +3,6 @@ package ru.bsuirhelper.android.app.ui.loader;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.orhanobut.logger.Logger;
-
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -23,7 +21,6 @@ public class SchedulerLoader extends AsyncTaskLoader<List<Lesson>> {
     @Override
     public List<Lesson> loadInBackground() {
         List<Lesson> lessons = ScheduleManager.getLessonsOfDay(getContext(), studentGroupId, day, subgroup);
-        Logger.e(lessons.size() + "");
         return lessons;
     }
 

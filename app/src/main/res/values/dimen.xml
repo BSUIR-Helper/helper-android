@@ -2,4 +2,6 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <fraction name="width_schedule_day">14.2857143%</fraction>
+    <dimen name="default_elevation">8dp</dimen>
 </resources>

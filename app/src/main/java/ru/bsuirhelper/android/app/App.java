@@ -10,6 +10,7 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import ru.bsuirhelper.android.BuildConfig;
 import ru.bsuirhelper.android.app.api.ApiModule;
+import timber.log.Timber;
 
 /**
  * Created by vladislav on 4/18/15.
@@ -30,6 +31,8 @@ public class App extends Application {
         super.onCreate();
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics());
+        } else {
+            Timber.plant(new Timber.DebugTree());
         }
         applicationHandler = new Handler(getApplicationContext().getMainLooper());
         applicationContext = getApplicationContext();

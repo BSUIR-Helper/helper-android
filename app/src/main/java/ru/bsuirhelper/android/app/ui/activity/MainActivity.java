@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -22,13 +24,17 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import ru.bsuirhelper.android.R;
 import ru.bsuirhelper.android.app.App;
-import ru.bsuirhelper.android.app.api.AppRestApi;
+import ru.bsuirhelper.android.app.api.RestApi;
 import ru.bsuirhelper.android.app.api.entities.EmployeeList;
 import ru.bsuirhelper.android.app.api.entities.ScheduleStudentGroupList;
 import ru.bsuirhelper.android.app.api.entities.StudentGroupList;
 import ru.bsuirhelper.android.app.db.DatabaseHelper;
+import ru.bsuirhelper.android.app.db.entities.Schedule;
+import ru.bsuirhelper.android.app.db.entities.ScheduleDay;
 import ru.bsuirhelper.android.app.db.entities.StudentGroup;
 import ru.bsuirhelper.android.app.ui.activity.base.BaseActivity;
+import ru.bsuirhelper.android.app.ui.fragment.FragmentSchedule;
+import ru.bsuirhelper.android.app.ui.fragment.base.FragmentTransaction;
 import ru.bsuirhelper.android.app.ui.other.ViewModifier;
 import timber.log.Timber;
 
@@ -40,24 +46,25 @@ import static ru.bsuirhelper.android.app.developer_settings.DeveloperSettingsMod
 public class MainActivity extends BaseActivity {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
-
+    @Bind(R.id.main_drawer_layout) DrawerLayout mDrawerLayout;
     @Inject
     @Named(MAIN_ACTIVITY_VIEW_MODIFIER)
     ViewModifier viewModifier;
 
     @Inject
-    AppRestApi api;
+    RestApi api;
 
     @Inject
-    DatabaseHelper db;
+    DatabaseHelper dbHelper;
+
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.get(this).applicationComponent().inject(this);
-
         setContentView(viewModifier.modify(getLayoutInflater().inflate(R.layout.activity_main, null)));
-        api.employees().enqueue(new Callback<EmployeeList>() {
+        /*api.employees().enqueue(new Callback<EmployeeList>() {
             @Override
             public void onResponse(Response<EmployeeList> response, Retrofit retrofit) {
                 if (response.body() != null) {
@@ -79,7 +86,6 @@ public class MainActivity extends BaseActivity {
                     for (ru.bsuirhelper.android.app.api.entities.StudentGroup studentGroup : apiEntities) {
                         studentGroups.add(new StudentGroup().setDataFrom(studentGroup));
                     }
-                    db.putStudentGroups(studentGroups).execute();
                 }
             }
 
@@ -89,12 +95,16 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        api.schedulesStudentGroup(21440l).enqueue(new Callback<ScheduleStudentGroupList>() {
+      */
+        api.schedulesStudentGroup(21019).enqueue(new Callback<ScheduleStudentGroupList>() {
             @Override
             public void onResponse(Response<ScheduleStudentGroupList> response, Retrofit retrofit) {
-                if (response.body() != null) {
-                    Timber.d(response.body().toString());
-                }
+                StudentGroup studentGroup = new StudentGroup(21019l, "313801", 20017l, 3, 20082l);
+                Schedule schedule = new Schedule();
+                schedule.setStudentGroup(studentGroup);
+                schedule.setDataFrom(response.body());
+                schedule.setId(studentGroup.getId());
+                dbHelper.putSchedule(schedule).execute();
             }
 
             @Override
@@ -102,6 +112,19 @@ public class MainActivity extends BaseActivity {
                 Timber.e(t, "Error");
             }
         });
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, getToolbar(), R.string.app_name, R.string.app_name) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        mDrawerLayout.setDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        actionBarDrawerToggle.setToolbarNavigationClickListener(v -> onBackPressed());
+        if (savedInstanceState == null) {
+            switchFragment(FragmentTransaction.with(new FragmentSchedule()).addToBackStack());
+        }
     }
 
     @Override

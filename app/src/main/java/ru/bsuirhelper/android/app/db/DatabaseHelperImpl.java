@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import nl.qbusict.cupboard.Cupboard;
 import nl.qbusict.cupboard.QueryResultIterable;
+import ru.bsuirhelper.android.app.db.entities.Schedule;
 import ru.bsuirhelper.android.app.db.entities.StudentGroup;
 import timber.log.Timber;
 
@@ -48,6 +49,16 @@ public class DatabaseHelperImpl implements DatabaseHelper {
         };
     }
 
+    @Override
+    public DbCall<Boolean> putSchedule(Schedule schedule) {
+        return new DbCall<Boolean>() {
+            @Override
+            public Boolean execute() {
+                return cupboardHelper.putEntity(schedule);
+            }
+        };
+    }
+
     class CupboardHelper {
         @NonNull
         DbSQLiteOpenHelper sqLiteOpenHelper;
@@ -59,7 +70,6 @@ public class DatabaseHelperImpl implements DatabaseHelper {
             this.sqLiteOpenHelper = sqLiteOpenHelper;
             this.cupboard = cupboard;
         }
-
 
         @Nullable
         public <T> T getEntity(Class<T> type) {

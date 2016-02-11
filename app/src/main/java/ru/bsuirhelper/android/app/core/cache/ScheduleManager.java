@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.orhanobut.logger.Logger;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -17,6 +15,7 @@ import ru.bsuirhelper.android.app.core.StudentCalendar;
 import ru.bsuirhelper.android.app.core.models.Lesson;
 import ru.bsuirhelper.android.app.core.models.StudentGroup;
 import ru.bsuirhelper.android.app.core.models.Teacher;
+import timber.log.Timber;
 
 /**
  * Created by Влад on 12.09.13.
@@ -51,7 +50,7 @@ public class ScheduleManager {
                 }
             }
             if(groupId == -1) {
-                Logger.e(new UnknownError("groupId == -1"), "Some strange");
+                Timber.e(new UnknownError("groupId == -1"), "Some strange");
                 return;
             }
             CacheHelper.Lessons.insertLessons(context, groupId, lessons);

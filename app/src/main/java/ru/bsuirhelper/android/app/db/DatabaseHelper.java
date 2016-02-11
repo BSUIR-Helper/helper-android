@@ -2,6 +2,7 @@ package ru.bsuirhelper.android.app.db;
 
 import java.util.List;
 
+import ru.bsuirhelper.android.app.db.entities.Schedule;
 import ru.bsuirhelper.android.app.db.entities.StudentGroup;
 
 /**
@@ -13,4 +14,6 @@ public interface DatabaseHelper {
 
 
     DbCall<List<StudentGroup>> getStudentGroups();
+
+    DbCall<Boolean> putSchedule(Schedule schedule);
 }

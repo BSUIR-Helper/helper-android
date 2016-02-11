@@ -11,7 +11,7 @@ import ru.bsuirhelper.android.app.api.entities.ScheduleStudentGroupList;
 /**
  * Created by Grishechko on 26.01.2016.
  */
-public class ScheduleStudentGroup implements DbConverter<ScheduleStudentGroupList, ScheduleStudentGroup> {
+public class Schedule implements DbConverter<ScheduleStudentGroupList, Schedule> {
 
     @NonNull
     private Long _id;
@@ -22,7 +22,9 @@ public class ScheduleStudentGroup implements DbConverter<ScheduleStudentGroupLis
     @NonNull
     private List<ScheduleDay> scheduleModelList;
 
-    public ScheduleStudentGroup(@NonNull StudentGroup studentGroup, @NonNull List<ScheduleDay> scheduleModelList) {
+    public Schedule() {}
+
+    public Schedule(@NonNull StudentGroup studentGroup, @NonNull List<ScheduleDay> scheduleModelList) {
         this._id = studentGroup.getId();
         this.studentGroup = studentGroup;
         this.scheduleModelList = scheduleModelList;
@@ -30,7 +32,7 @@ public class ScheduleStudentGroup implements DbConverter<ScheduleStudentGroupLis
 
     @NonNull
     @Override
-    public ScheduleStudentGroup setDataFrom(@NonNull ScheduleStudentGroupList scheduleStudentGroup) {
+    public Schedule setDataFrom(@NonNull ScheduleStudentGroupList scheduleStudentGroup) {
         scheduleModelList = new ArrayList<>();
         for (ScheduleModel scheduleModel : scheduleStudentGroup.getScheduleModels()) {
             scheduleModelList.add(new ScheduleDay().setDataFrom(scheduleModel));
@@ -41,5 +43,9 @@ public class ScheduleStudentGroup implements DbConverter<ScheduleStudentGroupLis
     public void setStudentGroup(@NonNull StudentGroup studentGroup) {
         this.studentGroup = studentGroup;
         this._id = studentGroup.getId();
+    }
+
+    public void setId(Long id) {
+        this._id = id;
     }
 }

@@ -14,7 +14,7 @@ import ru.bsuirhelper.android.app.api.entities.StudentGroupList;
 /**
  * Created by Grishechko on 20.01.2016.
  */
-public interface AppRestApi {
+public interface RestApi {
 
     @GET("employee")
     Call<EmployeeList> employees();
